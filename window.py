@@ -12,7 +12,7 @@ from PyQt6 import QtCore, QtGui, QtWidgets
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(1126, 896)
+        MainWindow.resize(1124, 890)
         self.centralwidget = QtWidgets.QWidget(parent=MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.horizontalLayout = QtWidgets.QHBoxLayout(self.centralwidget)
@@ -179,7 +179,7 @@ class Ui_MainWindow(object):
         self.horizontalLayout.addWidget(self.PanMain)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(parent=MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 1126, 21))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 1124, 21))
         self.menubar.setObjectName("menubar")
         self.menuFIle = QtWidgets.QMenu(parent=self.menubar)
         self.menuFIle.setObjectName("menuFIle")
