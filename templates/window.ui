@@ -472,6 +472,7 @@
     <property name="title">
      <string>File</string>
     </property>
+    <addaction name="actionSalir"/>
    </widget>
    <widget class="QMenu" name="menuTools">
     <property name="title">
@@ -494,7 +495,32 @@
    <addaction name="menuAbout"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
+  <action name="actionSalir">
+   <property name="text">
+    <string>Salir</string>
+   </property>
+  </action>
  </widget>
+ <tabstops>
+  <tabstop>PanMain</tabstop>
+  <tabstop>txtDnicli</tabstop>
+  <tabstop>txtAltacli</tabstop>
+  <tabstop>btnFechaltacli</tabstop>
+  <tabstop>txtApelcli</tabstop>
+  <tabstop>txtNomecli</tabstop>
+  <tabstop>txtEmailcli</tabstop>
+  <tabstop>txtMobilecli</tabstop>
+  <tabstop>txtDircli</tabstop>
+  <tabstop>cmbProvcli</tabstop>
+  <tabstop>cmbMunicli</tabstop>
+  <tabstop>rbtFacemail</tabstop>
+  <tabstop>rbtFacpapel</tabstop>
+  <tabstop>chkHistoricocli</tabstop>
+  <tabstop>btnSavecli</tabstop>
+  <tabstop>btnModifcli</tabstop>
+  <tabstop>btnDelcli</tabstop>
+  <tabstop>tableCustomerlist</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
  <buttongroups>
