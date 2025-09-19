@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1124</width>
+    <width>1120</width>
     <height>890</height>
    </rect>
   </property>
@@ -464,7 +464,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1124</width>
+     <width>1120</width>
      <height>21</height>
     </rect>
    </property>
@@ -472,7 +472,7 @@
     <property name="title">
      <string>File</string>
     </property>
-    <addaction name="actionSalir"/>
+    <addaction name="actionExit"/>
    </widget>
    <widget class="QMenu" name="menuTools">
     <property name="title">
@@ -483,6 +483,7 @@
     <property name="title">
      <string>Reports</string>
     </property>
+    <addaction name="actionCustomer_Report"/>
    </widget>
    <widget class="QMenu" name="menuAbout">
     <property name="title">
@@ -495,9 +496,14 @@
    <addaction name="menuAbout"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
-  <action name="actionSalir">
+  <action name="actionExit">
    <property name="text">
-    <string>Salir</string>
+    <string>Exit</string>
+   </property>
+  </action>
+  <action name="actionCustomer_Report">
+   <property name="text">
+    <string>Customer Report</string>
    </property>
   </action>
  </widget>

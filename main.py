@@ -1,7 +1,8 @@
+from asyncio import Event
 
 from window import *
 import sys
-
+from events import *
 
 class Main(QtWidgets.QMainWindow):
     def __init__(self):
@@ -9,6 +10,8 @@ class Main(QtWidgets.QMainWindow):
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
 
+        # Functions in menu bar
+        self.ui.actionExit.triggered.connect(Events.messageExit)
 
 
 if __name__ == "__main__":
