@@ -1,8 +1,12 @@
 from asyncio import Event
 
+import events
 import globals
-from customers import Customers
+from conexion import Conexion
+from customers import *
+from venAux import *
 from window import *
+from dlgCalendar import *
 import sys
 from events import *
 
@@ -11,6 +15,8 @@ class Main(QtWidgets.QMainWindow):
         super(Main, self).__init__()
         globals.ui = Ui_MainWindow()
         globals.ui.setupUi(self)
+        #instance
+        globals.vencal = Calendar()
 
         # Functions in menu bar
         globals.ui.actionExit.triggered.connect(Events.messageExit)
@@ -18,9 +24,22 @@ class Main(QtWidgets.QMainWindow):
 
         #functions in line-edit
         globals.ui.txtDnicli.editingFinished.connect(Customers.checkDni)
+        globals.ui.txtNomecli.editingFinished.connect(lambda:Customers.capitalizar(globals.ui.txtNomecli.text(),globals.ui.txtNomecli))
+        globals.ui.txtApelcli.editingFinished.connect(lambda:Customers.capitalizar(globals.ui.txtApelcli.text(), globals.ui.txtApelcli))
+        globals.ui.txtEmailcli.editingFinished.connect(lambda: Customers.checkMail(globals.ui.txtEmailcli.text()))
+        globals.ui.txtMobilecli.editingFinished.connect(lambda: Customers.checkMobil(globals.ui.txtMobilecli.text()))
 
         #functions of buttons
         globals.ui.btnFechaltacli.clicked.connect(Events.openCalendar)
+
+        #Functions Combobox
+        Events.loadProv(self)
+        globals.ui.cmbProvcli.currentIndexChanged.connect(events.Events.loadMunicli)
+
+
+        #conexion
+        Conexion.db_conexion(self)
+
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
