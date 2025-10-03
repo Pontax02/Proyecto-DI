@@ -2,7 +2,8 @@ import re
 
 import globals
 
-
+from conexion import *
+from PyQt6 import QtWidgets, QtCore, QtGui
 
 class Customers:
 
@@ -64,3 +65,26 @@ class Customers:
             globals.ui.txtMobilecli.setText(None)
             globals.ui.txtMobilecli.setPlaceholderText('Invalid Mobile')
             globals.ui.txtMobilecli.setFocus()
+
+    def loadTablecli(self):
+        try:
+            listTabCustomers = Conexion.listCustomers()
+            print(listTabCustomers)
+            index = 0
+            for record in listTabCustomers:
+                globals.ui.tableCustomerlist.setRowCount(index + 1)
+                globals.ui.tableCustomerlist.setItem(index, 0, QtWidgets.QTableWidgetItem(str(record[2])))
+                globals.ui.tableCustomerlist.setItem(index, 1, QtWidgets.QTableWidgetItem(str(record[3])))
+                globals.ui.tableCustomerlist.setItem(index, 2, QtWidgets.QTableWidgetItem(str("  " + str(record[5]) + "  ")))
+                globals.ui.tableCustomerlist.setItem(index, 3, QtWidgets.QTableWidgetItem(str(record[7])))
+                globals.ui.tableCustomerlist.setItem(index, 4, QtWidgets.QTableWidgetItem(str(record[8])))
+                globals.ui.tableCustomerlist.setItem(index, 5, QtWidgets.QTableWidgetItem(str(record[9])))
+                globals.ui.tableCustomerlist.item(index, 0).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignLeft.AlignVCenter)
+                globals.ui.tableCustomerlist.item(index, 1).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignLeft.AlignVCenter)
+                globals.ui.tableCustomerlist.item(index, 2).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter.AlignCenter)
+                globals.ui.tableCustomerlist.item(index, 3).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter.AlignCenter)
+                globals.ui.tableCustomerlist.item(index, 4).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter.AlignCenter)
+                globals.ui.tableCustomerlist.item(index, 5).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter.AlignCenter)
+                index += 1
+        except Exception as error:
+            print("error en loadTablecli ", error)

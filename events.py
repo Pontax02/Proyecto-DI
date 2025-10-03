@@ -67,3 +67,34 @@ class Events:
             globals.ui.cmbMunicli.addItems(list)
         except Exception as e:
             print("error en cargar MuniProv", e)
+
+
+
+    def resizeTabCustomer(self):
+        try:
+            header = globals.ui.tableCustomerlist.horizontalHeader()
+            for i in range(header.count()):
+                if i == 3:
+                    header.setSectionResizeMode(i, QtWidgets.QHeaderView.ResizeMode.ResizeToContents)
+                else:
+                    header.setSectionResizeMode(i, QtWidgets.QHeaderView.ResizeMode.Stretch)
+                header_items = globals.ui.tableCustomerlist.horizontalHeaderItem(i)
+                #negrita cabecera
+                font = header_items.font()
+                font.setBold(True)
+                header_items.setFont(font)
+
+        except Exception as e:
+            print("error en resize tabla lcients: ", e)
+
+    def messageAbout(self):
+        try:
+            globals.ui.about.show()
+        except Exception as e:
+            print("error in open about", e)
+
+    def closeabout(self):
+        try:
+            globals.about.hide()
+        except Exception as e:
+            print("error in close about", e)

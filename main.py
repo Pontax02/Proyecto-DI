@@ -1,9 +1,11 @@
 from asyncio import Event
 
+import customers
 import events
 import globals
 from conexion import Conexion
 from customers import *
+from dlgAbout import *
 from venAux import *
 from window import *
 from dlgCalendar import *
@@ -17,9 +19,17 @@ class Main(QtWidgets.QMainWindow):
         globals.ui.setupUi(self)
         #instance
         globals.vencal = Calendar()
+        globals.about = dlgAbout()
+
+        #conexion
+        Conexion.db_conexion(self)
+        Customers.loadTablecli(self)
+        Events.resizeTabCustomer(self)
+
 
         # Functions in menu bar
         globals.ui.actionExit.triggered.connect(Events.messageExit)
+        globals.ui.actionAbout.triggered.connect(Events.messageAbout)
 
 
         #functions in line-edit
@@ -37,8 +47,7 @@ class Main(QtWidgets.QMainWindow):
         globals.ui.cmbProvcli.currentIndexChanged.connect(events.Events.loadMunicli)
 
 
-        #conexion
-        Conexion.db_conexion(self)
+
 
 
 if __name__ == "__main__":

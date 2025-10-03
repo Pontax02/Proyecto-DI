@@ -1,6 +1,6 @@
 import os
 
-
+from events import *
 
 from PyQt6 import QtSql, QtWidgets, QtCore, QtGui
 
@@ -37,9 +37,8 @@ class Conexion:
 
         listProv = []
         query = QtSql.QSqlQuery()
-        query.prepare("SELECT * FROM provincias")
+        query.prepare("SELECT * FROM provincias;")
         if query.exec():
-            print("test")
             while query.next():
                 listProv.append(query.value(1))
         return listProv
@@ -48,7 +47,7 @@ class Conexion:
         try:
             listmunicipios = []
             query = QtSql.QSqlQuery()
-            query.prepare("SELECT * FROM municipios where idprov = (select idprov from provincias where provincia = province)")
+            query.prepare("SELECT * FROM municipios where idprov = (select idprov from provincias where provincia = :province)")
             query.bindValue(":province", province)
             if query.exec():
                 while query.next():
@@ -56,3 +55,16 @@ class Conexion:
             return listmunicipios
         except Exception as e:
             print("error en cargar MuniProv", e)
+
+
+
+    def listCustomers(self = None):
+        list = []
+        query = QtSql.QSqlQuery()
+        query.prepare("SELECT * FROM customers order by surname")
+        if query.exec():
+            while query.next():
+                row = [query.value(i) for i in range(query.record().count)]
+                print(row)
+                list.append(row)
+        return list
