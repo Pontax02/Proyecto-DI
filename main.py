@@ -19,7 +19,7 @@ class Main(QtWidgets.QMainWindow):
         globals.ui.setupUi(self)
         #instance
         globals.vencal = Calendar()
-        globals.about = dlgAbout()
+        globals.about = DlgAbout()
 
         #conexion
         Conexion.db_conexion(self)
@@ -36,8 +36,8 @@ class Main(QtWidgets.QMainWindow):
         globals.ui.txtDnicli.editingFinished.connect(Customers.checkDni)
         globals.ui.txtNomecli.editingFinished.connect(lambda:Customers.capitalizar(globals.ui.txtNomecli.text(),globals.ui.txtNomecli))
         globals.ui.txtApelcli.editingFinished.connect(lambda:Customers.capitalizar(globals.ui.txtApelcli.text(), globals.ui.txtApelcli))
-        globals.ui.txtEmailcli.editingFinished.connect(lambda: Customers.checkMail(globals.ui.txtEmailcli.text()))
-        globals.ui.txtMobilecli.editingFinished.connect(lambda: Customers.checkMobil(globals.ui.txtMobilecli.text()))
+        globals.ui.txtEmailcli.editingFinished.connect(lambda:Customers.checkMail(globals.ui.txtEmailcli.text()))
+        globals.ui.txtMobilecli.editingFinished.connect(lambda:Customers.checkMobil(globals.ui.txtMobilecli.text()))
 
         #functions of buttons
         globals.ui.btnFechaltacli.clicked.connect(Events.openCalendar)

@@ -3,7 +3,7 @@ import globals
 from dlgAbout import Ui_dlgAbout
 from dlgCalendar import *
 from datetime import datetime
-from dlgAbout import *
+
 
 from events import *
 
@@ -21,9 +21,9 @@ class Calendar(QtWidgets.QDialog):
         globals.vencal.Calendar.clicked.connect(events.Events.loadData)
 
 
-class dlgAbout(QtWidgets.QDialog):
+class DlgAbout(QtWidgets.QDialog):
     def __init__(self):
-        super(dlgAbout, self).__init__()
+        super(DlgAbout, self).__init__()
         globals.about = Ui_dlgAbout()
         globals.about.setupUi(self)
-        globals.ui.btnCloseabout.clicked.connect(events.Events.closeabout)
+        globals.about.btnCloseabout.clicked.connect(events.Events.closeabout)
