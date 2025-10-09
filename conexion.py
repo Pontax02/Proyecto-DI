@@ -61,7 +61,8 @@ class Conexion:
     def listTabCustomers(self = None):
         list = []
         query = QtSql.QSqlQuery()
-        query.prepare("SELECT * FROM customers order by surname")
+        query.prepare("SELECT * FROM customers  where historical = :true order by surname")
+        query.bindValue(":true",str( True))
         if query.exec():
             while query.next():
                 row = [query.value(i) for i in range(query.record().count())]

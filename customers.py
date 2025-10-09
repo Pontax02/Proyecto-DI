@@ -108,3 +108,15 @@ class Customers:
                 globals.ui.rbtFacemail.setChecked(True)
         except Exception as error:
             print("error en selecting customer ", error)
+
+
+    def delCliente(self):
+        try:
+            dni = globals.ui.txtDnicli.text()
+            if Conexion.deleteCli(dni):
+                Customers.loadTablecli(self)
+            else:
+                print("mensaje con msbox")
+
+        except Exception as error:
+            print("error en deleting customer ", error)

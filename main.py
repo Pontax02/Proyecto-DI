@@ -12,6 +12,8 @@ from dlgCalendar import *
 import sys
 from events import *
 
+
+# Main ---> Customers -----> COnexion    examen   primero creamos el evento y luego lo codificamos
 class Main(QtWidgets.QMainWindow):
     def __init__(self):
         super(Main, self).__init__()
@@ -41,6 +43,8 @@ class Main(QtWidgets.QMainWindow):
 
         #functions of buttons
         globals.ui.btnFechaltacli.clicked.connect(Events.openCalendar)
+        globals.ui.btnDelcli.clicked.connect(Customers.delCliente)
+
 
         #Functions Combobox
         Events.loadProv(self)
