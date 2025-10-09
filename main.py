@@ -46,7 +46,8 @@ class Main(QtWidgets.QMainWindow):
         Events.loadProv(self)
         globals.ui.cmbProvcli.currentIndexChanged.connect(events.Events.loadMunicli)
 
-
+        #functions of tables
+        globals.ui.tableCustomerlist.clicked.connect(Customers.selectCustomer)
 
 
 

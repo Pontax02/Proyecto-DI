@@ -58,13 +58,28 @@ class Conexion:
 
 
 
-    def listCustomers(self = None):
+    def listTabCustomers(self = None):
         list = []
         query = QtSql.QSqlQuery()
         query.prepare("SELECT * FROM customers order by surname")
         if query.exec():
             while query.next():
-                row = [query.value(i) for i in range(query.record().count)]
-                print(row)
+                row = [query.value(i) for i in range(query.record().count())]
                 list.append(row)
         return list
+    @staticmethod
+    def dataOneCustomer(dato):
+        try:
+            list = []
+            dato = str(dato).strip()
+            query = QtSql.QSqlQuery()
+            query.prepare("SELECT * FROM customers where mobile = :dato")
+            query.bindValue(":dato", str(dato))
+            if query.exec():
+                while query.next():
+                    for i in range(query.record().count()):
+                        list.append(query.value(i))
+            return list
+
+        except Exception as e:
+            print("error en cargar dataOneCustomer", e)

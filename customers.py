@@ -68,8 +68,7 @@ class Customers:
 
     def loadTablecli(self):
         try:
-            listTabCustomers = Conexion.listCustomers()
-            print(listTabCustomers)
+            listTabCustomers = Conexion.listTabCustomers()
             index = 0
             for record in listTabCustomers:
                 globals.ui.tableCustomerlist.setRowCount(index + 1)
@@ -88,3 +87,24 @@ class Customers:
                 index += 1
         except Exception as error:
             print("error en loadTablecli ", error)
+
+
+
+    def selectCustomer(self):
+        try:
+            row = globals.ui.tableCustomerlist.selectedItems()
+            data = [dato.text() for dato in row]
+            record = Conexion.dataOneCustomer(str(data[2]))
+            boxes = [globals.ui.txtDnicli,globals.ui.txtAltacli,globals.ui.txtApelcli,globals.ui.txtNomecli,globals.ui.txtEmailcli,globals.ui.txtMobilecli,globals.ui.txtDircli]
+            print(record)
+            for i in range(len(boxes)):
+                boxes[i].setText(record[i])
+
+            globals.ui.cmbProvcli.setCurrentText(str(record[7]))
+            globals.ui.cmbMunicli.setCurrentText(str(record[8]))
+            if str(record[9]) == 'paper':
+                globals.ui.rbtFacpapel.setChecked(True)
+            else:
+                globals.ui.rbtFacemail.setChecked(True)
+        except Exception as error:
+            print("error en selecting customer ", error)
