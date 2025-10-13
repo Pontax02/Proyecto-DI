@@ -57,16 +57,24 @@ class Conexion:
             print("error en cargar MuniProv", e)
 
 
-
-    def listTabCustomers(self = None):
+    @staticmethod
+    def listTabCustomers(var):
         list = []
-        query = QtSql.QSqlQuery()
-        query.prepare("SELECT * FROM customers  where historical = :true order by surname")
-        query.bindValue(":true",str( True))
-        if query.exec():
-            while query.next():
-                row = [query.value(i) for i in range(query.record().count())]
-                list.append(row)
+        if var:
+            query = QtSql.QSqlQuery()
+            query.prepare("SELECT * FROM customers  where historical = :true order by surname")
+            query.bindValue(":true",str( True))
+            if query.exec():
+                while query.next():
+                    row = [query.value(i) for i in range(query.record().count())]
+                    list.append(row)
+        else:
+            query = QtSql.QSqlQuery()
+            query.prepare("SELECT * FROM customers order by surname")
+            if query.exec():
+                while query.next():
+                    row = [query.value(i) for i in range(query.record().count())]
+                    list.append(row)
         return list
     @staticmethod
     def dataOneCustomer(dato):
@@ -83,4 +91,42 @@ class Conexion:
             return list
 
         except Exception as e:
-            print("error en cargar dataOneCustomer", e)
+            print("error in load dataOneCustomer", e)
+
+    @staticmethod
+    def deleteCli(dni):
+        try:
+            query = QtSql.QSqlQuery()
+            query.prepare("UPDATE customers set historical = :value WHERE dni_nie = :dni")
+            query.bindValue(":dni", str(dni))
+            query.bindValue(":value",str(False))
+            if query.exec():
+                return True
+            else:
+                return False
+        except Exception as e:
+            print("error in delete", e)
+
+
+    @staticmethod
+    def addCli(newcli):
+        try:
+            query = QtSql.QSqlQuery()
+            query.prepare("INSERT INTO customers(dni_nie, adddata,surname,name,mail,mobile,address,province,city, invoicetyp, historical) VALUES(:dnicli, :adddata,:surname,:name,:mail,:mobile,:address,:province,:city,:invoicetyp,:historical)")
+            query.bindValue(":dnicli", str(newcli[0]))
+            query.bindValue(":adddata", str(newcli[1]))
+            query.bindValue(":surname", str(newcli[2]))
+            query.bindValue(":name", str(newcli[3]))
+            query.bindValue(":mail", str(newcli[4]))
+            query.bindValue(":mobile", str(newcli[5]))
+            query.bindValue(":address", str(newcli[6]))
+            query.bindValue(":province", str(newcli[7]))
+            query.bindValue(":city", str(newcli[8]))
+            query.bindValue(":invoicetyp", str(newcli[9]))
+            query.bindValue(":historical", str(True))
+            if query.exec():
+                return True
+            else:
+                return False
+        except:
+            print("error in addCli")

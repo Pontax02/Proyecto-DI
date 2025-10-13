@@ -1,4 +1,5 @@
 from asyncio import Event
+from enum import global_str
 
 import customers
 import events
@@ -13,7 +14,7 @@ import sys
 from events import *
 
 
-# Main ---> Customers -----> COnexion    examen   primero creamos el evento y luego lo codificamos
+# Main (decalra el evento)---> Customers(Prepara la parte gráfica(Constriccion de la tabla)) -----> Conexion(oculto del sistema)(todas las acciones sobre la base de datos)    examen   primero creamos el evento y luego lo codificamos
 class Main(QtWidgets.QMainWindow):
     def __init__(self):
         super(Main, self).__init__()
@@ -24,8 +25,9 @@ class Main(QtWidgets.QMainWindow):
         globals.about = DlgAbout()
 
         #conexion
+        varcli = True
         Conexion.db_conexion(self)
-        Customers.loadTablecli(self)
+        Customers.loadTablecli(varcli)
         Events.resizeTabCustomer(self)
 
 
@@ -41,9 +43,14 @@ class Main(QtWidgets.QMainWindow):
         globals.ui.txtEmailcli.editingFinished.connect(lambda:Customers.checkMail(globals.ui.txtEmailcli.text()))
         globals.ui.txtMobilecli.editingFinished.connect(lambda:Customers.checkMobil(globals.ui.txtMobilecli.text()))
 
+        #functions of chkhistoricocli
+        globals.ui.chkHistoricocli.stateChanged.connect(Customers.Historicocli)
+
+
         #functions of buttons
         globals.ui.btnFechaltacli.clicked.connect(Events.openCalendar)
         globals.ui.btnDelcli.clicked.connect(Customers.delCliente)
+        globals.ui.btnSavecli.clicked.connect(Customers.saveCli)
 
 
         #Functions Combobox

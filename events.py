@@ -89,7 +89,7 @@ class Events:
 
     def messageAbout(self):
         try:
-            globals.ui.about.show()
+            globals.about.show()
         except Exception as e:
             print("error in open about", e)
 

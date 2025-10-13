@@ -1,5 +1,7 @@
 import re
 
+from PyQt6.QtWidgets import QMessageBox
+
 import globals
 
 from conexion import *
@@ -65,10 +67,10 @@ class Customers:
             globals.ui.txtMobilecli.setText(None)
             globals.ui.txtMobilecli.setPlaceholderText('Invalid Mobile')
             globals.ui.txtMobilecli.setFocus()
-
-    def loadTablecli(self):
+    @staticmethod
+    def loadTablecli(varcli):
         try:
-            listTabCustomers = Conexion.listTabCustomers()
+            listTabCustomers = Conexion.listTabCustomers(varcli)
             index = 0
             for record in listTabCustomers:
                 globals.ui.tableCustomerlist.setRowCount(index + 1)
@@ -87,8 +89,16 @@ class Customers:
                 index += 1
         except Exception as error:
             print("error en loadTablecli ", error)
-
-
+    @staticmethod
+    def Historicocli(self):
+        try:
+            if globals.ui.chkHistoricocli.isChecked():
+                varcli = False
+            else:
+                varcli = True
+            Customers.loadTablecli(varcli)
+        except Exception as error:
+            print("error en historicocli ", error)
 
     def selectCustomer(self):
         try:
@@ -96,7 +106,6 @@ class Customers:
             data = [dato.text() for dato in row]
             record = Conexion.dataOneCustomer(str(data[2]))
             boxes = [globals.ui.txtDnicli,globals.ui.txtAltacli,globals.ui.txtApelcli,globals.ui.txtNomecli,globals.ui.txtEmailcli,globals.ui.txtMobilecli,globals.ui.txtDircli]
-            print(record)
             for i in range(len(boxes)):
                 boxes[i].setText(record[i])
 
@@ -112,11 +121,57 @@ class Customers:
 
     def delCliente(self):
         try:
-            dni = globals.ui.txtDnicli.text()
-            if Conexion.deleteCli(dni):
+            mbox = QtWidgets.QMessageBox()
+            mbox.setWindowTitle("WARNING")
+            mbox.setIcon(QtWidgets.QMessageBox.Icon.Warning)
+            mbox.setText("Delete Client?")
+            mbox.setStandardButtons(QtWidgets.QMessageBox.StandardButton.Yes | QtWidgets.QMessageBox.StandardButton.No)
+            mbox.setDefaultButton(QtWidgets.QMessageBox.StandardButton.No)
+            if mbox.exec():
+
+                dni = globals.ui.txtDnicli.text()
+                if Conexion.deleteCli(dni):
+
+                    mbox = QtWidgets.QMessageBox()
+                    mbox.setWindowTitle("Information")
+                    mbox.setIcon(QtWidgets.QMessageBox.Icon.Information)
+                    mbox.setText("Delete Client?")
+                    mbox.standardButton(QtWidgets.QMessageBox.StandardButton.Yes)
+
+                else:
+                    print("Something went wrong")
                 Customers.loadTablecli(self)
             else:
                 print("mensaje con msbox")
 
         except Exception as error:
             print("error en deleting customer ", error)
+            
+    def saveCli(self):
+        try:
+
+            newcli = [globals.ui.txtDnicli,globals.ui.txtAltacli,globals.ui.txtApelcli,globals.ui.txtNomecli,globals.ui.txtEmailcli,globals.ui.txtMobilecli,globals.ui.txtDircli,globals.ui.cmbProvcli.currentText(),globals.ui.cmbMunicli.currentText(),globals.ui.rbtFacpapel.isChecked()]
+            if globals.ui.rbtFacpapel.isChecked():
+                fact = "paper"
+
+            elif globals.ui.rbtFacemail.isChecked():
+                fact = "electronic"
+            newcli.append(fact)
+            if Conexion.addCli(newcli):
+                mbox = QtWidgets.QMessageBox()
+                mbox.setWindowTitle("Information")
+                mbox.setIcon(QtWidgets.QMessageBox.Icon.Information)
+                mbox.setText("Client added")
+                mbox.standardButton(QtWidgets.QMessageBox.StandardButton.Yes)
+
+            else:
+                mbox = QtWidgets.QMessageBox()
+                mbox.setWindowTitle("Warning")
+                mbox.setIcon(QtWidgets.QMessageBox.Icon.Warning)
+                mbox.setText("Warning, no Client added")
+                mbox.standardButton(QtWidgets.QMessageBox.StandardButton.Yes)
+
+            varcli = True
+            Customers.loadTablecli(varcli)
+        except Exception as error:
+            print("Error  saving customer ", error)
