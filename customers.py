@@ -3,7 +3,7 @@ import re
 from PyQt6.QtWidgets import QMessageBox
 
 import globals
-
+from events import *
 from conexion import *
 from PyQt6 import QtWidgets, QtCore, QtGui
 
@@ -12,6 +12,8 @@ class Customers:
     @staticmethod
     def checkDni(self=None):
         try:
+            #Evita el problema de ejecutar varios finished
+            globals.ui.txtDnicli.editingFinished.disconnect(Customers.checkDni)
             dni = globals.ui.txtDnicli.text()
             dni = str(dni).upper()
             globals.ui.txtDnicli.setText(dni)
@@ -36,7 +38,8 @@ class Customers:
                 globals.ui.txtDnicli.setFocus()
         except Exception as error:
             print("error en validar dni ", error)
-
+        finally:
+            globals.ui.txtDnicli.editingFinished.connect(Customers.checkDni)
 
     def capitalizar(texto,widget):
         try:
@@ -47,16 +50,20 @@ class Customers:
 
 
     def checkMail(email):
-
-        patron = r'^[\w\.-]+@[\w\.-]+\.\w+$'
-        if re.match(patron, email):
-            globals.ui.txtEmailcli.setStyleSheet('background-color: rgb(255, 255, 220);')
-        else:
-            globals.ui.txtEmailcli.setStyleSheet('background-color:#FFC0CB;')
-            globals.ui.txtEmailcli.setText(None)
-            globals.ui.txtEmailcli.setPlaceholderText('Invalid Email')
-            globals.ui.txtEmailcli.setFocus()
-
+        try:
+            globals.ui.txtEmail.editingFinished.disconnect(Customers.checkMail)
+            patron = r'^[\w\.-]+@[\w\.-]+\.\w+$'
+            if re.match(patron, email):
+                globals.ui.txtEmailcli.setStyleSheet('background-color: rgb(255, 255, 220);')
+            else:
+                globals.ui.txtEmailcli.setStyleSheet('background-color:#FFC0CB;')
+                globals.ui.txtEmailcli.setText(None)
+                globals.ui.txtEmailcli.setPlaceholderText('Invalid Email')
+                globals.ui.txtEmailcli.setFocus()
+        except Exception as error:
+            print("error en validar email ", error)
+        finally:
+            globals.ui.txtEmailcli.editingFinished.connect(Customers.checkMail)
 
     def checkMobil(numero):
         patron = r'^[67]\d{8}$'
@@ -67,6 +74,22 @@ class Customers:
             globals.ui.txtMobilecli.setText(None)
             globals.ui.txtMobilecli.setPlaceholderText('Invalid Mobile')
             globals.ui.txtMobilecli.setFocus()
+
+    def cleanCli(self):
+        try:
+            formcli = [globals.ui.txtDnicli, globals.ui.txtAltacli, globals.ui.txtApelcli,
+                       globals.ui.txtNomecli, globals.ui.txtEmailcli, globals.ui.txtMobilecli,
+                       globals.ui.txtDircli]
+            for i,dato in enumerate(formcli):
+                formcli[i] = dato.setText("")
+
+            Events.loadProv(self)
+            globals.ui.cmbMunicli.clear()
+            globals.ui.rbtFacemail.setChecked(True)
+
+        except Exception as error:
+            print("error in clean ", error)
+
     @staticmethod
     def loadTablecli(varcli):
         try:
@@ -146,11 +169,11 @@ class Customers:
 
         except Exception as error:
             print("error en deleting customer ", error)
-            
+
     def saveCli(self):
         try:
 
-            newcli = [globals.ui.txtDnicli,globals.ui.txtAltacli,globals.ui.txtApelcli,globals.ui.txtNomecli,globals.ui.txtEmailcli,globals.ui.txtMobilecli,globals.ui.txtDircli,globals.ui.cmbProvcli.currentText(),globals.ui.cmbMunicli.currentText(),globals.ui.rbtFacpapel.isChecked()]
+            newcli = [globals.ui.txtDnicli.text(),globals.ui.txtAltacli.text(),globals.ui.txtApelcli.text(),globals.ui.txtNomecli.text(),globals.ui.txtEmailcli.text(),globals.ui.txtMobilecli.text(),globals.ui.txtDircli.text(),globals.ui.cmbProvcli.currentText(),globals.ui.cmbMunicli.currentText(),globals.ui.rbtFacpapel.isChecked()]
             if globals.ui.rbtFacpapel.isChecked():
                 fact = "paper"
 

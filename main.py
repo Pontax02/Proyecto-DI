@@ -51,6 +51,8 @@ class Main(QtWidgets.QMainWindow):
         globals.ui.btnFechaltacli.clicked.connect(Events.openCalendar)
         globals.ui.btnDelcli.clicked.connect(Customers.delCliente)
         globals.ui.btnSavecli.clicked.connect(Customers.saveCli)
+        globals.ui.btnCleancli.clicked.connect(Customers.cleanCli)
+        #globals.ui.btnModifcli.
 
 
         #Functions Combobox
