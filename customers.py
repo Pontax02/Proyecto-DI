@@ -157,20 +157,23 @@ class Customers:
             elif globals.ui.rbtFacemail.isChecked():
                 fact = "electronic"
             newcli.append(fact)
-            if Conexion.addCli(newcli):
+            if Conexion.addCli(newcli) and len(newcli) > 0:
                 mbox = QtWidgets.QMessageBox()
                 mbox.setWindowTitle("Information")
                 mbox.setIcon(QtWidgets.QMessageBox.Icon.Information)
                 mbox.setText("Client added")
-                mbox.standardButton(QtWidgets.QMessageBox.StandardButton.Yes)
-
+                mbox.setStandardButtons(QtWidgets.QMessageBox.StandardButton.Yes)
+                if mbox.exec():
+                    mbox.hide()
             else:
                 mbox = QtWidgets.QMessageBox()
                 mbox.setWindowTitle("Warning")
                 mbox.setIcon(QtWidgets.QMessageBox.Icon.Warning)
                 mbox.setText("Warning, no Client added")
-                mbox.standardButton(QtWidgets.QMessageBox.StandardButton.Yes)
-
+                mbox.setStandardButtons(QtWidgets.QMessageBox.StandardButton.Yes)
+                print(newcli)
+                if mbox.exec():
+                    mbox.hide()
             varcli = True
             Customers.loadTablecli(varcli)
         except Exception as error:
