@@ -51,7 +51,7 @@ class Customers:
 
     def checkMail(email):
         try:
-            globals.ui.txtEmail.editingFinished.disconnect(Customers.checkMail)
+
             patron = r'^[\w\.-]+@[\w\.-]+\.\w+$'
             if re.match(patron, email):
                 globals.ui.txtEmailcli.setStyleSheet('background-color: rgb(255, 255, 220);')
@@ -62,8 +62,7 @@ class Customers:
                 globals.ui.txtEmailcli.setFocus()
         except Exception as error:
             print("error en validar email ", error)
-        finally:
-            globals.ui.txtEmailcli.editingFinished.connect(Customers.checkMail)
+
 
     def checkMobil(numero):
         patron = r'^[67]\d{8}$'
@@ -103,12 +102,17 @@ class Customers:
                 globals.ui.tableCustomerlist.setItem(index, 3, QtWidgets.QTableWidgetItem(str(record[7])))
                 globals.ui.tableCustomerlist.setItem(index, 4, QtWidgets.QTableWidgetItem(str(record[8])))
                 globals.ui.tableCustomerlist.setItem(index, 5, QtWidgets.QTableWidgetItem(str(record[9])))
+                if str(record[10]) == "True":
+                    globals.ui.tableCustomerlist.setItem(index, 6, QtWidgets.QTableWidgetItem(str("Alta")))
+                else:
+                    globals.ui.tableCustomerlist.setItem(index, 6, QtWidgets.QTableWidgetItem(str("Baja")))
                 globals.ui.tableCustomerlist.item(index, 0).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignLeft.AlignVCenter)
                 globals.ui.tableCustomerlist.item(index, 1).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignLeft.AlignVCenter)
                 globals.ui.tableCustomerlist.item(index, 2).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter.AlignCenter)
                 globals.ui.tableCustomerlist.item(index, 3).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter.AlignCenter)
                 globals.ui.tableCustomerlist.item(index, 4).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter.AlignCenter)
                 globals.ui.tableCustomerlist.item(index, 5).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter.AlignCenter)
+                globals.ui.tableCustomerlist.item(index, 6).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter.AlignCenter)
                 index += 1
         except Exception as error:
             print("error en loadTablecli ", error)
@@ -173,7 +177,7 @@ class Customers:
     def saveCli(self):
         try:
 
-            newcli = [globals.ui.txtDnicli.text(),globals.ui.txtAltacli.text(),globals.ui.txtApelcli.text(),globals.ui.txtNomecli.text(),globals.ui.txtEmailcli.text(),globals.ui.txtMobilecli.text(),globals.ui.txtDircli.text(),globals.ui.cmbProvcli.currentText(),globals.ui.cmbMunicli.currentText(),globals.ui.rbtFacpapel.isChecked()]
+            newcli = [globals.ui.txtDnicli.text(),globals.ui.txtAltacli.text(),globals.ui.txtApelcli.text(),globals.ui.txtNomecli.text(),globals.ui.txtEmailcli.text(),globals.ui.txtMobilecli.text(),globals.ui.txtDircli.text(),globals.ui.cmbProvcli.currentText(),globals.ui.cmbMunicli.currentText()]
             if globals.ui.rbtFacpapel.isChecked():
                 fact = "paper"
 
@@ -186,6 +190,7 @@ class Customers:
                 mbox.setIcon(QtWidgets.QMessageBox.Icon.Information)
                 mbox.setText("Client added")
                 mbox.setStandardButtons(QtWidgets.QMessageBox.StandardButton.Yes)
+
                 if mbox.exec():
                     mbox.hide()
             else:
@@ -194,10 +199,56 @@ class Customers:
                 mbox.setIcon(QtWidgets.QMessageBox.Icon.Warning)
                 mbox.setText("Warning, no Client added")
                 mbox.setStandardButtons(QtWidgets.QMessageBox.StandardButton.Yes)
-                print(newcli)
+
                 if mbox.exec():
                     mbox.hide()
             varcli = True
             Customers.loadTablecli(varcli)
         except Exception as error:
             print("Error  saving customer ", error)
+
+
+    def modifcli(self):
+        try:
+
+            mbox = QtWidgets.QMessageBox()
+            mbox.setWindowTitle("Modify")
+            mbox.setIcon(QtWidgets.QMessageBox.Icon.Question)
+            mbox.setText("Modify Client?")
+            mbox.setStandardButtons(QtWidgets.QMessageBox.StandardButton.Yes | QtWidgets.QMessageBox.StandardButton.No)
+            mbox.setDefaultButton(QtWidgets.QMessageBox.StandardButton.No)
+            if mbox.exec():
+                dni = globals.ui.txtDnicli.text()
+                modifcli = [globals.ui.txtAltacli.text(), globals.ui.txtApelcli.text(),
+                          globals.ui.txtNomecli.text(), globals.ui.txtEmailcli.text(), globals.ui.txtMobilecli.text(),
+                          globals.ui.txtDircli.text(), globals.ui.cmbProvcli.currentText(),
+                          globals.ui.cmbMunicli.currentText()]
+                if globals.ui.rbtFacpapel.isChecked():
+                    fact = "paper"
+                elif globals.ui.rbtFacemail.isChecked():
+                    fact = "electronic"
+                modifcli.append(fact)
+                if Conexion.modifyCli(dni, modifcli):
+                    mbox = QtWidgets.QMessageBox()
+                    mbox.setWindowTitle("Information")
+                    mbox.setIcon(QtWidgets.QMessageBox.Icon.Information)
+                    mbox.setText("Client modified")
+                    mbox.setStandardButtons(QtWidgets.QMessageBox.StandardButton.Ok)
+                    if mbox.exec():
+                        mbox.hide()
+                else:
+                    mbox = QtWidgets.QMessageBox()
+                    mbox.setWindowTitle("Warning")
+                    mbox.setIcon(QtWidgets.QMessageBox.Icon.Warning)
+                    mbox.setText("Warning, no Client modified")
+                    if mbox.exec():
+                        mbox.hide()
+
+
+            else:
+                mbox.hide()
+
+
+
+        except Exception as error:
+            print("error en modifing customer ", error)

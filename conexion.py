@@ -130,3 +130,14 @@ class Conexion:
                 return False
         except:
             print("error in addCli")
+
+
+    @staticmethod
+    def modifyCli(dni,modifcli):
+        try:
+            query = QtSql.QSqlQuery()
+            query.prepare("UPDATE customers SET adddata= :data, surname = :surname, name = :name , mobile = :mobile, address = :address,province = :province, city = :city, invoicetyp = :invoicetyp, historical = :historical "
+                          " "
+                          "WHERE dni_nie = :dni")
+        except:
+            print("error in modifyCli")
