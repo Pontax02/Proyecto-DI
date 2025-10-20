@@ -139,5 +139,20 @@ class Conexion:
             query.prepare("UPDATE customers SET adddata= :data, surname = :surname, name = :name , mobile = :mobile, address = :address,province = :province, city = :city, invoicetyp = :invoicetyp, historical = :historical "
                           " "
                           "WHERE dni_nie = :dni")
+            query.bindValue(":dni", str(dni))
+            query.bindValue(":data", str(modifcli[0]))
+            query.bindValue(":surname", str(modifcli[1]))
+            query.bindValue(":name", str(modifcli[2]))
+            query.bindValue(":mail", str(modifcli[3]))
+            query.bindValue(":mobile", str(modifcli[4]))
+            query.bindValue(":address", str(modifcli[5]))
+            query.bindValue(":province", str(modifcli[6]))
+            query.bindValue(":city", str(modifcli[7]))
+            query.bindValue("historical", str(modifcli[8]))
+            query.bindValue(":invoicetyp", str(modifcli[9]))
+            if query.exec():
+                return True
+            else:
+                return False
         except:
             print("error in modifyCli")

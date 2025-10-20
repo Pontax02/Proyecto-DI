@@ -53,6 +53,7 @@ class Main(QtWidgets.QMainWindow):
         globals.ui.btnSavecli.clicked.connect(Customers.saveCli)
         globals.ui.btnCleancli.clicked.connect(Customers.cleanCli)
         globals.ui.btnModifcli.clicked.connect(Customers.modifcli)
+        globals.ui.btnSearchcli.clicked.connect(Customers.searchCli)
 
         #Functions Combobox
         Events.loadProv(self)

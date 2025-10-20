@@ -1,5 +1,6 @@
 import re
 
+
 from PyQt6.QtWidgets import QMessageBox
 
 import globals
@@ -142,6 +143,7 @@ class Customers:
                 globals.ui.rbtFacpapel.setChecked(True)
             else:
                 globals.ui.rbtFacemail.setChecked(True)
+            globals.estado = str(record[10]) #Estado del cliente
         except Exception as error:
             print("error en selecting customer ", error)
 
@@ -210,6 +212,16 @@ class Customers:
 
     def modifcli(self):
         try:
+            varcli = "True"
+            print(globals.estado)
+            if globals.estado == str("False"):
+                mbox = QtWidgets.QMessageBox()
+                mbox.setWindowTitle("Information")
+                mbox.setIcon(QtWidgets.QMessageBox.Icon.Information)
+                mbox.setText("Client non activated. DO you want activated?")
+                mbox.setStandardButtons(QtWidgets.QMessageBox.StandardButton.Yes | QtWidgets.QMessageBox.StandardButton.No)
+                if mbox.exec():
+                    globals.estado = str("True")
 
             mbox = QtWidgets.QMessageBox()
             mbox.setWindowTitle("Modify")
@@ -222,7 +234,7 @@ class Customers:
                 modifcli = [globals.ui.txtAltacli.text(), globals.ui.txtApelcli.text(),
                           globals.ui.txtNomecli.text(), globals.ui.txtEmailcli.text(), globals.ui.txtMobilecli.text(),
                           globals.ui.txtDircli.text(), globals.ui.cmbProvcli.currentText(),
-                          globals.ui.cmbMunicli.currentText()]
+                          globals.ui.cmbMunicli.currentText(),globals.estado]
                 if globals.ui.rbtFacpapel.isChecked():
                     fact = "paper"
                 elif globals.ui.rbtFacemail.isChecked():
@@ -245,10 +257,40 @@ class Customers:
                         mbox.hide()
 
 
+
+
             else:
                 mbox.hide()
 
-
-
+            Customers.loadTablecli(varcli)
         except Exception as error:
             print("error en modifing customer ", error)
+
+
+    def searchCli(self):
+        try:
+            record = []
+            dni = globals.ui.txtDnicli.text()
+            if record == Conexion.dataOneCustomer(str(dni)):
+                if not record:
+                    mbox = QtWidgets.QMessageBox()
+                    mbox.setWindowTitle("Information")
+                    mbox.setIcon(QtWidgets.QMessageBox.Icon.Information)
+                    mbox.setText("Client not exists")
+                    mbox.setStandardButtons(QtWidgets.QMessageBox.StandardButton.Ok)
+                    if mbox.exec():
+                        mbox.hide()
+                else:
+                    box = [globals.ui.txtDnicli,globals.ui.txtAltacli,globals.ui.txtApelcli,globals.ui.txtNomecli,globals.ui.txtEmailcli,globals.ui.txtMobilecli,globals.ui.txtDircli]
+                    for i in range(len(box)):
+                        box[i].setText(record[i])
+
+                    globals.ui.cmbProvcli.setCurrentText(str(record[7]))
+                    globals.ui.cmbMunicli.setCurrentText(str(record[8]))
+                    if str(record[9]) == 'paper':
+                        globals.ui.rbtFacpapel.setChecked(True)
+                    else:
+                        globals.ui.rbtFacemail.setChecked(True)
+
+        except:
+            print("error en searching customer ", globals.estado)
