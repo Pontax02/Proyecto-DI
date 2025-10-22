@@ -86,6 +86,8 @@ class Customers:
             Events.loadProv(self)
             globals.ui.cmbMunicli.clear()
             globals.ui.rbtFacemail.setChecked(True)
+            globals.ui.txtDnicli.setEnabled(True)
+            globals.ui.txtDnicli.setStyleSheet('background-color: rgb(255, 255, 197);')
 
         except Exception as error:
             print("error in clean ", error)
@@ -144,6 +146,7 @@ class Customers:
             else:
                 globals.ui.rbtFacemail.setChecked(True)
             globals.estado = str(record[10]) #Estado del cliente
+            globals.ui.txtDnicli.setEnabled(False)
         except Exception as error:
             print("error en selecting customer ", error)
 
@@ -271,26 +274,26 @@ class Customers:
         try:
             record = []
             dni = globals.ui.txtDnicli.text()
-            if record == Conexion.dataOneCustomer(str(dni)):
-                if not record:
-                    mbox = QtWidgets.QMessageBox()
-                    mbox.setWindowTitle("Information")
-                    mbox.setIcon(QtWidgets.QMessageBox.Icon.Information)
-                    mbox.setText("Client not exists")
-                    mbox.setStandardButtons(QtWidgets.QMessageBox.StandardButton.Ok)
-                    if mbox.exec():
-                        mbox.hide()
-                else:
-                    box = [globals.ui.txtDnicli,globals.ui.txtAltacli,globals.ui.txtApelcli,globals.ui.txtNomecli,globals.ui.txtEmailcli,globals.ui.txtMobilecli,globals.ui.txtDircli]
-                    for i in range(len(box)):
-                        box[i].setText(record[i])
+            record = Conexion.dataOneCustomer(str(dni))
+            if not record:
+                mbox = QtWidgets.QMessageBox()
+                mbox.setWindowTitle("Information")
+                mbox.setIcon(QtWidgets.QMessageBox.Icon.Information)
+                mbox.setText("Client not exists")
+                mbox.setStandardButtons(QtWidgets.QMessageBox.StandardButton.Ok)
+                if mbox.exec():
+                    mbox.hide()
+            else:
+                box = [globals.ui.txtDnicli,globals.ui.txtAltacli,globals.ui.txtApelcli,globals.ui.txtNomecli,globals.ui.txtEmailcli,globals.ui.txtMobilecli,globals.ui.txtDircli]
+                for i in range(len(box)):
+                    box[i].setText(record[i])
 
-                    globals.ui.cmbProvcli.setCurrentText(str(record[7]))
-                    globals.ui.cmbMunicli.setCurrentText(str(record[8]))
-                    if str(record[9]) == 'paper':
-                        globals.ui.rbtFacpapel.setChecked(True)
-                    else:
-                        globals.ui.rbtFacemail.setChecked(True)
+                globals.ui.cmbProvcli.setCurrentText(str(record[7]))
+                globals.ui.cmbMunicli.setCurrentText(str(record[8]))
+                if str(record[9]) == 'paper':
+                    globals.ui.rbtFacpapel.setChecked(True)
+                else:
+                    globals.ui.rbtFacemail.setChecked(True)
 
         except:
-            print("error en searching customer ", globals.estado)
+            print("error en searching customer ")

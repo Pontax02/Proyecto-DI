@@ -81,6 +81,7 @@ class Conexion:
         try:
             list = []
             dato = str(dato).strip()
+            #busca por el mobile
             query = QtSql.QSqlQuery()
             query.prepare("SELECT * FROM customers where mobile = :dato")
             query.bindValue(":dato", str(dato))
@@ -88,6 +89,16 @@ class Conexion:
                 while query.next():
                     for i in range(query.record().count()):
                         list.append(query.value(i))
+            #si no hay por el movil busca por el dni
+            if len(list) == 0:
+                query = QtSql.QSqlQuery()
+                query.prepare("SELECT * FROM customers where dni_nie = :dato")
+                query.bindValue(":dato", str(dato))
+                if query.exec():
+                    while query.next():
+                        for i in range(query.record().count()):
+                            list.append(query.value(i))
+
             return list
 
         except Exception as e:
