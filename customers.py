@@ -87,7 +87,9 @@ class Customers:
             globals.ui.cmbMunicli.clear()
             globals.ui.rbtFacemail.setChecked(True)
             globals.ui.txtDnicli.setEnabled(True)
-            globals.ui.txtDnicli.setStyleSheet('background-color: rgb(255, 255, 197);')
+            globals.ui.txtDnicli.setStyleSheet('background-color: rgb(255, 255, 255);')
+            globals.ui.lblWarning.setText("")
+            globals.ui.lblWarning.setStyleSheet('background-color: rgb(255, 255, 255);')
 
         except Exception as error:
             print("error in clean ", error)
@@ -294,6 +296,9 @@ class Customers:
                     globals.ui.rbtFacpapel.setChecked(True)
                 else:
                     globals.ui.rbtFacemail.setChecked(True)
+                if str(record[10]) == 'False':
+                    globals.ui.lblWarning.setText("Hystorical Client")
+                    globals.ui.lblWarning.setStyleSheet("background-color:rgb(255,255,200); color:red;")
 
         except:
             print("error en searching customer ")
