@@ -237,9 +237,9 @@ class Customers:
             if mbox.exec():
                 dni = globals.ui.txtDnicli.text()
                 modifcli = [globals.ui.txtAltacli.text(), globals.ui.txtApelcli.text(),
-                          globals.ui.txtNomecli.text(), globals.ui.txtEmailcli.text(), globals.ui.txtMobilecli.text(),
-                          globals.ui.txtDircli.text(), globals.ui.cmbProvcli.currentText(),
-                          globals.ui.cmbMunicli.currentText(),globals.estado]
+                            globals.ui.txtNomecli.text(), globals.ui.txtEmailcli.text(), globals.ui.txtMobilecli.text(),
+                            globals.ui.txtDircli.text(), globals.ui.cmbProvcli.currentText(),
+                            globals.ui.cmbMunicli.currentText(),globals.estado]
                 if globals.ui.rbtFacpapel.isChecked():
                     fact = "paper"
                 elif globals.ui.rbtFacemail.isChecked():

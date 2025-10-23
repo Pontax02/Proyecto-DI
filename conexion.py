@@ -146,6 +146,8 @@ class Conexion:
     @staticmethod
     def modifyCli(dni,modifcli):
         try:
+            if str(dni) == "":
+                return False
             query = QtSql.QSqlQuery()
             query.prepare("UPDATE customers SET adddata= :data, surname = :surname, name = :name , mobile = :mobile, address = :address,province = :province, city = :city, invoicetyp = :invoicetyp, historical = :historical "
                           " "

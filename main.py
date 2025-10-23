@@ -14,7 +14,7 @@ import sys
 from events import *
 import styles
 
-# Main (decalra el evento)---> Customers(Prepara la parte gráfica(Constriccion de la tabla)) -----> Conexion(oculto del sistema)(todas las acciones sobre la base de datos)    examen   primero creamos el evento y luego lo codificamos
+# Main (declara el evento)---> Customers(Prepara la parte gráfica(Constriccion de la tabla)) -----> Conexion(oculto del sistema)(todas las acciones sobre la base de datos)    examen   primero creamos el evento y luego lo codificamos
 class Main(QtWidgets.QMainWindow):
     def __init__(self):
         super(Main, self).__init__()
