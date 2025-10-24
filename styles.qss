@@ -1,5 +1,28 @@
-QPushButton{
-    background-color: green;
-    color:white;
+QPushButton#btnSavecli{
+    background-color: #4EC27D ;
+    color: white;
+    border-radius: 0px;
+
+}
+QPushButton#btnModifcli{
+    background-color: #4EC27D;
+    color: white;
+    border-radius: 0px;
+
+}
+QPushButton#btnDelcli{
+    background-color:#4EC27D ;
+    color: white;
+    border-radius: 0px;
+
+}
+
+
+QTabWidget{
+
+background-color: #DCF5E5;
+}
+QTabBar{
+background-color: #B0EBC9;
 
 }
