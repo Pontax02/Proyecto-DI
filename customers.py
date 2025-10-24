@@ -161,7 +161,7 @@ class Customers:
             mbox.setText("Delete Client?")
             mbox.setStandardButtons(QtWidgets.QMessageBox.StandardButton.Yes | QtWidgets.QMessageBox.StandardButton.No)
             mbox.setDefaultButton(QtWidgets.QMessageBox.StandardButton.No)
-            if mbox.exec():
+            if mbox.exec() == QtWidgets.QMessageBox.StandardButton.Yes:
 
                 dni = globals.ui.txtDnicli.text()
                 if Conexion.deleteCli(dni):
@@ -225,7 +225,8 @@ class Customers:
                 mbox.setIcon(QtWidgets.QMessageBox.Icon.Information)
                 mbox.setText("Client non activated. DO you want activated?")
                 mbox.setStandardButtons(QtWidgets.QMessageBox.StandardButton.Yes | QtWidgets.QMessageBox.StandardButton.No)
-                if mbox.exec():
+                reply = mbox.exec()
+                if reply == QtWidgets.QMessageBox.StandardButton.Yes:
                     globals.estado = str("True")
 
             mbox = QtWidgets.QMessageBox()
@@ -234,7 +235,7 @@ class Customers:
             mbox.setText("Modify Client?")
             mbox.setStandardButtons(QtWidgets.QMessageBox.StandardButton.Yes | QtWidgets.QMessageBox.StandardButton.No)
             mbox.setDefaultButton(QtWidgets.QMessageBox.StandardButton.No)
-            if mbox.exec():
+            if mbox.exec() == QtWidgets.QMessageBox.StandardButton.Yes:
                 dni = globals.ui.txtDnicli.text()
                 modifcli = [globals.ui.txtAltacli.text(), globals.ui.txtApelcli.text(),
                             globals.ui.txtNomecli.text(), globals.ui.txtEmailcli.text(), globals.ui.txtMobilecli.text(),
