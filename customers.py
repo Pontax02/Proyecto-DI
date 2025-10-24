@@ -170,7 +170,8 @@ class Customers:
                     mbox.setWindowTitle("Information")
                     mbox.setIcon(QtWidgets.QMessageBox.Icon.Information)
                     mbox.setText("Delete Client?")
-                    mbox.standardButton(QtWidgets.QMessageBox.StandardButton.Yes)
+                    mbox.setStandardButtons(QtWidgets.QMessageBox.StandardButton.Yes | QtWidgets.QMessageBox.StandardButton.No )
+                    mbox.setDefaultButton(QtWidgets.QMessageBox.StandardButton.No)
 
                 else:
                     print("Something went wrong")
@@ -218,7 +219,6 @@ class Customers:
     def modifcli(self):
         try:
             varcli = "True"
-            print(globals.estado)
             if globals.estado == str("False"):
                 mbox = QtWidgets.QMessageBox()
                 mbox.setWindowTitle("Information")
@@ -245,7 +245,7 @@ class Customers:
                 elif globals.ui.rbtFacemail.isChecked():
                     fact = "electronic"
                 modifcli.append(fact)
-                if Conexion.modifyCli(dni, modifcli):
+                if Conexion.modifyCli(dni,modifcli):
                     mbox = QtWidgets.QMessageBox()
                     mbox.setWindowTitle("Information")
                     mbox.setIcon(QtWidgets.QMessageBox.Icon.Information)

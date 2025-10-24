@@ -122,8 +122,9 @@ class Conexion:
     @staticmethod
     def addCli(newcli):
         try:
+
             query = QtSql.QSqlQuery()
-            query.prepare("INSERT INTO customers(dni_nie, adddata,surname,name,mail,mobile,address,province,city, invoicetyp, historical) VALUES(:dnicli, :adddata,:surname,:name,:mail,:mobile,:address,:province,:city,:invoicetyp,:historical)")
+            query.prepare("INSERT INTO customers(dni_nie, adddata,surname,name,mail,mobile,address,province,city, invoicetype, historical) VALUES(:dnicli, :adddata,:surname,:name,:mail,:mobile,:address,:province,:city,:invoicetype,:historical)")
             query.bindValue(":dnicli", str(newcli[0]))
             query.bindValue(":adddata", str(newcli[1]))
             query.bindValue(":surname", str(newcli[2]))
@@ -133,7 +134,7 @@ class Conexion:
             query.bindValue(":address", str(newcli[6]))
             query.bindValue(":province", str(newcli[7]))
             query.bindValue(":city", str(newcli[8]))
-            query.bindValue(":invoicetyp", str(newcli[9]))
+            query.bindValue(":invoicetype", str(newcli[9]))
             query.bindValue(":historical", str(True))
             if query.exec():
                 return True
@@ -146,12 +147,11 @@ class Conexion:
     @staticmethod
     def modifyCli(dni,modifcli):
         try:
+
             if str(dni) == "":
                 return False
             query = QtSql.QSqlQuery()
-            query.prepare("UPDATE customers SET adddata= :data, surname = :surname, name = :name , mobile = :mobile, address = :address,province = :province, city = :city, invoicetyp = :invoicetyp, historical = :historical "
-                          " "
-                          "WHERE dni_nie = :dni")
+            query.prepare("UPDATE customers SET adddata = :data, surname = :surname, name = :name ,mail = :mail ,mobile = :mobile, address = :address,province = :province, city = :city, invoicetype = :invoicetype, historical = :historical  WHERE dni_nie = :dni")
             query.bindValue(":dni", str(dni))
             query.bindValue(":data", str(modifcli[0]))
             query.bindValue(":surname", str(modifcli[1]))
@@ -161,9 +161,10 @@ class Conexion:
             query.bindValue(":address", str(modifcli[5]))
             query.bindValue(":province", str(modifcli[6]))
             query.bindValue(":city", str(modifcli[7]))
-            query.bindValue("historical", str(modifcli[8]))
-            query.bindValue(":invoicetyp", str(modifcli[9]))
+            query.bindValue(":historical", str(modifcli[8]))
+            query.bindValue(":invoicetype", str(modifcli[9]))
             if query.exec():
+
                 return True
             else:
                 return False
