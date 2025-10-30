@@ -27,3 +27,9 @@ class DlgAbout(QtWidgets.QDialog):
         globals.about = Ui_dlgAbout()
         globals.about.setupUi(self)
         globals.about.btnCloseabout.clicked.connect(events.Events.closeabout)
+
+
+
+class FileDialogOpen(QtWidgets.QFileDialog):
+    def __init__(self):
+        super(FileDialogOpen, self).__init__()

@@ -23,6 +23,9 @@ class Main(QtWidgets.QMainWindow):
         #instance
         globals.vencal = Calendar()
         globals.about = DlgAbout()
+        globals.dlgopen = FileDialogOpen
+
+        #Cargar estilos
         self.setStyleSheet(styles.load_stylesheet())
 
         #conexion
@@ -35,6 +38,9 @@ class Main(QtWidgets.QMainWindow):
         # Functions in menu bar
         globals.ui.actionExit.triggered.connect(Events.messageExit)
         globals.ui.actionAbout.triggered.connect(Events.messageAbout)
+        globals.ui.actionBackup.triggered.connect(Events.saveBackup)
+        globals.ui.actionRestore_Backup.triggered.connect(Events.restoreBackup)
+        globals.ui.actionCustomers.triggered.connect(Events.exportXlsCustomers)
 
 
         #functions in line-edit

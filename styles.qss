@@ -26,3 +26,8 @@ QTabBar{
 background-color: #B0EBC9;
 
 }
+QMenuBar{
+background-color: #B0EBC9;
+
+
+}

@@ -1,6 +1,14 @@
+import csv
+import os
+import shutil
 import sys
 import time
+from fileinput import filename
+from logging import exception
+import customers
+import events
 from window import *
+import zipfile
 from venAux import *
 import conexion
 import globals
@@ -98,3 +106,88 @@ class Events:
             globals.about.hide()
         except Exception as e:
             print("error in close about", e)
+
+
+    def saveBackup(self):
+        try:
+            data = datetime.now().strftime("%Y_%m_%d_%H_%M_%S")
+            filename = str(data) + "_backup.zip"
+            directory, file = globals.dlgopen.getSaveFileName(None, "Save Backup file", filename, "zip")
+
+            if globals.dlgopen.accept and file:
+                print(directory)
+                filezip = zipfile.ZipFile(file, "w")
+                filezip.write("./data/bbdd.sqlite", os.path.basename("bbdd.sqlite") ,zipfile.ZIP_DEFLATED)
+                filezip.close()
+                shutil.move(file, directory)
+                mbox = QtWidgets.QMessageBox()
+                mbox.setIcon(QtWidgets.QMessageBox.Icon.Information)
+                mbox.setWindowIcon(QtGui.QIcon("img/omega.ico"))
+                mbox.setWindowTitle("Save Backup")
+                mbox.setText("Save Backup Done")
+                mbox.setStandardButtons(QtWidgets.QMessageBox.StandardButton.Ok)
+                mbox.exec()
+
+        except Exception as e:
+            print("error in save backup", e)
+
+
+
+    def restoreBackup(self):
+        try:
+            filename = globals.dlgopen.getOpenFileName(None, "Restore Backup file", "","*.zip;;All Files(*)")
+            file = filename[0]
+            if file:
+                with zipfile.ZipFile(file, "r") as bbdd:
+                    bbdd.extractall(path = "./data",pwd= None)
+                bbdd.close()
+                mbox = QtWidgets.QMessageBox()
+                mbox.setIcon(QtWidgets.QMessageBox.Icon.Information)
+                mbox.setWindowIcon(QtGui.QIcon("img/omega.ico"))
+                mbox.setWindowTitle("Restore Backup")
+                mbox.setText("Restore Backup Done")
+                mbox.setStandardButtons(QtWidgets.QMessageBox.StandardButton.Ok)
+                mbox.exec()
+                conexion.Conexion.db_conexion(self)
+                events.Events.loadProv(self)
+                customers.Customers.loadTablecli(self)
+
+
+
+        except Exception as e:
+            print("error in restore backup", e)
+
+
+    def exportXlsCustomers(self):
+        try:
+            data = datetime.now().strftime("%Y_%m_%d_%H_%M_%S")
+            filenam = str(data) + "_customers.csv"
+            directory, file = globals.dlgopen.getSaveFileName(None, "Save Customers", filenam, ".csv")
+            var = False
+            if file:
+                records = conexion.Conexion.listTabCustomers(var)
+                with open(filenam, "w", newline="", encoding="utf-8") as csvfile:
+                    writer = csv.writer(csvfile)
+                    writer.writerow(["DNI_NIE", "AddData","Surname","Name","eMail","Mobile","Address","Province","City","InvoiceType","Active"])
+                    for record in records:
+                        writer.writerow(record)
+                shutil.move(filenam, directory)
+
+                mbox = QtWidgets.QMessageBox()
+                mbox.setIcon(QtWidgets.QMessageBox.Icon.Information)
+                mbox.setWindowIcon(QtGui.QIcon("img/omega.ico"))
+                mbox.setWindowTitle("Export Customers")
+                mbox.setText("Export Customers Done")
+                mbox.setStandardButtons(QtWidgets.QMessageBox.StandardButton.Ok)
+                mbox.exec()
+
+            else:
+                mbox = QtWidgets.QMessageBox()
+                mbox.setIcon(QtWidgets.QMessageBox.Icon.Warning)
+                mbox.setWindowIcon(QtGui.QIcon("img/omega.ico"))
+                mbox.setWindowTitle("Export Customers")
+                mbox.setText("Export Customers Error")
+                mbox.setStandardButtons(QtWidgets.QMessageBox.StandardButton.Ok)
+                mbox.exec()
+        except Exception as e:
+            print("error in exportXlsCustomers" ,e )
