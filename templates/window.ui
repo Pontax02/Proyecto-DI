@@ -652,6 +652,12 @@ background-color: rgb(255, 255, 255);</string>
             <family>Arial</family>
            </font>
           </property>
+          <property name="styleSheet">
+           <string notr="true"/>
+          </property>
+          <property name="editTriggers">
+           <set>QAbstractItemView::NoEditTriggers</set>
+          </property>
           <property name="alternatingRowColors">
            <bool>true</bool>
           </property>
@@ -742,12 +748,12 @@ background-color: rgb(255, 255, 255);</string>
       </widget>
       <widget class="QWidget" name="tab_2">
        <attribute name="title">
-        <string>Tab 2</string>
+        <string>Sales</string>
        </attribute>
       </widget>
       <widget class="QWidget" name="tab">
        <attribute name="title">
-        <string>Page</string>
+        <string>Products</string>
        </attribute>
       </widget>
      </widget>
