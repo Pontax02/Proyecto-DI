@@ -1,52 +1,33 @@
-
 QPushButton#btnSavecli{
-    background-color: #85D5A5 ;
-    color: black;
+    background-color: #4EC27D ;
+    color: white;
     border-radius: 0px;
+
 }
 QPushButton#btnModifcli{
-    background-color: #85D5A5;
-    color: black;
+    background-color: #4EC27D;
+    color: white;
     border-radius: 0px;
+
 }
 QPushButton#btnDelcli{
-    background-color:#85D5A5 ;
-    color: black;
+    background-color:#4EC27D ;
+    color: white;
     border-radius: 0px;
-}
-QPushButton#btnSearchcli{
-
-background-color:#DCF5E5;
 
 }
-QPushButton#btnFechaltacli{
 
-background-color:#DCF5E5;
 
-}
-QPushButton#btnCleancli{
-
-background-color:#DCF5E5;
-}
 QTabWidget{
+
 background-color: #DCF5E5;
 }
 QTabBar{
 background-color: #B0EBC9;
+
 }
 QMenuBar{
 background-color: #B0EBC9;
-}
-QTableView{
-selection-background-color: #B0EBC9 ;
-}
-QStatusBar{
 
-background-color: #B0EBC9;
-
-}
-QLabel#labelstatus{
-
-color: white;
 
 }
