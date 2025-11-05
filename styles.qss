@@ -1,18 +1,29 @@
+QMainWindow{
+
+border-width: 4px;
+border-color: black;
+
+
+
+}
+
+
+
 QPushButton#btnSavecli{
-    background-color: #4EC27D ;
-    color: white;
+    background-color: #85D5A5 ;
+    color: black;
     border-radius: 0px;
 
 }
 QPushButton#btnModifcli{
-    background-color: #4EC27D;
-    color: white;
+    background-color: #85D5A5;
+    color: black;
     border-radius: 0px;
 
 }
 QPushButton#btnDelcli{
-    background-color:#4EC27D ;
-    color: white;
+    background-color:#85D5A5 ;
+    color: black;
     border-radius: 0px;
 
 }
@@ -20,7 +31,9 @@ QPushButton#btnDelcli{
 
 QTabWidget{
 
+
 background-color: #DCF5E5;
+
 }
 QTabBar{
 background-color: #B0EBC9;
@@ -30,4 +43,8 @@ QMenuBar{
 background-color: #B0EBC9;
 
 
+}
+QTableView{
+
+selection-background-color: #B0EBC9 ;
 }
