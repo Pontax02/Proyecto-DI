@@ -69,7 +69,8 @@ class Main(QtWidgets.QMainWindow):
         #functions of tables
         globals.ui.tableCustomerlist.clicked.connect(Customers.selectCustomer)
 
-
+        #functions
+        Events.loadStatusbar(self)
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)

@@ -42,7 +42,7 @@ class Events:
 
 
         except Exception as e:
-            print("error calendario",e)
+            print("error calendar",e)
 
 
     def loadData(qDate):
@@ -54,7 +54,7 @@ class Events:
             globals.vencal.hide()
 
         except Exception as e:
-            print("error en cargar Data", e)
+            print("error loading Data", e)
 
 
     def loadProv(self):
@@ -64,7 +64,7 @@ class Events:
             #listado = conexionserver.ConexionServer.listaProv(self)
             globals.ui.cmbProvcli.addItems(list)
         except Exception as e:
-            print("error en cargar Prov", e)
+            print("error loading Prov", e)
 
 
     def loadMunicli(self):
@@ -74,7 +74,7 @@ class Events:
             globals.ui.cmbMunicli.clear()
             globals.ui.cmbMunicli.addItems(list)
         except Exception as e:
-            print("error en cargar MuniProv", e)
+            print("error loading MuniProv", e)
 
 
 
@@ -93,7 +93,7 @@ class Events:
                 header_items.setFont(font)
 
         except Exception as e:
-            print("error en resize tabla lcients: ", e)
+            print("error resizing table cients: ", e)
 
     def messageAbout(self):
         try:
@@ -191,3 +191,14 @@ class Events:
                 mbox.exec()
         except Exception as e:
             print("error in exportXlsCustomers" ,e )
+    def loadStatusbar(self):
+        try:
+            data = datetime.now().strftime("%d/%m/%Y")
+            self.labelStatus = QtWidgets.QLabel(self)
+            self.labelStatus.setText("Date: " + data + " - " + "Version 0.0.1")
+            self.labelStatus.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+            self.labelStatus.setStyleSheet("color: white; font-weight: bold; font-size: 15px;")
+            globals.ui.statusbar.addPermanentWidget(self.labelStatus,1)
+
+        except Exception as e:
+            print("error in loadStatusbar", e)

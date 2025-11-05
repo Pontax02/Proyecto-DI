@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1122</width>
+    <width>1078</width>
     <height>921</height>
    </rect>
   </property>
@@ -153,9 +153,6 @@
            <font>
             <family>Arial</family>
            </font>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">background-color: rgb(255, 255, 255);</string>
           </property>
           <property name="text">
            <string/>
@@ -629,7 +626,7 @@ background-color: rgb(255, 255, 255);</string>
           </property>
           <property name="icon">
            <iconset>
-            <normaloff>../img/iconocalendar.jpg</normaloff>../img/iconocalendar.jpg</iconset>
+            <normaloff>../img/calendar.png</normaloff>../img/calendar.png</iconset>
           </property>
           <property name="iconSize">
            <size>
@@ -702,7 +699,7 @@ background-color: rgb(255, 255, 255);</string>
           </column>
           <column>
            <property name="text">
-            <string>Estado</string>
+            <string>State</string>
            </property>
           </column>
          </widget>
@@ -765,7 +762,7 @@ background-color: rgb(255, 255, 255);</string>
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1122</width>
+     <width>1078</width>
      <height>21</height>
     </rect>
    </property>
@@ -826,7 +823,7 @@ background-color: rgb(255, 255, 255);</string>
   <action name="actionExit">
    <property name="icon">
     <iconset>
-     <normaloff>../../../Downloads/logout.png</normaloff>../../../Downloads/logout.png</iconset>
+     <normaloff>../img/logout.png</normaloff>../img/logout.png</iconset>
    </property>
    <property name="text">
     <string>Exit</string>
@@ -851,7 +848,7 @@ background-color: rgb(255, 255, 255);</string>
   <action name="actionBackup">
    <property name="icon">
     <iconset>
-     <normaloff>../../../Downloads/backup-file.png</normaloff>../../../Downloads/backup-file.png</iconset>
+     <normaloff>../img/backup-file.png</normaloff>../img/backup-file.png</iconset>
    </property>
    <property name="text">
     <string>Backup</string>
@@ -863,7 +860,7 @@ background-color: rgb(255, 255, 255);</string>
   <action name="actionRestore_Backup">
    <property name="icon">
     <iconset>
-     <normaloff>../../../Downloads/cloud.png</normaloff>../../../Downloads/cloud.png</iconset>
+     <normaloff>../img/cloud.png</normaloff>../img/cloud.png</iconset>
    </property>
    <property name="text">
     <string>Restore Backup</string>

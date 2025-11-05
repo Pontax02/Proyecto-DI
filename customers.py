@@ -38,7 +38,7 @@ class Customers:
                 globals.ui.txtDnicli.setText(None)
                 globals.ui.txtDnicli.setFocus()
         except Exception as error:
-            print("error en validar dni ", error)
+            print("error checking dni", error)
         finally:
             globals.ui.txtDnicli.editingFinished.connect(Customers.checkDni)
 
@@ -47,7 +47,7 @@ class Customers:
             texto = texto.title()
             widget.setText(texto)
         except Exception as error:
-            print("error en capitalizar texto ", error)
+            print("error capitalizing text", error)
 
 
     def checkMail(email):
@@ -62,7 +62,7 @@ class Customers:
                 globals.ui.txtEmailcli.setPlaceholderText('Invalid Email')
                 globals.ui.txtEmailcli.setFocus()
         except Exception as error:
-            print("error en validar email ", error)
+            print("error validating email ", error)
 
 
     def checkMobil(numero):
@@ -120,7 +120,7 @@ class Customers:
                 globals.ui.tableCustomerlist.item(index, 6).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter.AlignCenter)
                 index += 1
         except Exception as error:
-            print("error en loadTablecli ", error)
+            print("error in loadTablecli ", error)
     @staticmethod
     def Historicocli(self):
         try:
@@ -177,7 +177,7 @@ class Customers:
                     print("Something went wrong")
                 Customers.loadTablecli(self)
             else:
-                print("mensaje con msbox")
+                pass
 
         except Exception as error:
             print("error en deleting customer ", error)
@@ -282,7 +282,7 @@ class Customers:
                 mbox = QtWidgets.QMessageBox()
                 mbox.setWindowTitle("Information")
                 mbox.setIcon(QtWidgets.QMessageBox.Icon.Information)
-                mbox.setText("Client not exists")
+                mbox.setText("Client does not exists")
                 mbox.setStandardButtons(QtWidgets.QMessageBox.StandardButton.Ok)
                 if mbox.exec():
                     mbox.hide()
@@ -302,4 +302,4 @@ class Customers:
                     globals.ui.lblWarning.setStyleSheet("background-color:rgb(255,255,200); color:red;")
 
         except:
-            print("error en searching customer ")
+            print("error in searching customer ")

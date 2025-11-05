@@ -10,7 +10,7 @@ class Conexion:
         ruta_db = './data/bbdd.sqlite'
 
         if not os.path.isfile(ruta_db):
-            QtWidgets.QMessageBox.critical(None, 'Error', 'El archivo de la base de datos no existe.',
+            QtWidgets.QMessageBox.critical(None, 'Error', 'The database file does not exist',
                                            QtWidgets.QMessageBox.StandardButton.Cancel)
             return False
         db = QtSql.QSqlDatabase.addDatabase('QSQLITE')
@@ -21,15 +21,15 @@ class Conexion:
             query.exec("SELECT name FROM sqlite_master WHERE type='table';")
 
             if not query.next():  # Si no hay tablas
-                QtWidgets.QMessageBox.critical(None, 'Error', 'Base de datos vacía o no válida.',
+                QtWidgets.QMessageBox.critical(None, 'Error', 'Empty database or not valid',
                                                QtWidgets.QMessageBox.StandardButton.Cancel)
                 return False
             else:
-                QtWidgets.QMessageBox.information(None, 'Aviso', 'Conexión Base de Datos realizada',
+                QtWidgets.QMessageBox.information(None, 'Aviso', 'Database connected successfully',
                                                   QtWidgets.QMessageBox.StandardButton.Ok)
                 return True
         else:
-            QtWidgets.QMessageBox.critical(None, 'Error', 'No se pudo abrir la base de datos.',
+            QtWidgets.QMessageBox.critical(None, 'Error', 'Database could not be opened',
                                            QtWidgets.QMessageBox.StandardButton.Cancel)
             return False
 
