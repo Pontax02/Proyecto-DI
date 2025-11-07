@@ -16,6 +16,18 @@ QPushButton#btnDelcli{
     border-radius: 0px;
 
 }
+QPushButton#btnSearchcli{
+background-color: #DCF5E5;
+
+}
+QPushButton#btnFechaltacli{
+background-color: #DCF5E5;
+
+}
+QPushButton#btnCleancli{
+background-color: #DCF5E5;
+
+}
 
 
 QTabWidget{
@@ -29,5 +41,9 @@ background-color: #B0EBC9;
 QMenuBar{
 background-color: #B0EBC9;
 
+
+}
+QStatusBar{
+background-color: #B0EBC9;
 
 }

@@ -11,6 +11,7 @@ from venAux import *
 from window import *
 from dlgCalendar import *
 import sys
+from reports import *
 from events import *
 import styles
 
@@ -28,12 +29,15 @@ class Main(QtWidgets.QMainWindow):
         #Cargar estilos
         self.setStyleSheet(styles.load_stylesheet())
 
-        #conexion
+        #conexiones
         varcli = True
         Conexion.db_conexion(self)
         Customers.loadTablecli(varcli)
         Events.resizeTabCustomer(self)
 
+        #COmo cargar un combo desde un array
+        iva = ["4%","12%","21%"]
+        globals.ui.cmbIVA.addItems(iva)
 
         # Functions in menu bar
         globals.ui.actionExit.triggered.connect(Events.messageExit)
@@ -41,7 +45,7 @@ class Main(QtWidgets.QMainWindow):
         globals.ui.actionBackup.triggered.connect(Events.saveBackup)
         globals.ui.actionRestore_Backup.triggered.connect(Events.restoreBackup)
         globals.ui.actionCustomers.triggered.connect(Events.exportXlsCustomers)
-
+        globals.ui.actionCustomer_Report.triggered.connect(Reports.reportCustomers)
 
         #functions in line-edit
         globals.ui.txtDnicli.editingFinished.connect(Customers.checkDni)
@@ -69,7 +73,7 @@ class Main(QtWidgets.QMainWindow):
         #functions of tables
         globals.ui.tableCustomerlist.clicked.connect(Customers.selectCustomer)
 
-        #functions
+        #functions statusbar
         Events.loadStatusbar(self)
 
 if __name__ == "__main__":
