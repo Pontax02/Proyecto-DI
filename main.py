@@ -25,7 +25,7 @@ class Main(QtWidgets.QMainWindow):
         globals.vencal = Calendar()
         globals.about = DlgAbout()
         globals.dlgopen = FileDialogOpen
-        self.reports = Reports()
+        self.report = Reports()
 
         #Cargar estilos
         self.setStyleSheet(styles.load_stylesheet())
@@ -46,7 +46,7 @@ class Main(QtWidgets.QMainWindow):
         globals.ui.actionBackup.triggered.connect(Events.saveBackup)
         globals.ui.actionRestore_Backup.triggered.connect(Events.restoreBackup)
         globals.ui.actionCustomers.triggered.connect(Events.exportXlsCustomers)
-        globals.ui.actionCustomer_Report.triggered.connect(Reports.reportCustomers)
+        globals.ui.actionCustomer_Report.triggered.connect(self.report.reportCustomers)
 
         #functions in line-edit
         globals.ui.txtDnicli.editingFinished.connect(Customers.checkDni)

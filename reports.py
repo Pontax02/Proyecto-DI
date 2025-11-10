@@ -1,3 +1,5 @@
+
+
 from PIL import Image
 from reportlab.pdfgen import canvas
 import os, datetime
@@ -6,8 +8,8 @@ from conexion import Conexion
 class Reports:
     def __init__(self):
         rootPath= ".\\reports"
-        data = datetime.datetime.now().strftime("%Y-%m-%d")
-        self.namereportcli = data + "_reportcustomerspdf"
+        data = datetime.datetime.now().strftime("%Y_%m_%d_%H_%M_%S")
+        self.namereportcli = data + "_reportcustomers.pdf"
         self.pdf_path = os.path.join(rootPath, self.namereportcli)
         self.c = canvas.Canvas(self.pdf_path)
         self.rootPath = rootPath
@@ -18,13 +20,13 @@ class Reports:
 
         try:
 
-            self.c.line(35,50,525,50)
+            self.c.line(35,60,525,60)
             day = datetime.datetime.today()
             day = day.strftime("%d/%m/%Y %H:%M:%S")
             self.c.setFont("Helvetica", 7)
-            self.c.drawString(400,50,day)
+            self.c.drawString(70,50,day)
             self.c.drawString(250,50,title)
-            self.c.drawString(450,50,str("Page: " +  self.c.getPageNumber()))
+            self.c.drawString(500,50,str("Page: " +  str(self.c.getPageNumber())))
 
         except Exception as error:
             print(error)
@@ -33,7 +35,7 @@ class Reports:
             path_logo= ".\\img\\omega.ico"
             logo = Image.open(path_logo)
             if isinstance(logo,Image.Image):
-                self.c.line(35,50,525,50)
+
                 self.c.setFont("Helvetica", 10)
                 self.c.drawString(55,785,"EMPRESA TEIS")
                 self.c.drawCentredString(300,675,title)
@@ -43,9 +45,14 @@ class Reports:
                 self.c.setFont("Helvetica", 8)
                 self.c.drawString(55,760,"CIF: A65327894")
                 self.c.drawString(55,745,"Avda de Galicia 101")
-                self.c.drawString(55,720,"Vigo - 36215 - España")
-                self.c.drawString(55,705,"Tlfo: 986 123 456")
-                self.c.drawString(55,690,"email:teis@mail.com")
+                self.c.drawString(55,730,"Vigo - 36215 - España")
+                self.c.drawString(55,715,"Tlfo: 986 123 456")
+                self.c.drawString(55,700,"email:teis@mail.com")
+                self.c.line(50,800,160,800)
+                self.c.line(50,695,160,695)
+                self.c.line(50,800,50,695)
+                self.c.line(160,800,160,695)
+
 
 
             else:
@@ -56,13 +63,17 @@ class Reports:
 
     def reportCustomers(self):
         try:
+
             title = "List Client"
             self.footer(title)
             self.topreport(title)
             var = False
             records = Conexion.listTabCustomers(var)
+            if not records:
+                print("No Customers found")
+                return
             items = ["DNI_NIE","SURNAME","NAME","MOBILE","CITY","INVOICE TYPE", "STATE"]
-            self.c.setFont("Helvetica-Bold",12)
+            self.c.setFont("Helvetica-Bold",10)
             self.c.drawString(45, 650, str(items[0]))
             self.c.drawString(100, 650, str(items[1]))
             self.c.drawString(185, 650, str(items[2]))
@@ -106,7 +117,7 @@ class Reports:
                 else:
                     self.c.drawString(x+430,y,"Inactive")
 
-                y = y -25
+                y = y - 25
 
 
             self.c.save()
