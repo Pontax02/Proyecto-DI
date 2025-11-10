@@ -25,6 +25,7 @@ class Main(QtWidgets.QMainWindow):
         globals.vencal = Calendar()
         globals.about = DlgAbout()
         globals.dlgopen = FileDialogOpen
+        self.reports = Reports()
 
         #Cargar estilos
         self.setStyleSheet(styles.load_stylesheet())
