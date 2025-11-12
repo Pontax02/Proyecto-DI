@@ -176,7 +176,7 @@ class Ui_MainWindow(object):
         font = QtGui.QFont()
         font.setFamily("Arial")
         self.tableCustomerlist.setFont(font)
-        self.tableCustomerlist.setStyleSheet("")
+        self.tableCustomerlist.setStyleSheet("selection-background-color: rgb(234, 245, 238);")
         self.tableCustomerlist.setEditTriggers(QtWidgets.QAbstractItemView.EditTrigger.NoEditTriggers)
         self.tableCustomerlist.setAlternatingRowColors(True)
         self.tableCustomerlist.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectionBehavior.SelectRows)
