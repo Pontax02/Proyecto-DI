@@ -91,7 +91,7 @@ class Customers:
             globals.ui.txtEmailcli.setStyleSheet('background-color: rgb(255, 255, 255);')
             globals.ui.txtMobilecli.setStyleSheet('background-color: rgb(255, 255, 255);')
             globals.ui.lblWarning.setText("")
-            globals.ui.lblWarning.setStyleSheet('background-color: rgb(255, 255, 255);')
+            globals.ui.lblWarning.setStyleSheet('background-color: rgb(220, 245, 229);')
 
         except Exception as error:
             print("error in clean ", error)
@@ -161,8 +161,8 @@ class Customers:
             mbox.setWindowTitle("WARNING")
             mbox.setIcon(QtWidgets.QMessageBox.Icon.Warning)
             mbox.setText("Delete Client?")
-            mbox.setStandardButtons(QtWidgets.QMessageBox.StandardButton.Yes | QtWidgets.QMessageBox.StandardButton.No)
-            mbox.setDefaultButton(QtWidgets.QMessageBox.StandardButton.No)
+            mbox.setStandardButtons(QtWidgets.QMessageBox.StandardButton.Yes | QtWidgets.QMessageBox.StandardButton.Cancel)
+            mbox.setDefaultButton(QtWidgets.QMessageBox.StandardButton.Cancel)
             if mbox.exec() == QtWidgets.QMessageBox.StandardButton.Yes:
 
                 dni = globals.ui.txtDnicli.text()
@@ -236,8 +236,8 @@ class Customers:
             mbox.setWindowTitle("Modify")
             mbox.setIcon(QtWidgets.QMessageBox.Icon.Question)
             mbox.setText("Modify Client?")
-            mbox.setStandardButtons(QtWidgets.QMessageBox.StandardButton.Yes | QtWidgets.QMessageBox.StandardButton.No)
-            mbox.setDefaultButton(QtWidgets.QMessageBox.StandardButton.No)
+            mbox.setStandardButtons(QtWidgets.QMessageBox.StandardButton.Yes | QtWidgets.QMessageBox.StandardButton.Cancel)
+            mbox.setDefaultButton(QtWidgets.QMessageBox.StandardButton.Cancel)
             if mbox.exec() == QtWidgets.QMessageBox.StandardButton.Yes:
                 dni = globals.ui.txtDnicli.text()
                 modifcli = [globals.ui.txtAltacli.text(), globals.ui.txtApelcli.text(),
