@@ -88,6 +88,8 @@ class Customers:
             globals.ui.rbtFacemail.setChecked(True)
             globals.ui.txtDnicli.setEnabled(True)
             globals.ui.txtDnicli.setStyleSheet('background-color: rgb(255, 255, 255);')
+            globals.ui.txtEmailcli.setStyleSheet('background-color: rgb(255, 255, 255);')
+            globals.ui.txtMobilecli.setStyleSheet('background-color: rgb(255, 255, 255);')
             globals.ui.lblWarning.setText("")
             globals.ui.lblWarning.setStyleSheet('background-color: rgb(255, 255, 255);')
 
