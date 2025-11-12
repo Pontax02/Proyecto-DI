@@ -176,6 +176,7 @@ class Customers:
                 else:
                     print("Something went wrong")
                 Customers.loadTablecli(self)
+                globals.ui.chkHistoricocli.setChecked(True)
             else:
                 pass
 
@@ -197,7 +198,7 @@ class Customers:
                 mbox.setWindowTitle("Information")
                 mbox.setIcon(QtWidgets.QMessageBox.Icon.Information)
                 mbox.setText("Client added")
-                mbox.setStandardButtons(QtWidgets.QMessageBox.StandardButton.Yes)
+                mbox.setStandardButtons(QtWidgets.QMessageBox.StandardButton.Yes | QtWidgets.QMessageBox.StandardButton.Cancel)
 
                 if mbox.exec():
                     mbox.hide()
@@ -269,6 +270,7 @@ class Customers:
                 mbox.hide()
 
             Customers.loadTablecli(varcli)
+            globals.ui.chkHistoricocli.setChecked(False)
         except Exception as error:
             print("error en modifing customer ", error)
 
