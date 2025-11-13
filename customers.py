@@ -91,6 +91,8 @@ class Customers:
             globals.ui.txtEmailcli.setStyleSheet('background-color: rgb(255, 255, 255);')
             globals.ui.txtMobilecli.setStyleSheet('background-color: rgb(255, 255, 255);')
             globals.ui.lblWarning.setText("")
+            globals.ui.txtEmailcli.setPlaceholderText("")
+            globals.ui.txtMobilecli.setPlaceholderText("")
             globals.ui.lblWarning.setStyleSheet('background-color: rgb(220, 245, 229);')
 
         except Exception as error:
