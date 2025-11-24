@@ -76,6 +76,20 @@ class Conexion:
                     row = [query.value(i) for i in range(query.record().count())]
                     list.append(row)
         return list
+
+    def listTabProducts(self):
+        list = []
+
+        query = QtSql.QSqlQuery()
+        query.prepare("SELECT * FROM products order by code")
+
+        if query.exec():
+            while query.next():
+
+                row = [query.value(i) for i in range(query.record().count())]
+                list.append(row)
+
+        return list
     @staticmethod
     def dataOneCustomer(dato):
         try:
@@ -105,6 +119,26 @@ class Conexion:
             print("error in load dataOneCustomer", e)
 
     @staticmethod
+    def dataOneProduct(dato):
+        try:
+            listpro = []
+            dato = str(dato).strip()
+
+            query = QtSql.QSqlQuery()
+            query.prepare("SELECT * FROM products where code = :dato")
+            query.bindValue(":dato", str(dato))
+
+            if query.exec():
+                while query.next():
+                    for i in range(query.record().count()):
+                        listpro.append(query.value(i))
+
+            return listpro
+
+        except Exception as e:
+            print("error in load dataOneProduct", e)
+
+    @staticmethod
     def deleteCli(dni):
         try:
             query = QtSql.QSqlQuery()
@@ -117,6 +151,8 @@ class Conexion:
                 return False
         except Exception as e:
             print("error in delete", e)
+
+
 
 
     @staticmethod
@@ -142,6 +178,24 @@ class Conexion:
                 return False
         except:
             print("error in addCli")
+
+    @staticmethod
+    def addPro(newpro):
+        try:
+
+            query = QtSql.QSqlQuery()
+            query.prepare("INSERT INTO products(name,stock,family,unitprice) VALUES(:name,:stock,:family,:unitprice)")
+            query.bindValue(":name", str(newpro[0]))
+            query.bindValue(":stock", str(newpro[1]))
+            query.bindValue(":family", str(newpro[2]))
+            query.bindValue(":unitprice", str(newpro[3]))
+
+            if query.exec():
+                return True
+            else:
+                return False
+        except Exception as e:
+            print("error in addPro", e)
 
 
     @staticmethod
@@ -170,3 +224,69 @@ class Conexion:
                 return False
         except:
             print("error in modifyCli")
+
+    def modifyPro(id, modpro):
+        try:
+
+            query = QtSql.QSqlQuery()
+            query.prepare("UPDATE products SET name= :name, stock = :stock,family =:family, "
+                          " unitprice =:unitprice where code = :id")
+            query.bindValue(":id", str(id))
+            query.bindValue(":name", str(modpro[0]))
+            query.bindValue(":stock", int(modpro[2]))
+            query.bindValue(":family", str(modpro[1]))
+            price = modpro[3].replace("€", "")
+            query.bindValue(":unitprice", str(price))
+
+            if query.exec():
+                return True
+            else:
+                return False
+        except Exception as error:
+            print("error modifyPro", error)
+
+    def deletePro(id):
+        try:
+            query = QtSql.QSqlQuery()
+            query.prepare("DELETE FROM products WHERE name = :id")
+            query.bindValue(":id", str(id))
+            if query.exec():
+                return True
+            else:
+                return False
+        except Exception as error:
+            print("error deletePro in conexion", error)
+
+
+    # Empiezo la facturacion
+
+
+    def searchCli(dni):
+        try:
+            dni = str(dni).upper()
+
+            query = QtSql.QSqlQuery()
+            query.prepare("SELECT * FROM customers WHERE dni_nie = :dni")
+            query.bindValue(":dni", str(dni).strip())
+            if query.exec():
+                if query.next():
+                    return True
+                else:
+                    return False
+
+        except Exception as error:
+            print("error searchCli in conexion", error)
+
+    @staticmethod
+    def insertInvoice(dni,data):
+        try:
+            query = QtSql.QSqlQuery()
+            query.prepare("INSERT INTO invoices(dninie,data) VALUES(:dni, :data)")
+            query.bindValue(":dni", str(dni))
+            query.bindValue(":data", str(data))
+            if query.exec():
+                return True
+            else:
+                return False
+        except Exception as error:
+            print("error insertInvoice in conexion", error)

@@ -4,8 +4,11 @@ from enum import global_str
 import customers
 import events
 import globals
+import invoice
 from conexion import Conexion
 from customers import *
+from invoice import Invoice
+from products import *
 from dlgAbout import *
 from venAux import *
 from window import *
@@ -35,10 +38,15 @@ class Main(QtWidgets.QMainWindow):
         Conexion.db_conexion(self)
         Customers.loadTablecli(varcli)
         Events.resizeTabCustomer(self)
+        Products.loadTablepro(self)
+        Events.resizeTabProducts(self)
+
+
+
 
         #COmo cargar un combo desde un array
-        iva = ["4%","12%","21%"]
-        globals.ui.cmbIVA.addItems(iva)
+        combo = ["Foods","Furniture","Clothes","Electronic"]
+        globals.ui.comboBox.addItems(combo)
 
         # Functions in menu bar
         globals.ui.actionExit.triggered.connect(Events.messageExit)
@@ -54,6 +62,9 @@ class Main(QtWidgets.QMainWindow):
         globals.ui.txtApelcli.editingFinished.connect(lambda:Customers.capitalizar(globals.ui.txtApelcli.text(), globals.ui.txtApelcli))
         globals.ui.txtEmailcli.editingFinished.connect(lambda:Customers.checkMail(globals.ui.txtEmailcli.text()))
         globals.ui.txtMobilecli.editingFinished.connect(lambda:Customers.checkMobil(globals.ui.txtMobilecli.text()))
+        globals.ui.txtPrice.editingFinished.connect(lambda:Products.comaPunto(globals.ui.txtPrice.text()))
+        globals.ui.txtDniFac.editingFinished.connect(lambda:invoice.Invoice.searchCli())
+
 
         #functions of chkhistoricocli
         globals.ui.chkHistoricocli.stateChanged.connect(Customers.Historicocli)
@@ -66,13 +77,22 @@ class Main(QtWidgets.QMainWindow):
         globals.ui.btnCleancli.clicked.connect(Customers.cleanCli)
         globals.ui.btnModifcli.clicked.connect(Customers.modifcli)
         globals.ui.btnSearchcli.clicked.connect(Customers.searchCli)
+        globals.ui.btnCleanpro.clicked.connect(Products.cleanPro)
+        globals.ui.btnSavepro.clicked.connect(Products.savePro)
+        globals.ui.btnModpro.clicked.connect(Products.modifyPro)
+        globals.ui.btndelpro.clicked.connect(Products.delPro)
+        globals.ui.btnCleanfac.clicked.connect(invoice.Invoice.cleanFac)
+        globals.ui.btnSavefac.clicked.connect(lambda : Invoice.saveInvoice)
 
-        #Functions Combobox
+
+                #Functions Combobox
         Events.loadProv(self)
         globals.ui.cmbProvcli.currentIndexChanged.connect(events.Events.loadMunicli)
 
         #functions of tables
         globals.ui.tableCustomerlist.clicked.connect(Customers.selectCustomer)
+
+        globals.ui.tblProducts.clicked.connect(Products.selectPro)
 
         #functions statusbar
         Events.loadStatusbar(self)

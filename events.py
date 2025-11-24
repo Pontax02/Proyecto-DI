@@ -95,6 +95,24 @@ class Events:
         except Exception as e:
             print("error resizing table cients: ", e)
 
+
+    def resizeTabProducts(self):
+        try:
+            header = globals.ui.tblProducts.horizontalHeader()
+            for i in range(header.count()):
+                if i == 3:
+                    header.setSectionResizeMode(i, QtWidgets.QHeaderView.ResizeMode.ResizeToContents)
+                else:
+                    header.setSectionResizeMode(i, QtWidgets.QHeaderView.ResizeMode.Stretch)
+                header_items = globals.ui.tblProducts.horizontalHeaderItem(i)
+                #negrita cabecera
+                font = header_items.font()
+                font.setBold(True)
+                header_items.setFont(font)
+
+        except Exception as e:
+            print("error resizing table products: ", e)
+
     def messageAbout(self):
         try:
             globals.about.show()
