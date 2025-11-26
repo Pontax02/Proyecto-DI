@@ -290,3 +290,20 @@ class Conexion:
                 return False
         except Exception as error:
             print("error insertInvoice in conexion", error)
+
+
+    def allInvoices(self):
+        try:
+            records= []
+
+            query = QtSql.QSqlQuery()
+            query.prepare("SELECT * FROM invoices ORDER BY idfac DESC")
+            if query.exec():
+                while query.next():
+                    row = [str(query.value(i)) for i in range(query.record().count())]
+                    records.append(row)
+            return records
+
+
+        except Exception as error:
+            print("error allInvoices in conexion", error)

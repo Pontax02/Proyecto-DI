@@ -41,6 +41,8 @@ class Main(QtWidgets.QMainWindow):
         Products.loadTablepro(self)
         Events.resizeTabProducts(self)
 
+        Invoice.loadTablefac(self = None)
+        Invoice.loadFactFirs(self = None)
 
 
 
@@ -82,7 +84,7 @@ class Main(QtWidgets.QMainWindow):
         globals.ui.btnModpro.clicked.connect(Products.modifyPro)
         globals.ui.btndelpro.clicked.connect(Products.delPro)
         globals.ui.btnCleanfac.clicked.connect(invoice.Invoice.cleanFac)
-        globals.ui.btnSavefac.clicked.connect(lambda : Invoice.saveInvoice)
+        globals.ui.btnSavefac.clicked.connect(invoice.Invoice.saveInvoice)
 
 
                 #Functions Combobox
@@ -93,6 +95,8 @@ class Main(QtWidgets.QMainWindow):
         globals.ui.tableCustomerlist.clicked.connect(Customers.selectCustomer)
 
         globals.ui.tblProducts.clicked.connect(Products.selectPro)
+
+        globals.ui.tablefacv.clicked.connect(Invoice.selectinvoice)
 
         #functions statusbar
         Events.loadStatusbar(self)

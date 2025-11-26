@@ -774,7 +774,7 @@ background-color: rgb(255, 255, 255);</string>
         <property name="frameShadow">
          <enum>QFrame::Raised</enum>
         </property>
-        <widget class="QTableWidget" name="tableWidget_2">
+        <widget class="QTableWidget" name="tablefacv">
          <property name="geometry">
           <rect>
            <x>10</x>
@@ -977,7 +977,7 @@ background-color: rgb(255, 255, 255);</string>
          </layout>
         </widget>
        </widget>
-       <widget class="QTableWidget" name="tableWidget">
+       <widget class="QTableWidget" name="tablefac">
         <property name="geometry">
          <rect>
           <x>270</x>
@@ -992,8 +992,8 @@ background-color: rgb(255, 255, 255);</string>
          <rect>
           <x>350</x>
           <y>70</y>
-          <width>609</width>
-          <height>74</height>
+          <width>650</width>
+          <height>84</height>
          </rect>
         </property>
         <layout class="QGridLayout" name="gridLayout_2">
@@ -1148,6 +1148,32 @@ background-color: rgb(255, 255, 255);</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="4">
+          <widget class="QPushButton" name="pushButton_2">
+           <property name="minimumSize">
+            <size>
+             <width>30</width>
+             <height>30</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>30</width>
+             <height>30</height>
+            </size>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="icon">
+            <iconset>
+             <normaloff>../img/lista-de-verificacion.png</normaloff>../img/lista-de-verificacion.png</iconset>
+           </property>
+           <property name="flat">
+            <bool>true</bool>
            </property>
           </widget>
          </item>
