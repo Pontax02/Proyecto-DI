@@ -137,6 +137,20 @@ class Invoice:
             globals.ui.txtDniFac.setText(str(data[1]))
             globals.ui.lblFechafac.setText(str(data[2]))
             Invoice.searchCli(self)
+            Invoice.activeSales(self)
 
         except Exception as error:
             print("error en selecting customer ", error)
+
+
+    def activeSales(self):
+        try:
+            index = 0
+
+            globals.ui.tabsales.setRowCount(index + 1)
+            item = globals.ui.tabsales.item(0,index).text().strip()
+            globals.ui.tabsales.itemChanged(0,index, conexion.Conexion.selectProduct(item))
+
+
+        except Exception as error:
+            print("error in activeSales", error)

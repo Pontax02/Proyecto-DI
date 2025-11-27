@@ -40,6 +40,7 @@ class Main(QtWidgets.QMainWindow):
         Events.resizeTabCustomer(self)
         Products.loadTablepro(self)
         Events.resizeTabProducts(self)
+        Events.resizeTabSales(self)
 
         Invoice.loadTablefac(self = None)
         Invoice.loadFactFirs(self = None)

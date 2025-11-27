@@ -307,3 +307,17 @@ class Conexion:
 
         except Exception as error:
             print("error allInvoices in conexion", error)
+
+
+    def selectProduct(item):
+        try:
+            query = QtSql.QSqlQuery()
+            query.prepare("SELECT name, unitprice FROM products WHERE code = :code")
+            query.bindValue(":code", int(item))
+            if query.exec():
+                while query.next():
+                    row = [str(query.value(i)) for i in range(query.record().count())]
+            print(row)
+            return row
+        except Exception as error:
+            print("error selectProduct in conexion", error)
