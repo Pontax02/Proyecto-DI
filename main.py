@@ -29,6 +29,7 @@ class Main(QtWidgets.QMainWindow):
         globals.about = DlgAbout()
         globals.dlgopen = FileDialogOpen
         self.report = Reports()
+        self.invoice = Invoice()
 
         #Cargar estilos
         self.setStyleSheet(styles.load_stylesheet())
@@ -84,8 +85,9 @@ class Main(QtWidgets.QMainWindow):
         globals.ui.btnSavepro.clicked.connect(Products.savePro)
         globals.ui.btnModpro.clicked.connect(Products.modifyPro)
         globals.ui.btndelpro.clicked.connect(Products.delPro)
-        globals.ui.btnCleanfac.clicked.connect(invoice.Invoice.cleanFac)
-        globals.ui.btnSavefac.clicked.connect(invoice.Invoice.saveInvoice)
+        globals.ui.btnCleanfac.clicked.connect(self.invoice.cleanFac)
+        globals.ui.btnSavefac.clicked.connect(self.invoice.saveInvoice)
+        globals.ui.btnsalesave.clicked.connect(self.invoice.saveSales)
 
 
                 #Functions Combobox
@@ -98,6 +100,8 @@ class Main(QtWidgets.QMainWindow):
         globals.ui.tblProducts.clicked.connect(Products.selectPro)
 
         globals.ui.tablefacv.clicked.connect(Invoice.selectinvoice)
+
+        globals.ui.tabsales.itemChanged.connect(self.invoice.cellChangedSales)
 
         #functions statusbar
         Events.loadStatusbar(self)

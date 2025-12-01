@@ -315,9 +315,29 @@ class Conexion:
             query.prepare("SELECT name, unitprice FROM products WHERE code = :code")
             query.bindValue(":code", int(item))
             if query.exec():
-                while query.next():
+                if query.next():
                     row = [str(query.value(i)) for i in range(query.record().count())]
+                else:
+                    row = []
             print(row)
             return row
         except Exception as error:
             print("error selectProduct in conexion", error)
+
+    def saveSales(data):
+        try:
+            query = QtSql.QSqlQuery()
+            query.prepare("insert into sales(idfac,idpro,product, unitprice, amount, total) VALUES(:idfac, :idpro,:product, :unitprice, :amount, :total)")
+
+            query.bindValue(":idfac", int(data[0]))
+            query.bindValue(":idpro",int(data[1]))
+            query.bindValue(":product",str(data[2]))
+            query.bindValue(":unitprice",float(data[3]))
+            query.bindValue(":amount",int(data[4]))
+            query.bindValue(":total",float(data[5]))
+            if query.exec():
+                return True
+            else:
+                return False
+        except Exception as error:
+            print("error saveSales in conexion", error)

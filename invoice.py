@@ -1,10 +1,14 @@
 import datetime
+from mailbox import mbox
+from traceback import print_tb
 
 from PyQt6 import QtWidgets, QtCore
 from time import sleep
 import conexion
 import globals
+import products
 from conexion import Conexion
+from globals import linesales
 
 
 class Invoice:
@@ -154,3 +158,132 @@ class Invoice:
 
         except Exception as error:
             print("error in activeSales", error)
+
+
+    @staticmethod
+    def activeSales(self, row=None):
+        try:
+            # Si no se pasa fila, añadimos la primera fila
+            if row is None:
+                row = 0
+                globals.ui.tabsales.setRowCount(1)
+            else:
+                # Si es fila nueva, aumentamos el rowCount
+                if row >= globals.ui.tabsales.rowCount():
+                    globals.ui.tabsales.setRowCount(row + 1)
+            globals.ui.tabsales.setStyleSheet("""
+                                   /* Fila seleccionada */
+                                   QTableWidget::item:selected {
+                                       background-color: rgb(255, 255, 202);  /* Color pálido amarillo */
+                                       color: black;                          /* Color del texto al seleccionar */
+                                   }
+                                   """)
+
+            # Columna 0 (código)
+            globals.ui.tabsales.setItem(row, 0, QtWidgets.QTableWidgetItem(""))
+            globals.ui.tabsales.item(row, 0).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+
+            # Columna 2 (price)
+            globals.ui.tabsales.setItem(row, 2, QtWidgets.QTableWidgetItem(""))
+
+            # Columna 3 (cantidad)
+            globals.ui.tabsales.setItem(row, 3, QtWidgets.QTableWidgetItem(""))
+            globals.ui.tabsales.item(row, 3).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+
+            # Columna 4 (total)
+            globals.ui.tabsales.setItem(row, 4, QtWidgets.QTableWidgetItem(""))
+
+        except Exception as error:
+            print("error active sales", error)
+
+    def cellChangedSales(self, item):
+        try:
+            iva = 0.21
+            row = item.row()
+            col = item.column()
+            if col not in (0, 3):
+                return
+
+            value = item.text().strip()
+            data = conexion.Conexion.selectProduct(value)
+            if value == "":
+                return
+
+            globals.ui.tabsales.blockSignals(True)
+
+            # Columna 0 entonces buscar producto y rellenar nombre y precio
+            if col == 0:
+
+
+                if len(data) == 0:
+                    mbox = QtWidgets.QMessageBox()
+                    mbox.setIcon(QtWidgets.QMessageBox.Icon.Critical)
+                    mbox.setWindowTitle("Error")
+                    mbox.setText("Product does not exist")
+                    mbox.setStandardButtons(QtWidgets.QMessageBox.StandardButton.Ok)
+                    if mbox.exec() == QtWidgets.QMessageBox.StandardButton.Ok:
+                        mbox.hide()
+                else:
+                    globals.ui.tabsales.setItem(row, 1, QtWidgets.QTableWidgetItem(str(data[0])))
+                    globals.ui.tabsales.setItem(row, 2, QtWidgets.QTableWidgetItem(str(data[1])))
+                    globals.ui.tabsales.item(row, 2).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+
+            # Columna 3 → calcular total
+            elif col == 3:
+                cantidad = float(value)
+                precio_item = globals.ui.tabsales.item(row, 2)
+                if precio_item:
+                    precio = float(precio_item.text())
+                    tot = round(precio * cantidad, 2)
+                    globals.ui.tabsales.setItem(row, 4, QtWidgets.QTableWidgetItem(str(tot)))
+                    globals.ui.tabsales.item(row, 4).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignRight
+                                                                        | QtCore.Qt.AlignmentFlag.AlignVCenter)
+
+            globals.ui.tabsales.blockSignals(False)
+
+            # Comprobar si la fila actual está completa y añadir nueva fila
+            if all([
+                globals.ui.tabsales.item(row, 0) and globals.ui.tabsales.item(row, 0).text().strip(),
+                globals.ui.tabsales.item(row, 1) and globals.ui.tabsales.item(row, 1).text().strip(),
+                globals.ui.tabsales.item(row, 2) and globals.ui.tabsales.item(row, 2).text().strip(),
+                globals.ui.tabsales.item(row, 3) and globals.ui.tabsales.item(row, 3).text().strip(),
+                globals.ui.tabsales.item(row, 4) and globals.ui.tabsales.item(row, 4).text().strip()
+            ]):
+                line = [globals.ui.lblnumfac.text(),globals.ui.tabsales.item(row, 0).text().strip(),
+                        globals.ui.tabsales.item(row, 1).text().strip(),
+                        globals.ui.tabsales.item(row, 2).text().strip(),
+                        globals.ui.tabsales.item(row, 3).text().strip(),
+                        globals.ui.tabsales.item(row, 4).text().strip()]
+                next_row = globals.ui.tabsales.rowCount()
+                Invoice.activeSales(self, row=next_row)
+                globals.subtotal = globals.subtotal + tot
+                totaliva = round(globals.subtotal * iva, 2)
+                total = round(globals.subtotal + iva, 2)
+                globals.ui.lblSubtotal.setText(str(globals.subtotal))
+                globals.ui.lblIVA.setText(str(totaliva))
+                globals.ui.lblTotal.setText(str(total) +  " €")
+                globals.linesales.append(line)
+                print(globals.linesales)
+
+
+
+        except Exception as error:
+            print("Error en cellChangedSales:", error)
+            globals.ui.tabsales.blockSignals(False)
+
+
+    def saveSales(self):
+        try:
+            for i, data in enumerate(globals.linesales):
+                correct = conexion.Conexion.saveSales(data)
+                if i == len(globals.linesales) - 1 and correct:
+                    mbox = QtWidgets.QMessageBox()
+                    mbox.setIcon(QtWidgets.QMessageBox.Icon.Information)
+                    mbox.setWindowTitle("Info")
+                    mbox.setText("Sales saved printing invoice")
+                    mbox.setStandardButtons(QtWidgets.QMessageBox.StandardButton.Ok)
+                    if mbox.exec() == QtWidgets.QMessageBox.StandardButton.Ok:
+                        print("dsfsdf")
+                        globals.linesales.clear()
+        except Exception as error:
+            print("Error en cellChangedSales:", error)
