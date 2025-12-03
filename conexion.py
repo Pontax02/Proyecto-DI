@@ -313,13 +313,13 @@ class Conexion:
         try:
             query = QtSql.QSqlQuery()
             query.prepare("SELECT name, unitprice FROM products WHERE code = :code")
-            query.bindValue(":code", int(item))
+            query.bindValue(":code", str(item))
             if query.exec():
                 if query.next():
                     row = [str(query.value(i)) for i in range(query.record().count())]
                 else:
                     row = []
-            print(row)
+
             return row
         except Exception as error:
             print("error selectProduct in conexion", error)
@@ -341,3 +341,18 @@ class Conexion:
                 return False
         except Exception as error:
             print("error saveSales in conexion", error)
+
+
+    def existFac(item):
+        try:
+            records = []
+            query = QtSql.QSqlQuery()
+            query.prepare("SELECT * FROM sales WHERE idfac = :item")
+            query.bindValue(":item", int(item))
+            if query.exec():
+                while query.next():
+                    row = [str(query.value(i)) for i in range(query.record().count())]
+                    records.append(row)
+            return records
+        except Exception as error:
+            print("error existFac in conexion", error)

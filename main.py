@@ -90,7 +90,12 @@ class Main(QtWidgets.QMainWindow):
         globals.ui.btnsalesave.clicked.connect(self.invoice.saveSales)
 
 
-                #Functions Combobox
+        #Eventos teclados
+        self.cleanFac = QtGui.QShortcut(QtGui.QKeySequence("F11"),self)
+        self.cleanFac.activated.connect(invoice.Invoice.cleanFac)
+
+
+                #Functions Combobo
         Events.loadProv(self)
         globals.ui.cmbProvcli.currentIndexChanged.connect(events.Events.loadMunicli)
 

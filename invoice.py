@@ -8,7 +8,7 @@ import conexion
 import globals
 import products
 from conexion import Conexion
-from globals import linesales
+from globals import linesales, subtotal
 
 
 class Invoice:
@@ -141,23 +141,36 @@ class Invoice:
             globals.ui.txtDniFac.setText(str(data[1]))
             globals.ui.lblFechafac.setText(str(data[2]))
             Invoice.searchCli(self)
-            Invoice.activeSales(self)
+            #Invoice.activeSales(self)
+            #Si la factura existe carga los productos en la tabla ventas
+            records = []
+            records = conexion.Conexion.existFac(data[0])
+            if len(records) > 0:
+                globals.ui.tabsales.blockSignals(True)
+
+
+                Invoice.loadTablesales(records)
+                globals.ui.tabsales.setEditTriggers(QtWidgets.QAbstractItemView.EditTrigger.NoEditTriggers)
+
+                #Desactivar la tabla ventas
+
+            else:
+                globals.subtotal = 0.0
+                globals.ui.lblSubtotal.setText("")
+                globals.ui.lblIVA.setText("")
+                globals.ui.lblTotal.setText("")
+                globals.ui.tabsales.setEditTriggers(QtWidgets.QAbstractItemView.EditTrigger.AllEditTriggers)
+                globals.ui.tabsales.blockSignals(False)
+
+
+                Invoice.activeSales(self)
+
 
         except Exception as error:
-            print("error en selecting customer ", error)
+            print("error en selecting invoice ", error)
 
 
-    def activeSales(self):
-        try:
-            index = 0
 
-            globals.ui.tabsales.setRowCount(index + 1)
-            item = globals.ui.tabsales.item(0,index).text().strip()
-            globals.ui.tabsales.itemChanged(0,index, conexion.Conexion.selectProduct(item))
-
-
-        except Exception as error:
-            print("error in activeSales", error)
 
 
     @staticmethod
@@ -256,12 +269,16 @@ class Invoice:
                         globals.ui.tabsales.item(row, 4).text().strip()]
                 next_row = globals.ui.tabsales.rowCount()
                 Invoice.activeSales(self, row=next_row)
-                globals.subtotal = globals.subtotal + tot
+                globals.subtotal = round(globals.subtotal + tot,2)
                 totaliva = round(globals.subtotal * iva, 2)
                 total = round(globals.subtotal + iva, 2)
                 globals.ui.lblSubtotal.setText(str(globals.subtotal))
                 globals.ui.lblIVA.setText(str(totaliva))
                 globals.ui.lblTotal.setText(str(total) +  " €")
+
+
+
+
                 globals.linesales.append(line)
                 print(globals.linesales)
 
@@ -287,3 +304,27 @@ class Invoice:
                         globals.linesales.clear()
         except Exception as error:
             print("Error en cellChangedSales:", error)
+
+
+    @staticmethod
+    def loadTablesales(records):
+
+        try:
+            subtotal  = 0.00
+            index = 0
+            for record in records:
+                globals.ui.tabsales.setRowCount(index + 1)
+                globals.ui.tabsales.setItem(index, 0, QtWidgets.QTableWidgetItem(str(record[2])))
+                globals.ui.tabsales.setItem(index, 1, QtWidgets.QTableWidgetItem(str(record[3])))
+                globals.ui.tabsales.setItem(index, 2, QtWidgets.QTableWidgetItem(str(record[4])))
+                globals.ui.tabsales.setItem(index, 3, QtWidgets.QTableWidgetItem(str(record[5])))
+                globals.ui.tabsales.setItem(index, 4, QtWidgets.QTableWidgetItem(str(record[6])))
+                subtotal = round(subtotal + float(record[6]), 2)
+                index += 1
+            globals.ui.lblSubtotal.setText(str(subtotal) + " €")
+            iva = round(float(subtotal * 0.21),2)
+            globals.ui.lblIVA.setText(str(iva) + " €")
+            total = round(float(subtotal + iva), 2)
+            globals.ui.lblTotal.setText(str(total) + " €")
+        except Exception as error:
+            print("error in loadTablesales ", error)
