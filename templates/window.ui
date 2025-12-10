@@ -35,7 +35,7 @@
        <enum>QTabWidget::Rounded</enum>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <property name="tabBarAutoHide">
        <bool>false</bool>
@@ -69,7 +69,7 @@
           </property>
           <property name="icon">
            <iconset>
-            <normaloff>../../../../../.designer/img/clue.png</normaloff>../../../../../.designer/img/clue.png</iconset>
+            <normaloff>../img/clue.png</normaloff>../img/clue.png</iconset>
           </property>
           <property name="iconSize">
            <size>
@@ -347,7 +347,7 @@ background-color: rgb(255, 255, 255);</string>
           </property>
           <property name="icon">
            <iconset>
-            <normaloff>../../../../../.designer/img/calendar.png</normaloff>../../../../../.designer/img/calendar.png</iconset>
+            <normaloff>../img/calendar.png</normaloff>../img/calendar.png</iconset>
           </property>
           <property name="iconSize">
            <size>
@@ -467,7 +467,7 @@ background-color: rgb(255, 255, 255);</string>
           </property>
           <property name="icon">
            <iconset>
-            <normaloff>../../../../../.designer/img/Refresh_icon.svg.png</normaloff>../../../../../.designer/img/Refresh_icon.svg.png</iconset>
+            <normaloff>../img/Refresh_icon.svg.png</normaloff>../img/Refresh_icon.svg.png</iconset>
           </property>
           <property name="iconSize">
            <size>
@@ -1207,7 +1207,7 @@ background-color: rgb(255, 255, 255);</string>
            </property>
            <property name="icon">
             <iconset>
-             <normaloff>../../../../../.designer/img/lista-de-verificacion.png</normaloff>../../../../../.designer/img/lista-de-verificacion.png</iconset>
+             <normaloff>../img/lista-de-verificacion.png</normaloff>../img/lista-de-verificacion.png</iconset>
            </property>
            <property name="flat">
             <bool>true</bool>
@@ -1441,7 +1441,7 @@ background-color: rgb(255, 255, 255);</string>
           </property>
           <property name="icon">
            <iconset>
-            <normaloff>../../../../../.designer/img/omega.png</normaloff>../../../../../.designer/img/omega.png</iconset>
+            <normaloff>../img/omega.png</normaloff>../img/omega.png</iconset>
           </property>
           <property name="iconSize">
            <size>
@@ -1711,7 +1711,7 @@ background-color: rgb(255, 255, 255);</string>
           </property>
           <property name="icon">
            <iconset>
-            <normaloff>../../../../../.designer/img/Refresh_icon.svg.png</normaloff>../../../../../.designer/img/Refresh_icon.svg.png</iconset>
+            <normaloff>../img/Refresh_icon.svg.png</normaloff>../img/Refresh_icon.svg.png</iconset>
           </property>
           <property name="flat">
            <bool>true</bool>
@@ -1790,7 +1790,7 @@ background-color: rgb(255, 255, 255);</string>
   <action name="actionExit">
    <property name="icon">
     <iconset>
-     <normaloff>../../../../../.designer/img/logout.png</normaloff>../../../../../.designer/img/logout.png</iconset>
+     <normaloff>../img/logout.png</normaloff>../img/logout.png</iconset>
    </property>
    <property name="text">
     <string>Exit</string>
@@ -1815,7 +1815,7 @@ background-color: rgb(255, 255, 255);</string>
   <action name="actionBackup">
    <property name="icon">
     <iconset>
-     <normaloff>../../../../../.designer/img/backup-file.png</normaloff>../../../../../.designer/img/backup-file.png</iconset>
+     <normaloff>../img/backup-file.png</normaloff>../img/backup-file.png</iconset>
    </property>
    <property name="text">
     <string>Backup</string>
@@ -1827,7 +1827,7 @@ background-color: rgb(255, 255, 255);</string>
   <action name="actionRestore_Backup">
    <property name="icon">
     <iconset>
-     <normaloff>../../../../../.designer/img/cloud.png</normaloff>../../../../../.designer/img/cloud.png</iconset>
+     <normaloff>../img/cloud.png</normaloff>../img/cloud.png</iconset>
    </property>
    <property name="text">
     <string>Restore Backup</string>

@@ -2,6 +2,7 @@ import re
 
 
 from PyQt6.QtWidgets import QMessageBox
+from reportlab.graphics.widgets.signsandsymbols import NoEntry
 
 import globals
 from events import *
@@ -12,8 +13,14 @@ class Customers:
 
     @staticmethod
     def checkDni(self=None):
+        """
+        Módulo para calcular la letra correcta del dni que se pasa por el formulario
+        Evita el problema de ejecutar varios finished
+        :param self: None
+        :type self: None
+        """
         try:
-            #Evita el problema de ejecutar varios finished
+
             globals.ui.txtDnicli.editingFinished.disconnect(Customers.checkDni)
             dni = globals.ui.txtDnicli.text()
             dni = str(dni).upper()
@@ -43,14 +50,24 @@ class Customers:
             globals.ui.txtDnicli.editingFinished.connect(Customers.checkDni)
 
     def capitalizar(texto,widget):
+        """
+        Modulo para capitalizar el texto de los input
+        :param widget: textp y el widget input
+        :type widget: basestring y widget input
+        """
         try:
             texto = texto.title()
             widget.setText(texto)
         except Exception as error:
             print("error capitalizing text", error)
 
-
+    @staticmethod
     def checkMail(email):
+        """
+        Modulo para checkear que el mail sea correcto
+        :param email: correo electronico
+        :type email: basestring
+        """
         try:
 
             patron = r'^[\w\.-]+@[\w\.-]+\.\w+$'
@@ -64,8 +81,14 @@ class Customers:
         except Exception as error:
             print("error validating email ", error)
 
-
+    @staticmethod
     def checkMobil(numero):
+        """
+
+        Modulo para determinar si el numero es correcto de acuerdo a la legislacion española 6 o 7
+        :param numero: número de movil cliente
+        :type numero: basestring
+        """
         patron = r'^[67]\d{8}$'
         if re.match(patron, numero):
             globals.ui.txtMobilecli.setStyleSheet('background-color: rgb(255, 255, 220);')
@@ -75,7 +98,13 @@ class Customers:
             globals.ui.txtMobilecli.setPlaceholderText('Invalid Mobile')
             globals.ui.txtMobilecli.setFocus()
 
-    def cleanCli(self):
+    @staticmethod
+    def cleanCli(self = None):
+        """
+        Modulo para vaciar el formulario del cliente
+        :param self: None
+        :type self: None
+        """
         try:
             formcli = [globals.ui.txtDnicli, globals.ui.txtAltacli, globals.ui.txtApelcli,
                        globals.ui.txtNomecli, globals.ui.txtEmailcli, globals.ui.txtMobilecli,
@@ -100,6 +129,11 @@ class Customers:
 
     @staticmethod
     def loadTablecli(varcli):
+        """
+        modulo para cargar los clientes activos
+        :param varcli: indica si quiero todos los usuarios o solo los activos
+        :type varcli: boolean
+        """
         try:
             listTabCustomers = Conexion.listTabCustomers(varcli)
             index = 0
@@ -127,6 +161,11 @@ class Customers:
             print("error in loadTablecli ", error)
     @staticmethod
     def Historicocli(self):
+        """
+        Modulo para cargar la tabla clientes si queremos  historico o no
+        :param self: None
+        :type self: None
+        """
         try:
             if globals.ui.chkHistoricocli.isChecked():
                 varcli = False
@@ -135,8 +174,13 @@ class Customers:
             Customers.loadTablecli(varcli)
         except Exception as error:
             print("error en historicocli ", error)
-
-    def selectCustomer(self):
+    @staticmethod
+    def selectCustomer(self = None):
+        """
+        Modulo para seleccionar un cliente de la tabla y cargarlo en el formulario
+        :param self: None
+        :type self: None
+        """
         try:
             row = globals.ui.tableCustomerlist.selectedItems()
             data = [dato.text() for dato in row]
@@ -156,8 +200,13 @@ class Customers:
         except Exception as error:
             print("error en selecting customer ", error)
 
-
-    def delCliente(self):
+    @staticmethod
+    def delCliente(self = None):
+        """
+        Modulo para elminar un cliente marcandolo a historico
+        :param self: None
+        :type self: None
+        """
         try:
             mbox = QtWidgets.QMessageBox()
             mbox.setWindowTitle("WARNING")
@@ -186,8 +235,13 @@ class Customers:
 
         except Exception as error:
             print("error en deleting customer ", error)
-
-    def saveCli(self):
+    @staticmethod
+    def saveCli(self = None):
+        """
+        Modulo para guardar un cliente como activo en la base de datos
+        :param self: None
+        :type self: None
+        """
         try:
 
             newcli = [globals.ui.txtDnicli.text(),globals.ui.txtAltacli.text(),globals.ui.txtApelcli.text(),globals.ui.txtNomecli.text(),globals.ui.txtEmailcli.text(),globals.ui.txtMobilecli.text(),globals.ui.txtDircli.text(),globals.ui.cmbProvcli.currentText(),globals.ui.cmbMunicli.currentText()]
@@ -220,8 +274,13 @@ class Customers:
         except Exception as error:
             print("Error  saving customer ", error)
 
-
-    def modifcli(self):
+    @staticmethod
+    def modifcli(self = None):
+        """
+         Modulo para guardar modificaciones de un cliente en la base de datos
+        :param self: None
+        :type self: None
+        """
         try:
             varcli = "True"
             if globals.estado == str("False"):
@@ -278,8 +337,13 @@ class Customers:
         except Exception as error:
             print("error en modifing customer ", error)
 
-
-    def searchCli(self):
+    @staticmethod
+    def searchCli(self = None):
+        """
+        Modulo para buscar un cliente en la base de datos y cargarlo en el formulario de acuerdo a su dni
+        :param self: None
+        :type self: None
+        """
         try:
             record = []
             dni = globals.ui.txtDnicli.text()

@@ -20,7 +20,7 @@ class Invoice:
             dni = globals.ui.txtDniFac.text().upper().strip()
 
             if globals.ui.txtDniFac.text() == "":
-                dni = "39512621R"
+                dni = "00000000T"
             globals.ui.txtDniFac.setText(dni)
             record = conexion.Conexion.dataOneCustomer(dni)
 
@@ -69,6 +69,11 @@ class Invoice:
 
     @staticmethod
     def saveInvoice(self = None):
+        """
+        Modulo para guardar al cliente en la tabla de facturas
+        :param self:None
+        :type self:None
+        """
         try:
             dni = globals.ui.txtDniFac.text()
 
@@ -125,7 +130,7 @@ class Invoice:
 
     def loadFactFirs(self = None):
         try:
-            globals.ui.txtDniFac.setText("39512621R")
+            globals.ui.txtDniFac.setText("00000000T")
             globals.ui.lblnumfac.setText("")
             globals.ui.lblFechafac.setText("")
             Invoice.searchCli(self = None)
@@ -195,6 +200,11 @@ class Invoice:
             # Columna 0 (código)
             globals.ui.tabsales.setItem(row, 0, QtWidgets.QTableWidgetItem(""))
             globals.ui.tabsales.item(row, 0).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+
+            #Columa 1
+
+            globals.ui.tabsales.setItem(row, 1, QtWidgets.QTableWidgetItem(""))
+
 
             # Columna 2 (price)
             globals.ui.tabsales.setItem(row, 2, QtWidgets.QTableWidgetItem(""))
@@ -267,11 +277,15 @@ class Invoice:
                         globals.ui.tabsales.item(row, 2).text().strip(),
                         globals.ui.tabsales.item(row, 3).text().strip(),
                         globals.ui.tabsales.item(row, 4).text().strip()]
+                cantidad = float(value)
+                precio_item = globals.ui.tabsales.item(row, 2)
+                precio = float(precio_item.text())
+                tot = round(precio * cantidad, 2)
                 next_row = globals.ui.tabsales.rowCount()
                 Invoice.activeSales(self, row=next_row)
                 globals.subtotal = round(globals.subtotal + tot,2)
                 totaliva = round(globals.subtotal * iva, 2)
-                total = round(globals.subtotal + iva, 2)
+                total = round(globals.subtotal + totaliva, 2)
                 globals.ui.lblSubtotal.setText(str(globals.subtotal))
                 globals.ui.lblIVA.setText(str(totaliva))
                 globals.ui.lblTotal.setText(str(total) +  " €")
