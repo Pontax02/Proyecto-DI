@@ -356,3 +356,22 @@ class Conexion:
             return records
         except Exception as error:
             print("error existFac in conexion", error)
+
+    def existFacSales(fac):
+        """
+        Devuelve true si existe fac sino devuelve falso
+        :return booleano
+        :rtype: bool
+        """
+        try:
+            query = QtSql.QSqlQuery()
+            query.prepare("SELECT * FROM sales WHERE idfac = :fac")
+            query.bindValue(":fac", int(fac))
+            if query.exec():
+                if query.next():
+                    return True
+                else:
+                    return False
+
+        except Exception as e:
+            print("error existFacSales in conexion", e)

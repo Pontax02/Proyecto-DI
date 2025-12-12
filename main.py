@@ -95,7 +95,7 @@ class Main(QtWidgets.QMainWindow):
         self.cleanFac.activated.connect(invoice.Invoice.cleanFac)
 
 
-                #Functions Combobo
+        #Functions Combobox
         Events.loadProv(self)
         globals.ui.cmbProvcli.currentIndexChanged.connect(events.Events.loadMunicli)
 

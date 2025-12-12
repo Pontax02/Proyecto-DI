@@ -1,7 +1,7 @@
 import datetime
 from mailbox import mbox
 from traceback import print_tb
-
+import reports
 from PyQt6 import QtWidgets, QtCore
 from time import sleep
 import conexion
@@ -294,7 +294,7 @@ class Invoice:
 
 
                 globals.linesales.append(line)
-                print(globals.linesales)
+
 
 
 
@@ -302,20 +302,27 @@ class Invoice:
             print("Error en cellChangedSales:", error)
             globals.ui.tabsales.blockSignals(False)
 
-
-    def saveSales(self):
+    @staticmethod
+    def saveSales(self = None):
         try:
-            for i, data in enumerate(globals.linesales):
-                correct = conexion.Conexion.saveSales(data)
-                if i == len(globals.linesales) - 1 and correct:
-                    mbox = QtWidgets.QMessageBox()
-                    mbox.setIcon(QtWidgets.QMessageBox.Icon.Information)
-                    mbox.setWindowTitle("Info")
-                    mbox.setText("Sales saved printing invoice")
-                    mbox.setStandardButtons(QtWidgets.QMessageBox.StandardButton.Ok)
-                    if mbox.exec() == QtWidgets.QMessageBox.StandardButton.Ok:
-                        print("dsfsdf")
-                        globals.linesales.clear()
+
+            fac = globals.ui.lblnumfac.text()
+            if conexion.Conexion.existFacSales(fac):
+                reports.Reports.ticket(self)
+
+            else:
+
+                for i, data in enumerate(globals.linesales):
+                    correct = conexion.Conexion.saveSales(data)
+                    if i == len(globals.linesales) - 1 and correct:
+                        mbox = QtWidgets.QMessageBox()
+                        mbox.setIcon(QtWidgets.QMessageBox.Icon.Information)
+                        mbox.setWindowTitle("Info")
+                        mbox.setText("Sales saved printing invoice")
+                        mbox.setStandardButtons(QtWidgets.QMessageBox.StandardButton.Ok)
+                        if mbox.exec() == QtWidgets.QMessageBox.StandardButton.Ok:
+                            #aqui llamo al modulo reports y funcion ticket
+                            globals.linesales.clear()
         except Exception as error:
             print("Error en cellChangedSales:", error)
 

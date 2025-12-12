@@ -5,3 +5,4 @@ estado = None
 dlgopen = None
 subtotal = 0.00
 linesales = []
+report = None
