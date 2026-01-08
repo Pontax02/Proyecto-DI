@@ -8,6 +8,8 @@ import conexion
 import globals
 import globals
 from conexion import Conexion
+from globals import subtotal
+
 
 class Reports:
     def __init__(self):
@@ -148,7 +150,7 @@ class Reports:
                 y = y - 25
 
 
-            globals.report.save()
+
             for file in os.listdir(self.rootPath):
                 if file.endswith(self.namereportcli):
                     os.startfile(self.pdf_path)
@@ -157,31 +159,75 @@ class Reports:
         except Exception as e:
             print(e)
 
-    def ticket(self):
+    @staticmethod
+    def ticket(self=None):
         try:
+            subtotal = 0.00
+            iva = 0.00
+            total = 0.00
+            rootPath = ".\\reports"
+            if not os.path.exists(rootPath):
+                os.makedirs(rootPath)
+            data = datetime.datetime.today().strftime("%Y_%m_%d_%H_%M_%S")
+            ticket_name = data + "_ticket.pdf"
+            pdf_path = os.path.abspath(os.path.join(rootPath, ticket_name))
+
+            globals.report = canvas.Canvas(pdf_path)
             dni = globals.ui.txtDniFac.text()
+            titulo = "FACTURA SIMPLIFICADA" if dni == "00000000T" else "FACTURA"
 
-            if dni == "00000000T":
-                titulo = "FACTURA SIMPLIFICADA"
-            else:
-                titulo = "FACTURA"
-
-            records = conexion.Conexion.dataOneCustomer(dni)
+            records = Conexion.dataOneCustomer(dni)
+            if records[0] != "00000000T":
+                globals.report.setFont("Helvetica-Bold", 10)
+                globals.report.drawString(280, 780, "Customer")
+                globals.report.setFont("Helvetica", 9)
+                globals.report.drawString(280, 765, "DNI: " + str(records[0]))
+                globals.report.drawString(280, 750, "SURNAME: " + str(records[2]))
+                globals.report.drawString(280, 735, "NAME: " + str(records[3]))
+                globals.report.drawString(280, 720, "ADDRESS:  " + str(records[6]))
+                globals.report.drawString(280, 705, "CITY: " + str(records[8]) + "  PROVINCE: " + str(records[7]))
+            numfac = globals.ui.lblnumfac.text()
             globals.report.setFont("Helvetica-Bold", 10)
-            globals.report.drawString(220, 700, "DNI: " + str(records[0]))
-            globals.report.drawString(220, 685, "Apellidos: " + str(records[1]))
-            globals.report.drawString(220, 670, "NOMBRE: " + str(records[3]))
-            globals.report.drawString(220, 655, "DIRECCION: " + str(records[6]))
-            globals.report.drawString(220, 640, "LOCALIDAD" + str(records[8]) + "PROVINCIA: " + str(records[7]))
-
-
-
-            self.footer(titulo)
-            self.topreport(titulo)
+            globals.report.drawRightString(500, 675, "Nº  " + str(numfac))
+            datafac = Conexion.datosFac(numfac)
+            items = ["Cod", "Product", "Unit Price", "Amount", "Total"]
+            globals.report.setFont("Helvetica-Bold", 10)
+            globals.report.drawString(60, 650, str(items[0]))
+            globals.report.drawString(145, 650, str(items[1]))
+            globals.report.drawString(310, 650, str(items[2]))
+            globals.report.drawString(390, 650, str(items[3]))
+            globals.report.drawString(480, 650, str(items[4]))
+            globals.report.line(35, 640, 525, 640)
+            x = 55
+            y = 630
+            for record in datafac:
+                globals.report.setFont("Helvetica", 8)
+                globals.report.drawCentredString(x + 15, y, str(record[2]))
+                globals.report.drawString(x + 90, y, str(record[3]))
+                globals.report.drawCentredString(x + 280, y, str(record[4]))
+                globals.report.drawCentredString(x + 355, y, str(record[5]))
+                globals.report.drawRightString(x + 450, y, str(record[6]) + ' €')
+                y = y - 15
+                subtotal = round(float(record[6]) + subtotal, 2)
+            globals.report.line(x + 200, y, x + 470, y)
+            iva = round(subtotal * 0.21, 2)
+            total = round(subtotal + iva, 2)
+            y = y - 20
+            globals.report.setFont("Helvetica-Bold", 8)
+            globals.report.drawRightString(x + 450, y, "Subtotal: " + str(subtotal) + " €")
+            globals.report.drawRightString(x + 450, y - 15, "IVA: " + str(iva) + " €")
+            globals.report.drawRightString(x + 450, y - 35, "Total Payment: " + str(total) + " €")
+            Reports.topReport(titulo)
+            Reports.footer(titulo)
             globals.report.save()
-            for file in os.listdir(self.rootPath):
-                if file.endswith(self.ticket_path):
-                    os.startfile(self.pdf_path)
 
-        except Exception as e:
-            print("error in ticket", e)
+            # otra forma de abrir sin necesidade comprobar
+            try:
+                os.startfile(pdf_path)
+            except Exception as e:
+                print("No se pudo abrir el PDF:", e)
+
+        except Exception as error:
+            print("error ticket", error)
+
+
