@@ -1,6 +1,9 @@
 import datetime
 from mailbox import mbox
 from traceback import print_tb
+
+from PyQt6.QtGui import QIcon
+
 import reports
 from PyQt6 import QtWidgets, QtCore
 from time import sleep
@@ -102,26 +105,43 @@ class Invoice:
         except:
             print("error in saving invoice")
 
-
-    def loadTablefac(self = None):
+    @staticmethod
+    def loadTablefac(self=None):
         try:
             records = conexion.Conexion.allInvoices(self = None)
-
             index = 0
+
+            # es para que el ancho de la celda se ajuste al botón
+            header = globals.ui.tablefacv.horizontalHeader()
+            header.setSectionResizeMode(3, QtWidgets.QHeaderView.ResizeMode.Fixed)
+            globals.ui.tablefacv.setColumnWidth(3, 36)
+
             for record in records:
+                globals.ui.tablefacv.setColumnWidth(3, 34)
                 globals.ui.tablefacv.setRowCount(index + 1)
                 globals.ui.tablefacv.setItem(index, 0, QtWidgets.QTableWidgetItem(record[0]))
                 globals.ui.tablefacv.setItem(index, 1, QtWidgets.QTableWidgetItem(record[1]))
                 globals.ui.tablefacv.setItem(index, 2, QtWidgets.QTableWidgetItem(record[2]))
+                # aquí se crea un botón en cada fila
+                btn_del = QtWidgets.QPushButton()
+                btn_del.setIcon(QIcon("./img/basura.png"))
+                btn_del.setIconSize(QtCore.QSize(30, 30))
+                btn_del.setFixedSize(32, 32)
+                btn_del.setStyleSheet("border: none; background-color: transparent")
+                globals.ui.tablefacv.setCellWidget(index, 3, btn_del)
                 globals.ui.tablefacv.item(index, 0).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
                 globals.ui.tablefacv.item(index, 1).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
                 globals.ui.tablefacv.item(index, 2).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+
                 index = index + 1
-            # el ultimo record debe cargar en los label
+            ## el último record debe cargarse sus datos en los label
             datos = records[0]
             globals.ui.lblnumfac.setText(str(datos[0]))
             globals.ui.txtDniFac.setText(str(datos[1]))
             globals.ui.lblFechafac.setText(str(datos[2]))
+        except Exception as error:
+            print("error load tablafac", error)
+
 
 
 

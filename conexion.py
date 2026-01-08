@@ -7,6 +7,11 @@ from PyQt6 import QtSql, QtWidgets, QtCore, QtGui
 
 class Conexion:
     def db_conexion(self = None):
+        """
+        Modulo para comprobar la conexión principal a la base de datos.
+        :return: Boolean
+        :rtype: Boolean
+        """
         ruta_db = './data/bbdd.sqlite'
 
         if not os.path.isfile(ruta_db):
@@ -34,7 +39,11 @@ class Conexion:
             return False
 
     def listProv(self=None):
-
+        """
+        Modulo para obtener de la base de datos las provincias de España
+        :return: devuelve una lista con las provincias
+        :rtype: List
+        """
         listProv = []
         query = QtSql.QSqlQuery()
         query.prepare("SELECT * FROM provincias;")
@@ -44,6 +53,11 @@ class Conexion:
         return listProv
 
     def listMuniProv(province):
+        """
+        Modulo para listar los municipios 
+        :return: Devuelve la lista de municipios correspondiente a la provincia proporcionada
+        :rtype: List
+        """
         try:
             listmunicipios = []
             query = QtSql.QSqlQuery()
@@ -59,6 +73,13 @@ class Conexion:
 
     @staticmethod
     def listTabCustomers(var):
+        """
+         Modulo para obtener de la base de datos los clientes
+        :param var: Estado historico del cliente
+        :type var: Boolean
+        :return: Devuelve los clientes de la base datos
+        :rtype: List
+        """
         list = []
         if var:
             query = QtSql.QSqlQuery()
@@ -78,6 +99,11 @@ class Conexion:
         return list
 
     def listTabProducts(self):
+        """
+        Modulo para obtener todos los productos de la base de datos
+        :return: Devuelve la lista de productos
+        :rtype: List
+        """
         list = []
 
         query = QtSql.QSqlQuery()
@@ -92,6 +118,13 @@ class Conexion:
         return list
     @staticmethod
     def dataOneCustomer(dato):
+        """
+        Modulo para obtener todos los datos de un cliente seleccionado
+        :param dato: Dni o mobile
+        :type dato: String
+        :return: Devuelve los datos del cliente proporcionado
+        :rtype: List
+        """
         try:
             list = []
             dato = str(dato).strip()
@@ -120,6 +153,13 @@ class Conexion:
 
     @staticmethod
     def dataOneProduct(dato):
+        """
+
+        :param dato: Id del producto
+        :type dato: int
+        :return: Devuelve los datos del producto
+        :rtype: list
+        """
         try:
             listpro = []
             dato = str(dato).strip()
@@ -140,6 +180,10 @@ class Conexion:
 
     @staticmethod
     def deleteCli(dni):
+        """
+
+        :rtype: None
+        """
         try:
             query = QtSql.QSqlQuery()
             query.prepare("UPDATE customers set historical = :value WHERE dni_nie = :dni")
