@@ -1,0 +1,286 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="es" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>conexion module &mdash; documentación de Proyecto DAM - V0.0.1</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=10b23a5c"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../_static/translations.js?v=f85f4cfb"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Índice" href="../genindex.html" />
+    <link rel="search" title="Búsqueda" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Proyecto DAM
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Buscar documentos" aria-label="Buscar documentos" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">conexion module</a><ul>
+<li><a class="reference internal" href="#conexion.Conexion"><code class="docutils literal notranslate"><span class="pre">Conexion</span></code></a><ul>
+<li><a class="reference internal" href="#conexion.Conexion.addCli"><code class="docutils literal notranslate"><span class="pre">Conexion.addCli()</span></code></a></li>
+<li><a class="reference internal" href="#conexion.Conexion.addPro"><code class="docutils literal notranslate"><span class="pre">Conexion.addPro()</span></code></a></li>
+<li><a class="reference internal" href="#conexion.Conexion.allInvoices"><code class="docutils literal notranslate"><span class="pre">Conexion.allInvoices()</span></code></a></li>
+<li><a class="reference internal" href="#conexion.Conexion.dataOneCustomer"><code class="docutils literal notranslate"><span class="pre">Conexion.dataOneCustomer()</span></code></a></li>
+<li><a class="reference internal" href="#conexion.Conexion.dataOneProduct"><code class="docutils literal notranslate"><span class="pre">Conexion.dataOneProduct()</span></code></a></li>
+<li><a class="reference internal" href="#conexion.Conexion.db_conexion"><code class="docutils literal notranslate"><span class="pre">Conexion.db_conexion()</span></code></a></li>
+<li><a class="reference internal" href="#conexion.Conexion.deleteCli"><code class="docutils literal notranslate"><span class="pre">Conexion.deleteCli()</span></code></a></li>
+<li><a class="reference internal" href="#conexion.Conexion.deletePro"><code class="docutils literal notranslate"><span class="pre">Conexion.deletePro()</span></code></a></li>
+<li><a class="reference internal" href="#conexion.Conexion.existFac"><code class="docutils literal notranslate"><span class="pre">Conexion.existFac()</span></code></a></li>
+<li><a class="reference internal" href="#conexion.Conexion.existFacSales"><code class="docutils literal notranslate"><span class="pre">Conexion.existFacSales()</span></code></a></li>
+<li><a class="reference internal" href="#conexion.Conexion.insertInvoice"><code class="docutils literal notranslate"><span class="pre">Conexion.insertInvoice()</span></code></a></li>
+<li><a class="reference internal" href="#conexion.Conexion.listMuniProv"><code class="docutils literal notranslate"><span class="pre">Conexion.listMuniProv()</span></code></a></li>
+<li><a class="reference internal" href="#conexion.Conexion.listProv"><code class="docutils literal notranslate"><span class="pre">Conexion.listProv()</span></code></a></li>
+<li><a class="reference internal" href="#conexion.Conexion.listTabCustomers"><code class="docutils literal notranslate"><span class="pre">Conexion.listTabCustomers()</span></code></a></li>
+<li><a class="reference internal" href="#conexion.Conexion.listTabProducts"><code class="docutils literal notranslate"><span class="pre">Conexion.listTabProducts()</span></code></a></li>
+<li><a class="reference internal" href="#conexion.Conexion.modifyCli"><code class="docutils literal notranslate"><span class="pre">Conexion.modifyCli()</span></code></a></li>
+<li><a class="reference internal" href="#conexion.Conexion.modifyPro"><code class="docutils literal notranslate"><span class="pre">Conexion.modifyPro()</span></code></a></li>
+<li><a class="reference internal" href="#conexion.Conexion.saveSales"><code class="docutils literal notranslate"><span class="pre">Conexion.saveSales()</span></code></a></li>
+<li><a class="reference internal" href="#conexion.Conexion.searchCli"><code class="docutils literal notranslate"><span class="pre">Conexion.searchCli()</span></code></a></li>
+<li><a class="reference internal" href="#conexion.Conexion.selectProduct"><code class="docutils literal notranslate"><span class="pre">Conexion.selectProduct()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Proyecto DAM</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">conexion module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/src/conexion.rst.txt" rel="nofollow"> Ver código fuente de la página</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-conexion">
+<span id="conexion-module"></span><h1>conexion module<a class="headerlink" href="#module-conexion" title="Link to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="conexion.Conexion">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">conexion.</span></span><span class="sig-name descname"><span class="pre">Conexion</span></span><a class="reference internal" href="../_modules/conexion.html#Conexion"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#conexion.Conexion" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="conexion.Conexion.addCli">
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">addCli</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">newcli</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/conexion.html#Conexion.addCli"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#conexion.Conexion.addCli" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="conexion.Conexion.addPro">
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">addPro</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">newpro</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/conexion.html#Conexion.addPro"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#conexion.Conexion.addPro" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="conexion.Conexion.allInvoices">
+<span class="sig-name descname"><span class="pre">allInvoices</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/conexion.html#Conexion.allInvoices"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#conexion.Conexion.allInvoices" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="conexion.Conexion.dataOneCustomer">
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">dataOneCustomer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dato</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/conexion.html#Conexion.dataOneCustomer"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#conexion.Conexion.dataOneCustomer" title="Link to this definition"></a></dt>
+<dd><p>Modulo para obtener todos los datos de un cliente seleccionado
+:param dato: Dni o mobile
+:type dato: String
+:return: Devuelve los datos del cliente proporcionado
+:rtype: List</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="conexion.Conexion.dataOneProduct">
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">dataOneProduct</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dato</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/conexion.html#Conexion.dataOneProduct"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#conexion.Conexion.dataOneProduct" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parámetros<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>dato</strong> (<em>int</em>) – Id del producto</p>
+</dd>
+<dt class="field-even">Devuelve<span class="colon">:</span></dt>
+<dd class="field-even"><p>Devuelve los datos del producto</p>
+</dd>
+<dt class="field-odd">Tipo del valor devuelto<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="conexion.Conexion.db_conexion">
+<span class="sig-name descname"><span class="pre">db_conexion</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/conexion.html#Conexion.db_conexion"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#conexion.Conexion.db_conexion" title="Link to this definition"></a></dt>
+<dd><p>Modulo para comprobar la conexión principal a la base de datos.
+:return: Boolean
+:rtype: Boolean</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="conexion.Conexion.deleteCli">
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">deleteCli</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dni</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/conexion.html#Conexion.deleteCli"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#conexion.Conexion.deleteCli" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Tipo del valor devuelto<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="conexion.Conexion.deletePro">
+<span class="sig-name descname"><span class="pre">deletePro</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/conexion.html#Conexion.deletePro"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#conexion.Conexion.deletePro" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="conexion.Conexion.existFac">
+<span class="sig-name descname"><span class="pre">existFac</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/conexion.html#Conexion.existFac"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#conexion.Conexion.existFac" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="conexion.Conexion.existFacSales">
+<span class="sig-name descname"><span class="pre">existFacSales</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/conexion.html#Conexion.existFacSales"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#conexion.Conexion.existFacSales" title="Link to this definition"></a></dt>
+<dd><p>Devuelve true si existe fac sino devuelve falso
+:return booleano
+:rtype: bool</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="conexion.Conexion.insertInvoice">
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">insertInvoice</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dni</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/conexion.html#Conexion.insertInvoice"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#conexion.Conexion.insertInvoice" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="conexion.Conexion.listMuniProv">
+<span class="sig-name descname"><span class="pre">listMuniProv</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/conexion.html#Conexion.listMuniProv"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#conexion.Conexion.listMuniProv" title="Link to this definition"></a></dt>
+<dd><p>Modulo para listar los municipios 
+:return: Devuelve la lista de municipios correspondiente a la provincia proporcionada
+:rtype: List</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="conexion.Conexion.listProv">
+<span class="sig-name descname"><span class="pre">listProv</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/conexion.html#Conexion.listProv"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#conexion.Conexion.listProv" title="Link to this definition"></a></dt>
+<dd><p>Modulo para obtener de la base de datos las provincias de España
+:return: devuelve una lista con las provincias
+:rtype: List</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="conexion.Conexion.listTabCustomers">
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">listTabCustomers</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">var</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/conexion.html#Conexion.listTabCustomers"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#conexion.Conexion.listTabCustomers" title="Link to this definition"></a></dt>
+<dd><blockquote>
+<div><p>Modulo para obtener de la base de datos los clientes</p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parámetros<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>var</strong> (<em>Boolean</em>) – Estado historico del cliente</p>
+</dd>
+<dt class="field-even">Devuelve<span class="colon">:</span></dt>
+<dd class="field-even"><p>Devuelve los clientes de la base datos</p>
+</dd>
+<dt class="field-odd">Tipo del valor devuelto<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="conexion.Conexion.listTabProducts">
+<span class="sig-name descname"><span class="pre">listTabProducts</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/conexion.html#Conexion.listTabProducts"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#conexion.Conexion.listTabProducts" title="Link to this definition"></a></dt>
+<dd><p>Modulo para obtener todos los productos de la base de datos
+:return: Devuelve la lista de productos
+:rtype: List</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="conexion.Conexion.modifyCli">
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">modifyCli</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dni</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">modifcli</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/conexion.html#Conexion.modifyCli"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#conexion.Conexion.modifyCli" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="conexion.Conexion.modifyPro">
+<span class="sig-name descname"><span class="pre">modifyPro</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">modpro</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/conexion.html#Conexion.modifyPro"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#conexion.Conexion.modifyPro" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="conexion.Conexion.saveSales">
+<span class="sig-name descname"><span class="pre">saveSales</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/conexion.html#Conexion.saveSales"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#conexion.Conexion.saveSales" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="conexion.Conexion.searchCli">
+<span class="sig-name descname"><span class="pre">searchCli</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/conexion.html#Conexion.searchCli"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#conexion.Conexion.searchCli" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="conexion.Conexion.selectProduct">
+<span class="sig-name descname"><span class="pre">selectProduct</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/conexion.html#Conexion.selectProduct"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#conexion.Conexion.selectProduct" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Derechos de autor 2025, Pablo Pontanilla Moreira.</p>
+  </div>
+
+  Compilado con <a href="https://www.sphinx-doc.org/">Sphinx</a> usando un
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">tema</a>
+    proporcionado por <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

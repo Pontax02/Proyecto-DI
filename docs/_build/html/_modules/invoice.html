@@ -1,0 +1,483 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="es" data-content_root="../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>invoice &mdash; documentación de Proyecto DAM - V0.0.1</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=10b23a5c"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../_static/translations.js?v=f85f4cfb"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Índice" href="../genindex.html" />
+    <link rel="search" title="Búsqueda" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Proyecto DAM
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Buscar documentos" aria-label="Buscar documentos" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"></div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Proyecto DAM</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Código de módulo</a></li>
+      <li class="breadcrumb-item active">invoice</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Código fuente para invoice</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">datetime</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">mailbox</span><span class="w"> </span><span class="kn">import</span> <span class="n">mbox</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">traceback</span><span class="w"> </span><span class="kn">import</span> <span class="n">print_tb</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">reports</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">PyQt6</span><span class="w"> </span><span class="kn">import</span> <span class="n">QtWidgets</span><span class="p">,</span> <span class="n">QtCore</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">time</span><span class="w"> </span><span class="kn">import</span> <span class="n">sleep</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">conexion</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">globals</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">products</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">conexion</span><span class="w"> </span><span class="kn">import</span> <span class="n">Conexion</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">globals</span><span class="w"> </span><span class="kn">import</span> <span class="n">linesales</span><span class="p">,</span> <span class="n">subtotal</span>
+
+
+<div class="viewcode-block" id="Invoice">
+<a class="viewcode-back" href="../src/invoice.html#invoice.Invoice">[documentos]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Invoice</span><span class="p">:</span>
+
+<div class="viewcode-block" id="Invoice.searchCli">
+<a class="viewcode-back" href="../src/invoice.html#invoice.Invoice.searchCli">[documentos]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">searchCli</span><span class="p">(</span><span class="bp">self</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+
+            <span class="n">dni</span> <span class="o">=</span> <span class="nb">globals</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">txtDniFac</span><span class="o">.</span><span class="n">text</span><span class="p">()</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+
+            <span class="k">if</span> <span class="nb">globals</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">txtDniFac</span><span class="o">.</span><span class="n">text</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+                <span class="n">dni</span> <span class="o">=</span> <span class="s2">&quot;00000000T&quot;</span>
+            <span class="nb">globals</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">txtDniFac</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="n">dni</span><span class="p">)</span>
+            <span class="n">record</span> <span class="o">=</span> <span class="n">conexion</span><span class="o">.</span><span class="n">Conexion</span><span class="o">.</span><span class="n">dataOneCustomer</span><span class="p">(</span><span class="n">dni</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">record</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="nb">globals</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">lblNamefac</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="n">record</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span> <span class="o">+</span> <span class="n">record</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
+                <span class="nb">globals</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">lblTipofac</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="n">record</span><span class="p">[</span><span class="mi">9</span><span class="p">])</span>
+                <span class="nb">globals</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">lblnumfac_3</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="n">record</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;   &quot;</span> <span class="o">+</span> <span class="n">record</span><span class="p">[</span><span class="mi">8</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;   &quot;</span> <span class="o">+</span> <span class="n">record</span><span class="p">[</span><span class="mi">7</span><span class="p">])</span>
+                <span class="nb">globals</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">lblnumfac_4</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="n">record</span><span class="p">[</span><span class="mi">5</span><span class="p">])</span>
+                <span class="k">if</span> <span class="n">record</span><span class="p">[</span><span class="mi">10</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;True&quot;</span><span class="p">:</span>
+                    <span class="nb">globals</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">lblStatusfac</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="s2">&quot;Active&quot;</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="nb">globals</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">lblStatusfac</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="s2">&quot;Inactive&quot;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="nb">globals</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">txtDniFac</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+                <span class="n">mbox</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QMessageBox</span><span class="p">()</span>
+                <span class="n">mbox</span><span class="o">.</span><span class="n">setIcon</span><span class="p">(</span><span class="n">QtWidgets</span><span class="o">.</span><span class="n">QMessageBox</span><span class="o">.</span><span class="n">Icon</span><span class="o">.</span><span class="n">Warning</span><span class="p">)</span>
+                <span class="n">mbox</span><span class="o">.</span><span class="n">setWindowTitle</span><span class="p">(</span><span class="s2">&quot;Invoice&quot;</span><span class="p">)</span>
+                <span class="n">mbox</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="s2">&quot;Client does not exist&quot;</span><span class="p">)</span>
+                <span class="n">mbox</span><span class="o">.</span><span class="n">setStandardButtons</span><span class="p">(</span><span class="n">QtWidgets</span><span class="o">.</span><span class="n">QMessageBox</span><span class="o">.</span><span class="n">StandardButton</span><span class="o">.</span><span class="n">Ok</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">mbox</span><span class="o">.</span><span class="n">exec</span><span class="p">()</span> <span class="o">==</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QMessageBox</span><span class="o">.</span><span class="n">StandardButton</span><span class="o">.</span><span class="n">Ok</span><span class="p">:</span>
+                    <span class="n">mbox</span><span class="o">.</span><span class="n">hide</span><span class="p">()</span>
+
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;client does not exists&quot;</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;error in altafac&quot;</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="Invoice.cleanFac">
+<a class="viewcode-back" href="../src/invoice.html#invoice.Invoice.cleanFac">[documentos]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">cleanFac</span><span class="p">(</span><span class="bp">self</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="nb">globals</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">txtDniFac</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+            <span class="nb">globals</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">lblnumfac</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+            <span class="nb">globals</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">lblFechafac</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+            <span class="nb">globals</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">lblTipofac</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+            <span class="nb">globals</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">lblnumfac_3</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+            <span class="nb">globals</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">lblnumfac_4</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+            <span class="nb">globals</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">lblStatusfac</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+            <span class="nb">globals</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">lblNamefac</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+            <span class="nb">globals</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">lblTipofac</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+            <span class="nb">globals</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">lblnumfac_3</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+            <span class="nb">globals</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">lblnumfac_4</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;error in cleanfac&quot;</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Invoice.saveInvoice">
+<a class="viewcode-back" href="../src/invoice.html#invoice.Invoice.saveInvoice">[documentos]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">saveInvoice</span><span class="p">(</span><span class="bp">self</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Modulo para guardar al cliente en la tabla de facturas</span>
+<span class="sd">        :param self:None</span>
+<span class="sd">        :type self:None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">dni</span> <span class="o">=</span> <span class="nb">globals</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">txtDniFac</span><span class="o">.</span><span class="n">text</span><span class="p">()</span>
+
+            <span class="n">data</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%d</span><span class="s2">/%m/%Y&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">dni</span> <span class="o">!=</span> <span class="s2">&quot;&quot;</span> <span class="ow">and</span> <span class="n">data</span> <span class="o">!=</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">conexion</span><span class="o">.</span><span class="n">Conexion</span><span class="o">.</span><span class="n">insertInvoice</span><span class="p">(</span><span class="n">dni</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+                    <span class="n">Invoice</span><span class="o">.</span><span class="n">loadTablefac</span><span class="p">()</span>
+                    <span class="n">mbox</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QMessageBox</span><span class="p">()</span>
+                    <span class="n">mbox</span><span class="o">.</span><span class="n">setIcon</span><span class="p">(</span><span class="n">QtWidgets</span><span class="o">.</span><span class="n">QMessageBox</span><span class="o">.</span><span class="n">Icon</span><span class="o">.</span><span class="n">Information</span><span class="p">)</span>
+                    <span class="n">mbox</span><span class="o">.</span><span class="n">setWindowTitle</span><span class="p">(</span><span class="s2">&quot;Invoice&quot;</span><span class="p">)</span>
+                    <span class="n">mbox</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="s2">&quot;Invoice saved&quot;</span><span class="p">)</span>
+                    <span class="n">mbox</span><span class="o">.</span><span class="n">exec</span><span class="p">()</span>
+                    <span class="n">sleep</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+                    <span class="n">mbox</span><span class="o">.</span><span class="n">hide</span><span class="p">()</span>
+
+
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">mbox</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QMessageBox</span><span class="p">()</span>
+                <span class="n">mbox</span><span class="o">.</span><span class="n">setIcon</span><span class="p">(</span><span class="n">QtWidgets</span><span class="o">.</span><span class="n">QMessageBox</span><span class="o">.</span><span class="n">Icon</span><span class="o">.</span><span class="n">Warning</span><span class="p">)</span>
+                <span class="n">mbox</span><span class="o">.</span><span class="n">setWindowTitle</span><span class="p">(</span><span class="s2">&quot;Invoice&quot;</span><span class="p">)</span>
+                <span class="n">mbox</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="s2">&quot;Missing data&quot;</span><span class="p">)</span>
+                <span class="n">mbox</span><span class="o">.</span><span class="n">setStandardButtons</span><span class="p">(</span><span class="n">QtWidgets</span><span class="o">.</span><span class="n">QMessageBox</span><span class="o">.</span><span class="n">StandardButton</span><span class="o">.</span><span class="n">Ok</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">mbox</span><span class="o">.</span><span class="n">exec</span><span class="p">()</span> <span class="o">==</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QMessageBox</span><span class="o">.</span><span class="n">StandardButton</span><span class="o">.</span><span class="n">Ok</span><span class="p">:</span>
+                    <span class="n">mbox</span><span class="o">.</span><span class="n">hide</span><span class="p">()</span>
+
+        <span class="k">except</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;error in saving invoice&quot;</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="Invoice.loadTablefac">
+<a class="viewcode-back" href="../src/invoice.html#invoice.Invoice.loadTablefac">[documentos]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">loadTablefac</span><span class="p">(</span><span class="bp">self</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">records</span> <span class="o">=</span> <span class="n">conexion</span><span class="o">.</span><span class="n">Conexion</span><span class="o">.</span><span class="n">allInvoices</span><span class="p">(</span><span class="bp">self</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span>
+
+            <span class="n">index</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">for</span> <span class="n">record</span> <span class="ow">in</span> <span class="n">records</span><span class="p">:</span>
+                <span class="nb">globals</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">tablefacv</span><span class="o">.</span><span class="n">setRowCount</span><span class="p">(</span><span class="n">index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+                <span class="nb">globals</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">tablefacv</span><span class="o">.</span><span class="n">setItem</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QTableWidgetItem</span><span class="p">(</span><span class="n">record</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+                <span class="nb">globals</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">tablefacv</span><span class="o">.</span><span class="n">setItem</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QTableWidgetItem</span><span class="p">(</span><span class="n">record</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+                <span class="nb">globals</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">tablefacv</span><span class="o">.</span><span class="n">setItem</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QTableWidgetItem</span><span class="p">(</span><span class="n">record</span><span class="p">[</span><span class="mi">2</span><span class="p">]))</span>
+                <span class="nb">globals</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">tablefacv</span><span class="o">.</span><span class="n">item</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">setTextAlignment</span><span class="p">(</span><span class="n">QtCore</span><span class="o">.</span><span class="n">Qt</span><span class="o">.</span><span class="n">AlignmentFlag</span><span class="o">.</span><span class="n">AlignCenter</span><span class="p">)</span>
+                <span class="nb">globals</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">tablefacv</span><span class="o">.</span><span class="n">item</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">setTextAlignment</span><span class="p">(</span><span class="n">QtCore</span><span class="o">.</span><span class="n">Qt</span><span class="o">.</span><span class="n">AlignmentFlag</span><span class="o">.</span><span class="n">AlignCenter</span><span class="p">)</span>
+                <span class="nb">globals</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">tablefacv</span><span class="o">.</span><span class="n">item</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">setTextAlignment</span><span class="p">(</span><span class="n">QtCore</span><span class="o">.</span><span class="n">Qt</span><span class="o">.</span><span class="n">AlignmentFlag</span><span class="o">.</span><span class="n">AlignCenter</span><span class="p">)</span>
+                <span class="n">index</span> <span class="o">=</span> <span class="n">index</span> <span class="o">+</span> <span class="mi">1</span>
+            <span class="c1"># el ultimo record debe cargar en los label</span>
+            <span class="n">datos</span> <span class="o">=</span> <span class="n">records</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="nb">globals</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">lblnumfac</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">datos</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+            <span class="nb">globals</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">txtDniFac</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">datos</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+            <span class="nb">globals</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">lblFechafac</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">datos</span><span class="p">[</span><span class="mi">2</span><span class="p">]))</span>
+
+
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;error in loadTablefac&quot;</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Invoice.loadFactFirs">
+<a class="viewcode-back" href="../src/invoice.html#invoice.Invoice.loadFactFirs">[documentos]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">loadFactFirs</span><span class="p">(</span><span class="bp">self</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="nb">globals</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">txtDniFac</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="s2">&quot;00000000T&quot;</span><span class="p">)</span>
+            <span class="nb">globals</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">lblnumfac</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+            <span class="nb">globals</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">lblFechafac</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+            <span class="n">Invoice</span><span class="o">.</span><span class="n">searchCli</span><span class="p">(</span><span class="bp">self</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;error in loadFacFirs&quot;</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="Invoice.selectinvoice">
+<a class="viewcode-back" href="../src/invoice.html#invoice.Invoice.selectinvoice">[documentos]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">selectinvoice</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">row</span> <span class="o">=</span> <span class="nb">globals</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">tablefacv</span><span class="o">.</span><span class="n">selectedItems</span><span class="p">()</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="n">dato</span><span class="o">.</span><span class="n">text</span><span class="p">()</span> <span class="k">for</span> <span class="n">dato</span> <span class="ow">in</span> <span class="n">row</span><span class="p">]</span>
+            <span class="nb">globals</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">lblnumfac</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+            <span class="nb">globals</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">txtDniFac</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+            <span class="nb">globals</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">lblFechafac</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">2</span><span class="p">]))</span>
+            <span class="n">Invoice</span><span class="o">.</span><span class="n">searchCli</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+            <span class="c1">#Invoice.activeSales(self)</span>
+            <span class="c1">#Si la factura existe carga los productos en la tabla ventas</span>
+            <span class="n">records</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">records</span> <span class="o">=</span> <span class="n">conexion</span><span class="o">.</span><span class="n">Conexion</span><span class="o">.</span><span class="n">existFac</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">records</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="nb">globals</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">tabsales</span><span class="o">.</span><span class="n">blockSignals</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+
+
+                <span class="n">Invoice</span><span class="o">.</span><span class="n">loadTablesales</span><span class="p">(</span><span class="n">records</span><span class="p">)</span>
+                <span class="nb">globals</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">tabsales</span><span class="o">.</span><span class="n">setEditTriggers</span><span class="p">(</span><span class="n">QtWidgets</span><span class="o">.</span><span class="n">QAbstractItemView</span><span class="o">.</span><span class="n">EditTrigger</span><span class="o">.</span><span class="n">NoEditTriggers</span><span class="p">)</span>
+
+                <span class="c1">#Desactivar la tabla ventas</span>
+
+            <span class="k">else</span><span class="p">:</span>
+                <span class="nb">globals</span><span class="o">.</span><span class="n">subtotal</span> <span class="o">=</span> <span class="mf">0.0</span>
+                <span class="nb">globals</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">lblSubtotal</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+                <span class="nb">globals</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">lblIVA</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+                <span class="nb">globals</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">lblTotal</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+                <span class="nb">globals</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">tabsales</span><span class="o">.</span><span class="n">setEditTriggers</span><span class="p">(</span><span class="n">QtWidgets</span><span class="o">.</span><span class="n">QAbstractItemView</span><span class="o">.</span><span class="n">EditTrigger</span><span class="o">.</span><span class="n">AllEditTriggers</span><span class="p">)</span>
+                <span class="nb">globals</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">tabsales</span><span class="o">.</span><span class="n">blockSignals</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+
+
+                <span class="n">Invoice</span><span class="o">.</span><span class="n">activeSales</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;error en selecting invoice &quot;</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span></div>
+
+
+
+
+
+
+<div class="viewcode-block" id="Invoice.activeSales">
+<a class="viewcode-back" href="../src/invoice.html#invoice.Invoice.activeSales">[documentos]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">activeSales</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">row</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Si no se pasa fila, añadimos la primera fila</span>
+            <span class="k">if</span> <span class="n">row</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">row</span> <span class="o">=</span> <span class="mi">0</span>
+                <span class="nb">globals</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">tabsales</span><span class="o">.</span><span class="n">setRowCount</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># Si es fila nueva, aumentamos el rowCount</span>
+                <span class="k">if</span> <span class="n">row</span> <span class="o">&gt;=</span> <span class="nb">globals</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">tabsales</span><span class="o">.</span><span class="n">rowCount</span><span class="p">():</span>
+                    <span class="nb">globals</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">tabsales</span><span class="o">.</span><span class="n">setRowCount</span><span class="p">(</span><span class="n">row</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="nb">globals</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">tabsales</span><span class="o">.</span><span class="n">setStyleSheet</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">                                   /* Fila seleccionada */</span>
+<span class="s2">                                   QTableWidget::item:selected {</span>
+<span class="s2">                                       background-color: rgb(255, 255, 202);  /* Color pálido amarillo */</span>
+<span class="s2">                                       color: black;                          /* Color del texto al seleccionar */</span>
+<span class="s2">                                   }</span>
+<span class="s2">                                   &quot;&quot;&quot;</span><span class="p">)</span>
+
+            <span class="c1"># Columna 0 (código)</span>
+            <span class="nb">globals</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">tabsales</span><span class="o">.</span><span class="n">setItem</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QTableWidgetItem</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">))</span>
+            <span class="nb">globals</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">tabsales</span><span class="o">.</span><span class="n">item</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">setTextAlignment</span><span class="p">(</span><span class="n">QtCore</span><span class="o">.</span><span class="n">Qt</span><span class="o">.</span><span class="n">AlignmentFlag</span><span class="o">.</span><span class="n">AlignCenter</span><span class="p">)</span>
+
+            <span class="c1">#Columa 1</span>
+
+            <span class="nb">globals</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">tabsales</span><span class="o">.</span><span class="n">setItem</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QTableWidgetItem</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">))</span>
+
+
+            <span class="c1"># Columna 2 (price)</span>
+            <span class="nb">globals</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">tabsales</span><span class="o">.</span><span class="n">setItem</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QTableWidgetItem</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">))</span>
+
+            <span class="c1"># Columna 3 (cantidad)</span>
+            <span class="nb">globals</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">tabsales</span><span class="o">.</span><span class="n">setItem</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QTableWidgetItem</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">))</span>
+            <span class="nb">globals</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">tabsales</span><span class="o">.</span><span class="n">item</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">setTextAlignment</span><span class="p">(</span><span class="n">QtCore</span><span class="o">.</span><span class="n">Qt</span><span class="o">.</span><span class="n">AlignmentFlag</span><span class="o">.</span><span class="n">AlignCenter</span><span class="p">)</span>
+
+            <span class="c1"># Columna 4 (total)</span>
+            <span class="nb">globals</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">tabsales</span><span class="o">.</span><span class="n">setItem</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QTableWidgetItem</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">))</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;error active sales&quot;</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Invoice.cellChangedSales">
+<a class="viewcode-back" href="../src/invoice.html#invoice.Invoice.cellChangedSales">[documentos]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">cellChangedSales</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">iva</span> <span class="o">=</span> <span class="mf">0.21</span>
+            <span class="n">row</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">row</span><span class="p">()</span>
+            <span class="n">col</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">column</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">col</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">):</span>
+                <span class="k">return</span>
+
+            <span class="n">value</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">text</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">conexion</span><span class="o">.</span><span class="n">Conexion</span><span class="o">.</span><span class="n">selectProduct</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">value</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+                <span class="k">return</span>
+
+            <span class="nb">globals</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">tabsales</span><span class="o">.</span><span class="n">blockSignals</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+
+            <span class="c1"># Columna 0 entonces buscar producto y rellenar nombre y precio</span>
+            <span class="k">if</span> <span class="n">col</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+
+
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">mbox</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QMessageBox</span><span class="p">()</span>
+                    <span class="n">mbox</span><span class="o">.</span><span class="n">setIcon</span><span class="p">(</span><span class="n">QtWidgets</span><span class="o">.</span><span class="n">QMessageBox</span><span class="o">.</span><span class="n">Icon</span><span class="o">.</span><span class="n">Critical</span><span class="p">)</span>
+                    <span class="n">mbox</span><span class="o">.</span><span class="n">setWindowTitle</span><span class="p">(</span><span class="s2">&quot;Error&quot;</span><span class="p">)</span>
+                    <span class="n">mbox</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="s2">&quot;Product does not exist&quot;</span><span class="p">)</span>
+                    <span class="n">mbox</span><span class="o">.</span><span class="n">setStandardButtons</span><span class="p">(</span><span class="n">QtWidgets</span><span class="o">.</span><span class="n">QMessageBox</span><span class="o">.</span><span class="n">StandardButton</span><span class="o">.</span><span class="n">Ok</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">mbox</span><span class="o">.</span><span class="n">exec</span><span class="p">()</span> <span class="o">==</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QMessageBox</span><span class="o">.</span><span class="n">StandardButton</span><span class="o">.</span><span class="n">Ok</span><span class="p">:</span>
+                        <span class="n">mbox</span><span class="o">.</span><span class="n">hide</span><span class="p">()</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="nb">globals</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">tabsales</span><span class="o">.</span><span class="n">setItem</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QTableWidgetItem</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">])))</span>
+                    <span class="nb">globals</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">tabsales</span><span class="o">.</span><span class="n">setItem</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QTableWidgetItem</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">])))</span>
+                    <span class="nb">globals</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">tabsales</span><span class="o">.</span><span class="n">item</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">setTextAlignment</span><span class="p">(</span><span class="n">QtCore</span><span class="o">.</span><span class="n">Qt</span><span class="o">.</span><span class="n">AlignmentFlag</span><span class="o">.</span><span class="n">AlignCenter</span><span class="p">)</span>
+
+            <span class="c1"># Columna 3 → calcular total</span>
+            <span class="k">elif</span> <span class="n">col</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+                <span class="n">cantidad</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+                <span class="n">precio_item</span> <span class="o">=</span> <span class="nb">globals</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">tabsales</span><span class="o">.</span><span class="n">item</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">precio_item</span><span class="p">:</span>
+                    <span class="n">precio</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">precio_item</span><span class="o">.</span><span class="n">text</span><span class="p">())</span>
+                    <span class="n">tot</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">precio</span> <span class="o">*</span> <span class="n">cantidad</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+                    <span class="nb">globals</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">tabsales</span><span class="o">.</span><span class="n">setItem</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QTableWidgetItem</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">tot</span><span class="p">)))</span>
+                    <span class="nb">globals</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">tabsales</span><span class="o">.</span><span class="n">item</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span><span class="o">.</span><span class="n">setTextAlignment</span><span class="p">(</span><span class="n">QtCore</span><span class="o">.</span><span class="n">Qt</span><span class="o">.</span><span class="n">AlignmentFlag</span><span class="o">.</span><span class="n">AlignRight</span>
+                                                                        <span class="o">|</span> <span class="n">QtCore</span><span class="o">.</span><span class="n">Qt</span><span class="o">.</span><span class="n">AlignmentFlag</span><span class="o">.</span><span class="n">AlignVCenter</span><span class="p">)</span>
+
+            <span class="nb">globals</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">tabsales</span><span class="o">.</span><span class="n">blockSignals</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+
+            <span class="c1"># Comprobar si la fila actual está completa y añadir nueva fila</span>
+            <span class="k">if</span> <span class="nb">all</span><span class="p">([</span>
+                <span class="nb">globals</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">tabsales</span><span class="o">.</span><span class="n">item</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">globals</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">tabsales</span><span class="o">.</span><span class="n">item</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">text</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">(),</span>
+                <span class="nb">globals</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">tabsales</span><span class="o">.</span><span class="n">item</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">globals</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">tabsales</span><span class="o">.</span><span class="n">item</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">text</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">(),</span>
+                <span class="nb">globals</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">tabsales</span><span class="o">.</span><span class="n">item</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">globals</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">tabsales</span><span class="o">.</span><span class="n">item</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">text</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">(),</span>
+                <span class="nb">globals</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">tabsales</span><span class="o">.</span><span class="n">item</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">globals</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">tabsales</span><span class="o">.</span><span class="n">item</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">text</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">(),</span>
+                <span class="nb">globals</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">tabsales</span><span class="o">.</span><span class="n">item</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">globals</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">tabsales</span><span class="o">.</span><span class="n">item</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span><span class="o">.</span><span class="n">text</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+            <span class="p">]):</span>
+                <span class="n">line</span> <span class="o">=</span> <span class="p">[</span><span class="nb">globals</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">lblnumfac</span><span class="o">.</span><span class="n">text</span><span class="p">(),</span><span class="nb">globals</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">tabsales</span><span class="o">.</span><span class="n">item</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">text</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">(),</span>
+                        <span class="nb">globals</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">tabsales</span><span class="o">.</span><span class="n">item</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">text</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">(),</span>
+                        <span class="nb">globals</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">tabsales</span><span class="o">.</span><span class="n">item</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">text</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">(),</span>
+                        <span class="nb">globals</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">tabsales</span><span class="o">.</span><span class="n">item</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">text</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">(),</span>
+                        <span class="nb">globals</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">tabsales</span><span class="o">.</span><span class="n">item</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span><span class="o">.</span><span class="n">text</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">()]</span>
+                <span class="n">cantidad</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+                <span class="n">precio_item</span> <span class="o">=</span> <span class="nb">globals</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">tabsales</span><span class="o">.</span><span class="n">item</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+                <span class="n">precio</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">precio_item</span><span class="o">.</span><span class="n">text</span><span class="p">())</span>
+                <span class="n">tot</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">precio</span> <span class="o">*</span> <span class="n">cantidad</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+                <span class="n">next_row</span> <span class="o">=</span> <span class="nb">globals</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">tabsales</span><span class="o">.</span><span class="n">rowCount</span><span class="p">()</span>
+                <span class="n">Invoice</span><span class="o">.</span><span class="n">activeSales</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">row</span><span class="o">=</span><span class="n">next_row</span><span class="p">)</span>
+                <span class="nb">globals</span><span class="o">.</span><span class="n">subtotal</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="nb">globals</span><span class="o">.</span><span class="n">subtotal</span> <span class="o">+</span> <span class="n">tot</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+                <span class="n">totaliva</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="nb">globals</span><span class="o">.</span><span class="n">subtotal</span> <span class="o">*</span> <span class="n">iva</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+                <span class="n">total</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="nb">globals</span><span class="o">.</span><span class="n">subtotal</span> <span class="o">+</span> <span class="n">totaliva</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+                <span class="nb">globals</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">lblSubtotal</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="nb">globals</span><span class="o">.</span><span class="n">subtotal</span><span class="p">))</span>
+                <span class="nb">globals</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">lblIVA</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">totaliva</span><span class="p">))</span>
+                <span class="nb">globals</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">lblTotal</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">total</span><span class="p">)</span> <span class="o">+</span>  <span class="s2">&quot; €&quot;</span><span class="p">)</span>
+
+
+
+
+                <span class="nb">globals</span><span class="o">.</span><span class="n">linesales</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+
+
+
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error en cellChangedSales:&quot;</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span>
+            <span class="nb">globals</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">tabsales</span><span class="o">.</span><span class="n">blockSignals</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Invoice.saveSales">
+<a class="viewcode-back" href="../src/invoice.html#invoice.Invoice.saveSales">[documentos]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">saveSales</span><span class="p">(</span><span class="bp">self</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+
+            <span class="n">fac</span> <span class="o">=</span> <span class="nb">globals</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">lblnumfac</span><span class="o">.</span><span class="n">text</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">conexion</span><span class="o">.</span><span class="n">Conexion</span><span class="o">.</span><span class="n">existFacSales</span><span class="p">(</span><span class="n">fac</span><span class="p">):</span>
+                <span class="n">reports</span><span class="o">.</span><span class="n">Reports</span><span class="o">.</span><span class="n">ticket</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+            <span class="k">else</span><span class="p">:</span>
+
+                <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">data</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">globals</span><span class="o">.</span><span class="n">linesales</span><span class="p">):</span>
+                    <span class="n">correct</span> <span class="o">=</span> <span class="n">conexion</span><span class="o">.</span><span class="n">Conexion</span><span class="o">.</span><span class="n">saveSales</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="nb">globals</span><span class="o">.</span><span class="n">linesales</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">correct</span><span class="p">:</span>
+                        <span class="n">mbox</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QMessageBox</span><span class="p">()</span>
+                        <span class="n">mbox</span><span class="o">.</span><span class="n">setIcon</span><span class="p">(</span><span class="n">QtWidgets</span><span class="o">.</span><span class="n">QMessageBox</span><span class="o">.</span><span class="n">Icon</span><span class="o">.</span><span class="n">Information</span><span class="p">)</span>
+                        <span class="n">mbox</span><span class="o">.</span><span class="n">setWindowTitle</span><span class="p">(</span><span class="s2">&quot;Info&quot;</span><span class="p">)</span>
+                        <span class="n">mbox</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="s2">&quot;Sales saved printing invoice&quot;</span><span class="p">)</span>
+                        <span class="n">mbox</span><span class="o">.</span><span class="n">setStandardButtons</span><span class="p">(</span><span class="n">QtWidgets</span><span class="o">.</span><span class="n">QMessageBox</span><span class="o">.</span><span class="n">StandardButton</span><span class="o">.</span><span class="n">Ok</span><span class="p">)</span>
+                        <span class="k">if</span> <span class="n">mbox</span><span class="o">.</span><span class="n">exec</span><span class="p">()</span> <span class="o">==</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QMessageBox</span><span class="o">.</span><span class="n">StandardButton</span><span class="o">.</span><span class="n">Ok</span><span class="p">:</span>
+                            <span class="c1">#aqui llamo al modulo reports y funcion ticket</span>
+                            <span class="nb">globals</span><span class="o">.</span><span class="n">linesales</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error en cellChangedSales:&quot;</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="Invoice.loadTablesales">
+<a class="viewcode-back" href="../src/invoice.html#invoice.Invoice.loadTablesales">[documentos]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">loadTablesales</span><span class="p">(</span><span class="n">records</span><span class="p">):</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">subtotal</span>  <span class="o">=</span> <span class="mf">0.00</span>
+            <span class="n">index</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">for</span> <span class="n">record</span> <span class="ow">in</span> <span class="n">records</span><span class="p">:</span>
+                <span class="nb">globals</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">tabsales</span><span class="o">.</span><span class="n">setRowCount</span><span class="p">(</span><span class="n">index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+                <span class="nb">globals</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">tabsales</span><span class="o">.</span><span class="n">setItem</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QTableWidgetItem</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">record</span><span class="p">[</span><span class="mi">2</span><span class="p">])))</span>
+                <span class="nb">globals</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">tabsales</span><span class="o">.</span><span class="n">setItem</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QTableWidgetItem</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">record</span><span class="p">[</span><span class="mi">3</span><span class="p">])))</span>
+                <span class="nb">globals</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">tabsales</span><span class="o">.</span><span class="n">setItem</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QTableWidgetItem</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">record</span><span class="p">[</span><span class="mi">4</span><span class="p">])))</span>
+                <span class="nb">globals</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">tabsales</span><span class="o">.</span><span class="n">setItem</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QTableWidgetItem</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">record</span><span class="p">[</span><span class="mi">5</span><span class="p">])))</span>
+                <span class="nb">globals</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">tabsales</span><span class="o">.</span><span class="n">setItem</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QTableWidgetItem</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">record</span><span class="p">[</span><span class="mi">6</span><span class="p">])))</span>
+                <span class="n">subtotal</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">subtotal</span> <span class="o">+</span> <span class="nb">float</span><span class="p">(</span><span class="n">record</span><span class="p">[</span><span class="mi">6</span><span class="p">]),</span> <span class="mi">2</span><span class="p">)</span>
+                <span class="n">index</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="nb">globals</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">lblSubtotal</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">subtotal</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; €&quot;</span><span class="p">)</span>
+            <span class="n">iva</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">subtotal</span> <span class="o">*</span> <span class="mf">0.21</span><span class="p">),</span><span class="mi">2</span><span class="p">)</span>
+            <span class="nb">globals</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">lblIVA</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">iva</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; €&quot;</span><span class="p">)</span>
+            <span class="n">total</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">subtotal</span> <span class="o">+</span> <span class="n">iva</span><span class="p">),</span> <span class="mi">2</span><span class="p">)</span>
+            <span class="nb">globals</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">lblTotal</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">total</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; €&quot;</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;error in loadTablesales &quot;</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span></div>
+</div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Derechos de autor 2025, Pablo Pontanilla Moreira.</p>
+  </div>
+
+  Compilado con <a href="https://www.sphinx-doc.org/">Sphinx</a> usando un
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">tema</a>
+    proporcionado por <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

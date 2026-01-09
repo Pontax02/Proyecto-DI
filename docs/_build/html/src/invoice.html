@@ -1,0 +1,179 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="es" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>invoice module &mdash; documentación de Proyecto DAM - V0.0.1</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=10b23a5c"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../_static/translations.js?v=f85f4cfb"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Índice" href="../genindex.html" />
+    <link rel="search" title="Búsqueda" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Proyecto DAM
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Buscar documentos" aria-label="Buscar documentos" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">invoice module</a><ul>
+<li><a class="reference internal" href="#invoice.Invoice"><code class="docutils literal notranslate"><span class="pre">Invoice</span></code></a><ul>
+<li><a class="reference internal" href="#invoice.Invoice.activeSales"><code class="docutils literal notranslate"><span class="pre">Invoice.activeSales()</span></code></a></li>
+<li><a class="reference internal" href="#invoice.Invoice.cellChangedSales"><code class="docutils literal notranslate"><span class="pre">Invoice.cellChangedSales()</span></code></a></li>
+<li><a class="reference internal" href="#invoice.Invoice.cleanFac"><code class="docutils literal notranslate"><span class="pre">Invoice.cleanFac()</span></code></a></li>
+<li><a class="reference internal" href="#invoice.Invoice.loadFactFirs"><code class="docutils literal notranslate"><span class="pre">Invoice.loadFactFirs()</span></code></a></li>
+<li><a class="reference internal" href="#invoice.Invoice.loadTablefac"><code class="docutils literal notranslate"><span class="pre">Invoice.loadTablefac()</span></code></a></li>
+<li><a class="reference internal" href="#invoice.Invoice.loadTablesales"><code class="docutils literal notranslate"><span class="pre">Invoice.loadTablesales()</span></code></a></li>
+<li><a class="reference internal" href="#invoice.Invoice.saveInvoice"><code class="docutils literal notranslate"><span class="pre">Invoice.saveInvoice()</span></code></a></li>
+<li><a class="reference internal" href="#invoice.Invoice.saveSales"><code class="docutils literal notranslate"><span class="pre">Invoice.saveSales()</span></code></a></li>
+<li><a class="reference internal" href="#invoice.Invoice.searchCli"><code class="docutils literal notranslate"><span class="pre">Invoice.searchCli()</span></code></a></li>
+<li><a class="reference internal" href="#invoice.Invoice.selectinvoice"><code class="docutils literal notranslate"><span class="pre">Invoice.selectinvoice()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Proyecto DAM</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">invoice module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/src/invoice.rst.txt" rel="nofollow"> Ver código fuente de la página</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-invoice">
+<span id="invoice-module"></span><h1>invoice module<a class="headerlink" href="#module-invoice" title="Link to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="invoice.Invoice">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">invoice.</span></span><span class="sig-name descname"><span class="pre">Invoice</span></span><a class="reference internal" href="../_modules/invoice.html#Invoice"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#invoice.Invoice" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="invoice.Invoice.activeSales">
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">activeSales</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">row</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/invoice.html#Invoice.activeSales"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#invoice.Invoice.activeSales" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="invoice.Invoice.cellChangedSales">
+<span class="sig-name descname"><span class="pre">cellChangedSales</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">item</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/invoice.html#Invoice.cellChangedSales"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#invoice.Invoice.cellChangedSales" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="invoice.Invoice.cleanFac">
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">cleanFac</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/invoice.html#Invoice.cleanFac"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#invoice.Invoice.cleanFac" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="invoice.Invoice.loadFactFirs">
+<span class="sig-name descname"><span class="pre">loadFactFirs</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/invoice.html#Invoice.loadFactFirs"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#invoice.Invoice.loadFactFirs" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="invoice.Invoice.loadTablefac">
+<span class="sig-name descname"><span class="pre">loadTablefac</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/invoice.html#Invoice.loadTablefac"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#invoice.Invoice.loadTablefac" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="invoice.Invoice.loadTablesales">
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">loadTablesales</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">records</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/invoice.html#Invoice.loadTablesales"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#invoice.Invoice.loadTablesales" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="invoice.Invoice.saveInvoice">
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">saveInvoice</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/invoice.html#Invoice.saveInvoice"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#invoice.Invoice.saveInvoice" title="Link to this definition"></a></dt>
+<dd><p>Modulo para guardar al cliente en la tabla de facturas
+:param self:None
+:type self:None</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="invoice.Invoice.saveSales">
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">saveSales</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/invoice.html#Invoice.saveSales"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#invoice.Invoice.saveSales" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="invoice.Invoice.searchCli">
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">searchCli</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/invoice.html#Invoice.searchCli"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#invoice.Invoice.searchCli" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="invoice.Invoice.selectinvoice">
+<span class="sig-name descname"><span class="pre">selectinvoice</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/invoice.html#Invoice.selectinvoice"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#invoice.Invoice.selectinvoice" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Derechos de autor 2025, Pablo Pontanilla Moreira.</p>
+  </div>
+
+  Compilado con <a href="https://www.sphinx-doc.org/">Sphinx</a> usando un
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">tema</a>
+    proporcionado por <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

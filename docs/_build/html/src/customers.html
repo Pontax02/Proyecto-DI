@@ -1,0 +1,230 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="es" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>customers module &mdash; documentación de Proyecto DAM - V0.0.1</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=10b23a5c"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../_static/translations.js?v=f85f4cfb"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Índice" href="../genindex.html" />
+    <link rel="search" title="Búsqueda" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Proyecto DAM
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Buscar documentos" aria-label="Buscar documentos" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">customers module</a><ul>
+<li><a class="reference internal" href="#customers.Customers"><code class="docutils literal notranslate"><span class="pre">Customers</span></code></a><ul>
+<li><a class="reference internal" href="#customers.Customers.Historicocli"><code class="docutils literal notranslate"><span class="pre">Customers.Historicocli()</span></code></a></li>
+<li><a class="reference internal" href="#customers.Customers.capitalizar"><code class="docutils literal notranslate"><span class="pre">Customers.capitalizar()</span></code></a></li>
+<li><a class="reference internal" href="#customers.Customers.checkDni"><code class="docutils literal notranslate"><span class="pre">Customers.checkDni()</span></code></a></li>
+<li><a class="reference internal" href="#customers.Customers.checkMail"><code class="docutils literal notranslate"><span class="pre">Customers.checkMail()</span></code></a></li>
+<li><a class="reference internal" href="#customers.Customers.checkMobil"><code class="docutils literal notranslate"><span class="pre">Customers.checkMobil()</span></code></a></li>
+<li><a class="reference internal" href="#customers.Customers.cleanCli"><code class="docutils literal notranslate"><span class="pre">Customers.cleanCli()</span></code></a></li>
+<li><a class="reference internal" href="#customers.Customers.delCliente"><code class="docutils literal notranslate"><span class="pre">Customers.delCliente()</span></code></a></li>
+<li><a class="reference internal" href="#customers.Customers.loadTablecli"><code class="docutils literal notranslate"><span class="pre">Customers.loadTablecli()</span></code></a></li>
+<li><a class="reference internal" href="#customers.Customers.modifcli"><code class="docutils literal notranslate"><span class="pre">Customers.modifcli()</span></code></a></li>
+<li><a class="reference internal" href="#customers.Customers.saveCli"><code class="docutils literal notranslate"><span class="pre">Customers.saveCli()</span></code></a></li>
+<li><a class="reference internal" href="#customers.Customers.searchCli"><code class="docutils literal notranslate"><span class="pre">Customers.searchCli()</span></code></a></li>
+<li><a class="reference internal" href="#customers.Customers.selectCustomer"><code class="docutils literal notranslate"><span class="pre">Customers.selectCustomer()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Proyecto DAM</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">customers module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/src/customers.rst.txt" rel="nofollow"> Ver código fuente de la página</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-customers">
+<span id="customers-module"></span><h1>customers module<a class="headerlink" href="#module-customers" title="Link to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="customers.Customers">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">customers.</span></span><span class="sig-name descname"><span class="pre">Customers</span></span><a class="reference internal" href="../_modules/customers.html#Customers"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#customers.Customers" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="customers.Customers.Historicocli">
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">Historicocli</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/customers.html#Customers.Historicocli"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#customers.Customers.Historicocli" title="Link to this definition"></a></dt>
+<dd><p>Modulo para cargar la tabla clientes si queremos  historico o no
+:param self: None
+:type self: None</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="customers.Customers.capitalizar">
+<span class="sig-name descname"><span class="pre">capitalizar</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">widget</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/customers.html#Customers.capitalizar"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#customers.Customers.capitalizar" title="Link to this definition"></a></dt>
+<dd><p>Modulo para capitalizar el texto de los input
+:param widget: textp y el widget input
+:type widget: basestring y widget input</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="customers.Customers.checkDni">
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">checkDni</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/customers.html#Customers.checkDni"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#customers.Customers.checkDni" title="Link to this definition"></a></dt>
+<dd><p>Módulo para calcular la letra correcta del dni que se pasa por el formulario
+Evita el problema de ejecutar varios finished
+:param self: None
+:type self: None</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="customers.Customers.checkMail">
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">checkMail</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">email</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/customers.html#Customers.checkMail"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#customers.Customers.checkMail" title="Link to this definition"></a></dt>
+<dd><p>Modulo para checkear que el mail sea correcto
+:param email: correo electronico
+:type email: basestring</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="customers.Customers.checkMobil">
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">checkMobil</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">numero</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/customers.html#Customers.checkMobil"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#customers.Customers.checkMobil" title="Link to this definition"></a></dt>
+<dd><p>Modulo para determinar si el numero es correcto de acuerdo a la legislacion española 6 o 7
+:param numero: número de movil cliente
+:type numero: basestring</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="customers.Customers.cleanCli">
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">cleanCli</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/customers.html#Customers.cleanCli"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#customers.Customers.cleanCli" title="Link to this definition"></a></dt>
+<dd><p>Modulo para vaciar el formulario del cliente
+:param self: None
+:type self: None</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="customers.Customers.delCliente">
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">delCliente</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/customers.html#Customers.delCliente"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#customers.Customers.delCliente" title="Link to this definition"></a></dt>
+<dd><p>Modulo para elminar un cliente marcandolo a historico
+:param self: None
+:type self: None</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="customers.Customers.loadTablecli">
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">loadTablecli</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">varcli</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/customers.html#Customers.loadTablecli"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#customers.Customers.loadTablecli" title="Link to this definition"></a></dt>
+<dd><p>modulo para cargar los clientes activos
+:param varcli: indica si quiero todos los usuarios o solo los activos
+:type varcli: boolean</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="customers.Customers.modifcli">
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">modifcli</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/customers.html#Customers.modifcli"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#customers.Customers.modifcli" title="Link to this definition"></a></dt>
+<dd><blockquote>
+<div><p>Modulo para guardar modificaciones de un cliente en la base de datos</p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parámetros<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>self</strong> (<em>None</em>) – None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="customers.Customers.saveCli">
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">saveCli</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/customers.html#Customers.saveCli"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#customers.Customers.saveCli" title="Link to this definition"></a></dt>
+<dd><p>Modulo para guardar un cliente como activo en la base de datos
+:param self: None
+:type self: None</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="customers.Customers.searchCli">
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">searchCli</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/customers.html#Customers.searchCli"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#customers.Customers.searchCli" title="Link to this definition"></a></dt>
+<dd><p>Modulo para buscar un cliente en la base de datos y cargarlo en el formulario de acuerdo a su dni
+:param self: None
+:type self: None</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="customers.Customers.selectCustomer">
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">selectCustomer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/customers.html#Customers.selectCustomer"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#customers.Customers.selectCustomer" title="Link to this definition"></a></dt>
+<dd><p>Modulo para seleccionar un cliente de la tabla y cargarlo en el formulario
+:param self: None
+:type self: None</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Derechos de autor 2025, Pablo Pontanilla Moreira.</p>
+  </div>
+
+  Compilado con <a href="https://www.sphinx-doc.org/">Sphinx</a> usando un
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">tema</a>
+    proporcionado por <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -23,8 +23,8 @@ class Reports:
         globals.report = canvas.Canvas(self.ticket_path)
         self.rootPath = rootPath
 
-
-    def footer(self,title):
+    @staticmethod
+    def footer(title):
 
 
         try:
@@ -44,7 +44,8 @@ class Reports:
 
         except Exception as error:
             print(error)
-    def topreport(self,title):
+    @staticmethod
+    def topreport(title):
         try:
             path_logo= ".\\img\\omega.ico"
             logo = Image.open(path_logo)
@@ -217,7 +218,7 @@ class Reports:
             globals.report.drawRightString(x + 450, y, "Subtotal: " + str(subtotal) + " €")
             globals.report.drawRightString(x + 450, y - 15, "IVA: " + str(iva) + " €")
             globals.report.drawRightString(x + 450, y - 35, "Total Payment: " + str(total) + " €")
-            Reports.topReport(titulo)
+            Reports.topreport(titulo)
             Reports.footer(titulo)
             globals.report.save()
 

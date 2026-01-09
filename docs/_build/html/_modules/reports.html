@@ -1,0 +1,301 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="es" data-content_root="../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>reports &mdash; documentación de Proyecto DAM - V0.0.1</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=10b23a5c"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../_static/translations.js?v=f85f4cfb"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Índice" href="../genindex.html" />
+    <link rel="search" title="Búsqueda" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Proyecto DAM
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Buscar documentos" aria-label="Buscar documentos" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"></div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Proyecto DAM</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Código de módulo</a></li>
+      <li class="breadcrumb-item active">reports</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Código fuente para reports</h1><div class="highlight"><pre>
+<span></span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">PIL</span><span class="w"> </span><span class="kn">import</span> <span class="n">Image</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">reportlab.pdfgen</span><span class="w"> </span><span class="kn">import</span> <span class="n">canvas</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span><span class="o">,</span><span class="w"> </span><span class="nn">datetime</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">conexion</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">globals</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">globals</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">conexion</span><span class="w"> </span><span class="kn">import</span> <span class="n">Conexion</span>
+
+<div class="viewcode-block" id="Reports">
+<a class="viewcode-back" href="../src/reports.html#reports.Reports">[documentos]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Reports</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">rootPath</span><span class="o">=</span> <span class="s2">&quot;.</span><span class="se">\\</span><span class="s2">reports&quot;</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y_%m_</span><span class="si">%d</span><span class="s2">_%H_%M_%S&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">namereportcli</span> <span class="o">=</span> <span class="n">data</span> <span class="o">+</span> <span class="s2">&quot;_reportcustomers.pdf&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ticket</span> <span class="o">=</span> <span class="n">data</span> <span class="o">+</span> <span class="s2">&quot;_ticket.pdf&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pdf_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">rootPath</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">namereportcli</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ticket_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">rootPath</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ticket</span><span class="p">)</span>
+        <span class="nb">globals</span><span class="o">.</span><span class="n">report</span> <span class="o">=</span> <span class="n">canvas</span><span class="o">.</span><span class="n">Canvas</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pdf_path</span><span class="p">)</span>
+        <span class="nb">globals</span><span class="o">.</span><span class="n">report</span> <span class="o">=</span> <span class="n">canvas</span><span class="o">.</span><span class="n">Canvas</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ticket_path</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rootPath</span> <span class="o">=</span> <span class="n">rootPath</span>
+
+
+<div class="viewcode-block" id="Reports.footer">
+<a class="viewcode-back" href="../src/reports.html#reports.Reports.footer">[documentos]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">footer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">title</span><span class="p">):</span>
+
+
+        <span class="k">try</span><span class="p">:</span>
+
+            <span class="nb">globals</span><span class="o">.</span><span class="n">report</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="mi">35</span><span class="p">,</span><span class="mi">60</span><span class="p">,</span><span class="mi">525</span><span class="p">,</span><span class="mi">60</span><span class="p">)</span>
+            <span class="nb">globals</span><span class="o">.</span><span class="n">report</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="mi">35</span><span class="p">,</span><span class="mi">60</span><span class="p">,</span><span class="mi">525</span><span class="p">,</span><span class="mi">60</span><span class="p">)</span>
+            <span class="n">day</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">today</span><span class="p">()</span>
+            <span class="n">day</span> <span class="o">=</span> <span class="n">day</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%d</span><span class="s2">/%m/%Y %H:%M:%S&quot;</span><span class="p">)</span>
+            <span class="nb">globals</span><span class="o">.</span><span class="n">report</span><span class="o">.</span><span class="n">setFont</span><span class="p">(</span><span class="s2">&quot;Helvetica&quot;</span><span class="p">,</span> <span class="mi">7</span><span class="p">)</span>
+            <span class="nb">globals</span><span class="o">.</span><span class="n">report</span><span class="o">.</span><span class="n">drawString</span><span class="p">(</span><span class="mi">70</span><span class="p">,</span><span class="mi">50</span><span class="p">,</span><span class="n">day</span><span class="p">)</span>
+            <span class="nb">globals</span><span class="o">.</span><span class="n">report</span><span class="o">.</span><span class="n">drawString</span><span class="p">(</span><span class="mi">250</span><span class="p">,</span><span class="mi">50</span><span class="p">,</span><span class="n">title</span><span class="p">)</span>
+            <span class="nb">globals</span><span class="o">.</span><span class="n">report</span><span class="o">.</span><span class="n">drawString</span><span class="p">(</span><span class="mi">500</span><span class="p">,</span><span class="mi">50</span><span class="p">,</span><span class="nb">str</span><span class="p">(</span><span class="s2">&quot;Page: &quot;</span> <span class="o">+</span>  <span class="nb">str</span><span class="p">(</span><span class="nb">globals</span><span class="o">.</span><span class="n">report</span><span class="o">.</span><span class="n">getPageNumber</span><span class="p">())))</span>
+            <span class="nb">globals</span><span class="o">.</span><span class="n">report</span><span class="o">.</span><span class="n">setFont</span><span class="p">(</span><span class="s2">&quot;Helvetica&quot;</span><span class="p">,</span> <span class="mi">7</span><span class="p">)</span>
+            <span class="nb">globals</span><span class="o">.</span><span class="n">report</span><span class="o">.</span><span class="n">drawString</span><span class="p">(</span><span class="mi">70</span><span class="p">,</span><span class="mi">50</span><span class="p">,</span><span class="n">day</span><span class="p">)</span>
+            <span class="nb">globals</span><span class="o">.</span><span class="n">report</span><span class="o">.</span><span class="n">drawString</span><span class="p">(</span><span class="mi">250</span><span class="p">,</span><span class="mi">50</span><span class="p">,</span><span class="n">title</span><span class="p">)</span>
+            <span class="nb">globals</span><span class="o">.</span><span class="n">report</span><span class="o">.</span><span class="n">drawString</span><span class="p">(</span><span class="mi">500</span><span class="p">,</span><span class="mi">50</span><span class="p">,</span><span class="nb">str</span><span class="p">(</span><span class="s2">&quot;Page: &quot;</span> <span class="o">+</span>  <span class="nb">str</span><span class="p">(</span><span class="nb">globals</span><span class="o">.</span><span class="n">report</span><span class="o">.</span><span class="n">getPageNumber</span><span class="p">())))</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">error</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Reports.topreport">
+<a class="viewcode-back" href="../src/reports.html#reports.Reports.topreport">[documentos]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">topreport</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">title</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">path_logo</span><span class="o">=</span> <span class="s2">&quot;.</span><span class="se">\\</span><span class="s2">img</span><span class="se">\\</span><span class="s2">omega.ico&quot;</span>
+            <span class="n">logo</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">path_logo</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">logo</span><span class="p">,</span><span class="n">Image</span><span class="o">.</span><span class="n">Image</span><span class="p">):</span>
+
+                <span class="nb">globals</span><span class="o">.</span><span class="n">report</span><span class="o">.</span><span class="n">setFont</span><span class="p">(</span><span class="s2">&quot;Helvetica&quot;</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+                <span class="nb">globals</span><span class="o">.</span><span class="n">report</span><span class="o">.</span><span class="n">drawString</span><span class="p">(</span><span class="mi">55</span><span class="p">,</span><span class="mi">785</span><span class="p">,</span><span class="s2">&quot;EMPRESA TEIS&quot;</span><span class="p">)</span>
+                <span class="nb">globals</span><span class="o">.</span><span class="n">report</span><span class="o">.</span><span class="n">drawCentredString</span><span class="p">(</span><span class="mi">300</span><span class="p">,</span><span class="mi">675</span><span class="p">,</span><span class="n">title</span><span class="p">)</span>
+                <span class="nb">globals</span><span class="o">.</span><span class="n">report</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="mi">35</span><span class="p">,</span><span class="mi">665</span><span class="p">,</span><span class="mi">525</span><span class="p">,</span><span class="mi">665</span><span class="p">)</span>
+                <span class="nb">globals</span><span class="o">.</span><span class="n">report</span><span class="o">.</span><span class="n">drawImage</span><span class="p">(</span><span class="n">path_logo</span><span class="p">,</span><span class="mi">480</span><span class="p">,</span><span class="mi">745</span><span class="p">,</span><span class="mi">40</span><span class="p">,</span><span class="mi">40</span><span class="p">)</span>
+                <span class="nb">globals</span><span class="o">.</span><span class="n">report</span><span class="o">.</span><span class="n">setFont</span><span class="p">(</span><span class="s2">&quot;Helvetica&quot;</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+                <span class="nb">globals</span><span class="o">.</span><span class="n">report</span><span class="o">.</span><span class="n">drawString</span><span class="p">(</span><span class="mi">55</span><span class="p">,</span><span class="mi">785</span><span class="p">,</span><span class="s2">&quot;EMPRESA TEIS&quot;</span><span class="p">)</span>
+                <span class="nb">globals</span><span class="o">.</span><span class="n">report</span><span class="o">.</span><span class="n">drawCentredString</span><span class="p">(</span><span class="mi">300</span><span class="p">,</span><span class="mi">675</span><span class="p">,</span><span class="n">title</span><span class="p">)</span>
+                <span class="nb">globals</span><span class="o">.</span><span class="n">report</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="mi">35</span><span class="p">,</span><span class="mi">665</span><span class="p">,</span><span class="mi">525</span><span class="p">,</span><span class="mi">665</span><span class="p">)</span>
+                <span class="nb">globals</span><span class="o">.</span><span class="n">report</span><span class="o">.</span><span class="n">drawImage</span><span class="p">(</span><span class="n">path_logo</span><span class="p">,</span><span class="mi">480</span><span class="p">,</span><span class="mi">745</span><span class="p">,</span><span class="mi">40</span><span class="p">,</span><span class="mi">40</span><span class="p">)</span>
+                <span class="c1">#data company</span>
+                <span class="nb">globals</span><span class="o">.</span><span class="n">report</span><span class="o">.</span><span class="n">setFont</span><span class="p">(</span><span class="s2">&quot;Helvetica&quot;</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span>
+                <span class="nb">globals</span><span class="o">.</span><span class="n">report</span><span class="o">.</span><span class="n">drawString</span><span class="p">(</span><span class="mi">55</span><span class="p">,</span><span class="mi">760</span><span class="p">,</span><span class="s2">&quot;CIF: A65327894&quot;</span><span class="p">)</span>
+                <span class="nb">globals</span><span class="o">.</span><span class="n">report</span><span class="o">.</span><span class="n">drawString</span><span class="p">(</span><span class="mi">55</span><span class="p">,</span><span class="mi">745</span><span class="p">,</span><span class="s2">&quot;Avda de Galicia 101&quot;</span><span class="p">)</span>
+                <span class="nb">globals</span><span class="o">.</span><span class="n">report</span><span class="o">.</span><span class="n">drawString</span><span class="p">(</span><span class="mi">55</span><span class="p">,</span><span class="mi">730</span><span class="p">,</span><span class="s2">&quot;Vigo - 36215 - España&quot;</span><span class="p">)</span>
+                <span class="nb">globals</span><span class="o">.</span><span class="n">report</span><span class="o">.</span><span class="n">drawString</span><span class="p">(</span><span class="mi">55</span><span class="p">,</span><span class="mi">715</span><span class="p">,</span><span class="s2">&quot;Tlfo: 986 123 456&quot;</span><span class="p">)</span>
+                <span class="nb">globals</span><span class="o">.</span><span class="n">report</span><span class="o">.</span><span class="n">drawString</span><span class="p">(</span><span class="mi">55</span><span class="p">,</span><span class="mi">700</span><span class="p">,</span><span class="s2">&quot;email:teis@mail.com&quot;</span><span class="p">)</span>
+                <span class="nb">globals</span><span class="o">.</span><span class="n">report</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span><span class="mi">800</span><span class="p">,</span><span class="mi">160</span><span class="p">,</span><span class="mi">800</span><span class="p">)</span>
+                <span class="nb">globals</span><span class="o">.</span><span class="n">report</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span><span class="mi">695</span><span class="p">,</span><span class="mi">160</span><span class="p">,</span><span class="mi">695</span><span class="p">)</span>
+                <span class="nb">globals</span><span class="o">.</span><span class="n">report</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span><span class="mi">800</span><span class="p">,</span><span class="mi">50</span><span class="p">,</span><span class="mi">695</span><span class="p">)</span>
+                <span class="nb">globals</span><span class="o">.</span><span class="n">report</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="mi">160</span><span class="p">,</span><span class="mi">800</span><span class="p">,</span><span class="mi">160</span><span class="p">,</span><span class="mi">695</span><span class="p">)</span>
+ <span class="c1">#data company</span>
+                <span class="nb">globals</span><span class="o">.</span><span class="n">report</span><span class="o">.</span><span class="n">setFont</span><span class="p">(</span><span class="s2">&quot;Helvetica&quot;</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span>
+                <span class="nb">globals</span><span class="o">.</span><span class="n">report</span><span class="o">.</span><span class="n">drawString</span><span class="p">(</span><span class="mi">55</span><span class="p">,</span><span class="mi">760</span><span class="p">,</span><span class="s2">&quot;CIF: A65327894&quot;</span><span class="p">)</span>
+                <span class="nb">globals</span><span class="o">.</span><span class="n">report</span><span class="o">.</span><span class="n">drawString</span><span class="p">(</span><span class="mi">55</span><span class="p">,</span><span class="mi">745</span><span class="p">,</span><span class="s2">&quot;Avda de Galicia 101&quot;</span><span class="p">)</span>
+                <span class="nb">globals</span><span class="o">.</span><span class="n">report</span><span class="o">.</span><span class="n">drawString</span><span class="p">(</span><span class="mi">55</span><span class="p">,</span><span class="mi">730</span><span class="p">,</span><span class="s2">&quot;Vigo - 36215 - España&quot;</span><span class="p">)</span>
+                <span class="nb">globals</span><span class="o">.</span><span class="n">report</span><span class="o">.</span><span class="n">drawString</span><span class="p">(</span><span class="mi">55</span><span class="p">,</span><span class="mi">715</span><span class="p">,</span><span class="s2">&quot;Tlfo: 986 123 456&quot;</span><span class="p">)</span>
+                <span class="nb">globals</span><span class="o">.</span><span class="n">report</span><span class="o">.</span><span class="n">drawString</span><span class="p">(</span><span class="mi">55</span><span class="p">,</span><span class="mi">700</span><span class="p">,</span><span class="s2">&quot;email:teis@mail.com&quot;</span><span class="p">)</span>
+                <span class="nb">globals</span><span class="o">.</span><span class="n">report</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span><span class="mi">800</span><span class="p">,</span><span class="mi">160</span><span class="p">,</span><span class="mi">800</span><span class="p">)</span>
+                <span class="nb">globals</span><span class="o">.</span><span class="n">report</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span><span class="mi">695</span><span class="p">,</span><span class="mi">160</span><span class="p">,</span><span class="mi">695</span><span class="p">)</span>
+                <span class="nb">globals</span><span class="o">.</span><span class="n">report</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span><span class="mi">800</span><span class="p">,</span><span class="mi">50</span><span class="p">,</span><span class="mi">695</span><span class="p">)</span>
+                <span class="nb">globals</span><span class="o">.</span><span class="n">report</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="mi">160</span><span class="p">,</span><span class="mi">800</span><span class="p">,</span><span class="mi">160</span><span class="p">,</span><span class="mi">695</span><span class="p">)</span>
+
+
+
+            <span class="k">else</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Cannot load image&quot;</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="Reports.reportCustomers">
+<a class="viewcode-back" href="../src/reports.html#reports.Reports.reportCustomers">[documentos]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">reportCustomers</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+
+            <span class="n">title</span> <span class="o">=</span> <span class="s2">&quot;List Client&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">footer</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">topreport</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
+            <span class="n">var</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="n">records</span> <span class="o">=</span> <span class="n">Conexion</span><span class="o">.</span><span class="n">listTabCustomers</span><span class="p">(</span><span class="n">var</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">records</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;No Customers found&quot;</span><span class="p">)</span>
+                <span class="k">return</span>
+            <span class="n">items</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;DNI_NIE&quot;</span><span class="p">,</span><span class="s2">&quot;SURNAME&quot;</span><span class="p">,</span><span class="s2">&quot;NAME&quot;</span><span class="p">,</span><span class="s2">&quot;MOBILE&quot;</span><span class="p">,</span><span class="s2">&quot;CITY&quot;</span><span class="p">,</span><span class="s2">&quot;INVOICE TYPE&quot;</span><span class="p">,</span> <span class="s2">&quot;STATE&quot;</span><span class="p">]</span>
+            <span class="nb">globals</span><span class="o">.</span><span class="n">report</span><span class="o">.</span><span class="n">setFont</span><span class="p">(</span><span class="s2">&quot;Helvetica-Bold&quot;</span><span class="p">,</span><span class="mi">10</span><span class="p">)</span>
+            <span class="nb">globals</span><span class="o">.</span><span class="n">report</span><span class="o">.</span><span class="n">drawString</span><span class="p">(</span><span class="mi">45</span><span class="p">,</span> <span class="mi">650</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">items</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+            <span class="nb">globals</span><span class="o">.</span><span class="n">report</span><span class="o">.</span><span class="n">drawString</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">650</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">items</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+            <span class="nb">globals</span><span class="o">.</span><span class="n">report</span><span class="o">.</span><span class="n">drawString</span><span class="p">(</span><span class="mi">185</span><span class="p">,</span> <span class="mi">650</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">items</span><span class="p">[</span><span class="mi">2</span><span class="p">]))</span>
+            <span class="nb">globals</span><span class="o">.</span><span class="n">report</span><span class="o">.</span><span class="n">drawString</span><span class="p">(</span><span class="mi">245</span><span class="p">,</span> <span class="mi">650</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">items</span><span class="p">[</span><span class="mi">3</span><span class="p">]))</span>
+            <span class="nb">globals</span><span class="o">.</span><span class="n">report</span><span class="o">.</span><span class="n">drawString</span><span class="p">(</span><span class="mi">330</span><span class="p">,</span> <span class="mi">650</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">items</span><span class="p">[</span><span class="mi">4</span><span class="p">]))</span>
+            <span class="nb">globals</span><span class="o">.</span><span class="n">report</span><span class="o">.</span><span class="n">drawString</span><span class="p">(</span><span class="mi">390</span><span class="p">,</span> <span class="mi">650</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">items</span><span class="p">[</span><span class="mi">5</span><span class="p">]))</span>
+            <span class="nb">globals</span><span class="o">.</span><span class="n">report</span><span class="o">.</span><span class="n">drawString</span><span class="p">(</span><span class="mi">480</span><span class="p">,</span> <span class="mi">650</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">items</span><span class="p">[</span><span class="mi">6</span><span class="p">]))</span>
+            <span class="nb">globals</span><span class="o">.</span><span class="n">report</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="mi">35</span><span class="p">,</span> <span class="mi">645</span><span class="p">,</span> <span class="mi">525</span><span class="p">,</span> <span class="mi">645</span><span class="p">)</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="mi">55</span>
+            <span class="n">y</span> <span class="o">=</span> <span class="mi">630</span>
+            <span class="k">for</span> <span class="n">record</span> <span class="ow">in</span> <span class="n">records</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">y</span> <span class="o">&lt;=</span><span class="mi">90</span><span class="p">:</span>
+
+                    <span class="nb">globals</span><span class="o">.</span><span class="n">report</span><span class="o">.</span><span class="n">setFont</span><span class="p">(</span><span class="s2">&quot;Helvetica-Bold&quot;</span><span class="p">,</span><span class="mi">8</span><span class="p">)</span>
+                    <span class="nb">globals</span><span class="o">.</span><span class="n">report</span><span class="o">.</span><span class="n">drawString</span><span class="p">(</span><span class="mi">450</span><span class="p">,</span><span class="mi">75</span><span class="p">,</span><span class="s2">&quot;Next Page...&quot;</span><span class="p">)</span>
+                    <span class="nb">globals</span><span class="o">.</span><span class="n">report</span><span class="o">.</span><span class="n">showPage</span><span class="p">()</span><span class="c1">#Crea una nueva imagen</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">footer</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">topreport</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
+                    <span class="n">items</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;DNI_NIE&quot;</span><span class="p">,</span> <span class="s2">&quot;SURNAME&quot;</span><span class="p">,</span> <span class="s2">&quot;NAME&quot;</span><span class="p">,</span> <span class="s2">&quot;MOBILE&quot;</span><span class="p">,</span> <span class="s2">&quot;CITY&quot;</span><span class="p">,</span> <span class="s2">&quot;INVOICE TYPE&quot;</span><span class="p">,</span> <span class="s2">&quot;STATE&quot;</span><span class="p">]</span>
+                    <span class="nb">globals</span><span class="o">.</span><span class="n">report</span><span class="o">.</span><span class="n">setFont</span><span class="p">(</span><span class="s2">&quot;Helvetica-Bold&quot;</span><span class="p">,</span> <span class="mi">12</span><span class="p">)</span>
+                    <span class="nb">globals</span><span class="o">.</span><span class="n">report</span><span class="o">.</span><span class="n">drawString</span><span class="p">(</span><span class="mi">45</span><span class="p">,</span> <span class="mi">650</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">items</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+                    <span class="nb">globals</span><span class="o">.</span><span class="n">report</span><span class="o">.</span><span class="n">drawString</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">650</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">items</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+                    <span class="nb">globals</span><span class="o">.</span><span class="n">report</span><span class="o">.</span><span class="n">drawString</span><span class="p">(</span><span class="mi">185</span><span class="p">,</span> <span class="mi">650</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">items</span><span class="p">[</span><span class="mi">2</span><span class="p">]))</span>
+                    <span class="nb">globals</span><span class="o">.</span><span class="n">report</span><span class="o">.</span><span class="n">drawString</span><span class="p">(</span><span class="mi">245</span><span class="p">,</span> <span class="mi">650</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">items</span><span class="p">[</span><span class="mi">3</span><span class="p">]))</span>
+                    <span class="nb">globals</span><span class="o">.</span><span class="n">report</span><span class="o">.</span><span class="n">drawString</span><span class="p">(</span><span class="mi">330</span><span class="p">,</span> <span class="mi">650</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">items</span><span class="p">[</span><span class="mi">4</span><span class="p">]))</span>
+                    <span class="nb">globals</span><span class="o">.</span><span class="n">report</span><span class="o">.</span><span class="n">drawString</span><span class="p">(</span><span class="mi">390</span><span class="p">,</span> <span class="mi">650</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">items</span><span class="p">[</span><span class="mi">5</span><span class="p">]))</span>
+                    <span class="nb">globals</span><span class="o">.</span><span class="n">report</span><span class="o">.</span><span class="n">drawString</span><span class="p">(</span><span class="mi">480</span><span class="p">,</span> <span class="mi">650</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">items</span><span class="p">[</span><span class="mi">6</span><span class="p">]))</span>
+                    <span class="nb">globals</span><span class="o">.</span><span class="n">report</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="mi">45</span><span class="p">,</span> <span class="mi">645</span><span class="p">,</span> <span class="mi">525</span><span class="p">,</span> <span class="mi">645</span><span class="p">)</span>
+                    <span class="n">x</span> <span class="o">=</span> <span class="mi">55</span>
+                    <span class="n">y</span> <span class="o">=</span> <span class="mi">630</span>
+                <span class="nb">globals</span><span class="o">.</span><span class="n">report</span><span class="o">.</span><span class="n">setFont</span><span class="p">(</span><span class="s2">&quot;Helvetica&quot;</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span>
+                <span class="n">dni</span> <span class="o">=</span> <span class="s2">&quot;****&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">record</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">4</span><span class="p">:</span><span class="mi">7</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;***&quot;</span><span class="p">)</span>
+                <span class="nb">globals</span><span class="o">.</span><span class="n">report</span><span class="o">.</span><span class="n">drawCentredString</span><span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="mi">10</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">dni</span><span class="p">)</span>
+                <span class="nb">globals</span><span class="o">.</span><span class="n">report</span><span class="o">.</span><span class="n">drawString</span><span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="mi">50</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">record</span><span class="p">[</span><span class="mi">2</span><span class="p">]))</span>
+                <span class="nb">globals</span><span class="o">.</span><span class="n">report</span><span class="o">.</span><span class="n">drawString</span><span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="mi">130</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">record</span><span class="p">[</span><span class="mi">3</span><span class="p">]))</span>
+                <span class="nb">globals</span><span class="o">.</span><span class="n">report</span><span class="o">.</span><span class="n">drawCentredString</span><span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="mi">210</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">record</span><span class="p">[</span><span class="mi">5</span><span class="p">]))</span>
+                <span class="nb">globals</span><span class="o">.</span><span class="n">report</span><span class="o">.</span><span class="n">drawString</span><span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="mi">270</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">record</span><span class="p">[</span><span class="mi">8</span><span class="p">]))</span>
+                <span class="nb">globals</span><span class="o">.</span><span class="n">report</span><span class="o">.</span><span class="n">drawString</span><span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="mi">350</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">record</span><span class="p">[</span><span class="mi">9</span><span class="p">]))</span>
+                <span class="k">if</span> <span class="nb">str</span><span class="p">(</span><span class="n">record</span><span class="p">[</span><span class="mi">10</span><span class="p">])</span> <span class="o">==</span> <span class="s2">&quot;True&quot;</span><span class="p">:</span>
+                    <span class="nb">globals</span><span class="o">.</span><span class="n">report</span><span class="o">.</span><span class="n">drawString</span><span class="p">(</span><span class="n">x</span><span class="o">+</span><span class="mi">430</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="s2">&quot;Active&quot;</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="nb">globals</span><span class="o">.</span><span class="n">report</span><span class="o">.</span><span class="n">drawString</span><span class="p">(</span><span class="n">x</span><span class="o">+</span><span class="mi">430</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="s2">&quot;Inactive&quot;</span><span class="p">)</span>
+
+                <span class="n">y</span> <span class="o">=</span> <span class="n">y</span> <span class="o">-</span> <span class="mi">25</span>
+
+
+            <span class="nb">globals</span><span class="o">.</span><span class="n">report</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+            <span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rootPath</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">file</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">namereportcli</span><span class="p">):</span>
+                    <span class="n">os</span><span class="o">.</span><span class="n">startfile</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pdf_path</span><span class="p">)</span>
+
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Reports.ticket">
+<a class="viewcode-back" href="../src/reports.html#reports.Reports.ticket">[documentos]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">ticket</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">dni</span> <span class="o">=</span> <span class="nb">globals</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">txtDniFac</span><span class="o">.</span><span class="n">text</span><span class="p">()</span>
+
+            <span class="k">if</span> <span class="n">dni</span> <span class="o">==</span> <span class="s2">&quot;00000000T&quot;</span><span class="p">:</span>
+                <span class="n">titulo</span> <span class="o">=</span> <span class="s2">&quot;FACTURA SIMPLIFICADA&quot;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">titulo</span> <span class="o">=</span> <span class="s2">&quot;FACTURA&quot;</span>
+
+            <span class="n">records</span> <span class="o">=</span> <span class="n">conexion</span><span class="o">.</span><span class="n">Conexion</span><span class="o">.</span><span class="n">dataOneCustomer</span><span class="p">(</span><span class="n">dni</span><span class="p">)</span>
+            <span class="nb">globals</span><span class="o">.</span><span class="n">report</span><span class="o">.</span><span class="n">setFont</span><span class="p">(</span><span class="s2">&quot;Helvetica-Bold&quot;</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+            <span class="nb">globals</span><span class="o">.</span><span class="n">report</span><span class="o">.</span><span class="n">drawString</span><span class="p">(</span><span class="mi">220</span><span class="p">,</span> <span class="mi">700</span><span class="p">,</span> <span class="s2">&quot;DNI: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">records</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+            <span class="nb">globals</span><span class="o">.</span><span class="n">report</span><span class="o">.</span><span class="n">drawString</span><span class="p">(</span><span class="mi">220</span><span class="p">,</span> <span class="mi">685</span><span class="p">,</span> <span class="s2">&quot;Apellidos: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">records</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+            <span class="nb">globals</span><span class="o">.</span><span class="n">report</span><span class="o">.</span><span class="n">drawString</span><span class="p">(</span><span class="mi">220</span><span class="p">,</span> <span class="mi">670</span><span class="p">,</span> <span class="s2">&quot;NOMBRE: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">records</span><span class="p">[</span><span class="mi">3</span><span class="p">]))</span>
+            <span class="nb">globals</span><span class="o">.</span><span class="n">report</span><span class="o">.</span><span class="n">drawString</span><span class="p">(</span><span class="mi">220</span><span class="p">,</span> <span class="mi">655</span><span class="p">,</span> <span class="s2">&quot;DIRECCION: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">records</span><span class="p">[</span><span class="mi">6</span><span class="p">]))</span>
+            <span class="nb">globals</span><span class="o">.</span><span class="n">report</span><span class="o">.</span><span class="n">drawString</span><span class="p">(</span><span class="mi">220</span><span class="p">,</span> <span class="mi">640</span><span class="p">,</span> <span class="s2">&quot;LOCALIDAD&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">records</span><span class="p">[</span><span class="mi">8</span><span class="p">])</span> <span class="o">+</span> <span class="s2">&quot;PROVINCIA: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">records</span><span class="p">[</span><span class="mi">7</span><span class="p">]))</span>
+
+
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">footer</span><span class="p">(</span><span class="n">titulo</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">topreport</span><span class="p">(</span><span class="n">titulo</span><span class="p">)</span>
+            <span class="nb">globals</span><span class="o">.</span><span class="n">report</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+            <span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rootPath</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">file</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ticket_path</span><span class="p">):</span>
+                    <span class="n">os</span><span class="o">.</span><span class="n">startfile</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pdf_path</span><span class="p">)</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;error in ticket&quot;</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span></div>
+</div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Derechos de autor 2025, Pablo Pontanilla Moreira.</p>
+  </div>
+
+  Compilado con <a href="https://www.sphinx-doc.org/">Sphinx</a> usando un
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">tema</a>
+    proporcionado por <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
