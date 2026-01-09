@@ -419,3 +419,25 @@ class Conexion:
 
         except Exception as e:
             print("error existFacSales in conexion", e)
+
+    @staticmethod
+    def datosFac(id_factura):
+
+        try:
+            all_data_sales = []
+            query = QtSql.QSqlQuery()
+            query.prepare("SELECT * FROM sales where idfac = :idfac;")
+
+            query.bindValue(":idfac", int(id_factura))
+
+            if query.exec():
+                while query.next():
+                    row = [query.value(i) for i in range(query.record().count())]
+                    all_data_sales.append(row)
+
+            print(all_data_sales)
+            return all_data_sales
+
+        except Exception as error:
+            print("Error getSale: ", error)
+
