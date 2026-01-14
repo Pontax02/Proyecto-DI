@@ -335,6 +335,19 @@ class Conexion:
         except Exception as error:
             print("error insertInvoice in conexion", error)
 
+    @staticmethod
+    def deleteInvoice(numfac):
+        try:
+            query = QtSql.QSqlQuery()
+            query.prepare("DELETE FROM invoices WHERE idfac= :item")
+            query.bindValue(":numfac", int(numfac))
+            if query.exec():
+                return True
+            else:
+                return False
+        except Exception as error:
+            print("error insertInvoice in conexion", error)
+
 
     def allInvoices(self):
         try:

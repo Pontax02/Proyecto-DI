@@ -128,6 +128,8 @@ class Invoice:
                 btn_del.setIconSize(QtCore.QSize(30, 30))
                 btn_del.setFixedSize(32, 32)
                 btn_del.setStyleSheet("border: none; background-color: transparent")
+                btn_del.setProperty("numfac",record[0])
+                btn_del.clicked.connect(Invoice.del_Invoice)
                 globals.ui.tablefacv.setCellWidget(index, 3, btn_del)
                 globals.ui.tablefacv.item(index, 0).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
                 globals.ui.tablefacv.item(index, 1).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
@@ -369,3 +371,31 @@ class Invoice:
             globals.ui.lblTotal.setText(str(total) + " €")
         except Exception as error:
             print("error in loadTablesales ", error)
+
+
+
+    @staticmethod
+    def del_Invoice():
+        try:
+            boton = QtWidgets.QApplication.instance().sender()
+            numfac = boton.property("numfac")
+            if conexion.Conexion.existFacSales(numfac):
+                mbox = QtWidgets.QMessageBox()
+                mbox.setIcon(QtWidgets.QMessageBox.Icon.Warning)
+                mbox.setWindowTitle("Warning")
+                mbox.setText("Exist sales. Do not allow delete invoice")
+                mbox.setStandardButtons(QtWidgets.QMessageBox.StandardButton.Ok)
+                if mbox.exec() == QtWidgets.QMessageBox.StandardButton.Ok:
+                    mbox.hide()
+            else:
+                if conexion.Conexion.deleteInvoice(numfac):
+                    mbox = QtWidgets.QMessageBox()
+                    mbox.setIcon(QtWidgets.QMessageBox.Icon.Information)
+                    mbox.setWindowTitle("Information")
+                    mbox.setText("Invoice deleted")
+                    mbox.setStandardButtons(QtWidgets.QMessageBox.StandardButton.Ok)
+                    Invoice.loadTablefac(None)
+                    if mbox.exec() == QtWidgets.QMessageBox.StandardButton.Ok:
+                        mbox.hide()
+        except Exception as error:
+            print("Error in del_invoice:", error)
