@@ -339,7 +339,7 @@ class Conexion:
     def deleteInvoice(numfac):
         try:
             query = QtSql.QSqlQuery()
-            query.prepare("DELETE FROM invoices WHERE idfac= :item")
+            query.prepare("DELETE FROM invoices WHERE idfac= :numfac")
             query.bindValue(":numfac", int(numfac))
             if query.exec():
                 return True

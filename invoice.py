@@ -394,7 +394,7 @@ class Invoice:
                     mbox.setWindowTitle("Information")
                     mbox.setText("Invoice deleted")
                     mbox.setStandardButtons(QtWidgets.QMessageBox.StandardButton.Ok)
-                    Invoice.loadTablefac(None)
+                    Invoice.loadTablefac()
                     if mbox.exec() == QtWidgets.QMessageBox.StandardButton.Ok:
                         mbox.hide()
         except Exception as error:
