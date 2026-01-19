@@ -434,6 +434,6 @@ class Invoice:
 
 
             table = globals.ui.tabsales
-       #     for row in range(table.rowCount()):
+       #for row in range(table.rowCount()):
         except Exception as error:
             print("error in del_File ", error)

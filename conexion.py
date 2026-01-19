@@ -452,7 +452,7 @@ class Conexion:
                     row = [query.value(i) for i in range(query.record().count())]
                     all_data_sales.append(row)
 
-            print(all_data_sales)
+
             return all_data_sales
 
         except Exception as error:
