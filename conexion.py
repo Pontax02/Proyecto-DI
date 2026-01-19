@@ -201,6 +201,10 @@ class Conexion:
 
     @staticmethod
     def addCli(newcli):
+        """
+
+        :rtype: bool | None
+        """
         try:
 
             query = QtSql.QSqlQuery()

@@ -203,6 +203,9 @@ class Invoice:
     @staticmethod
     def activeSales(self, row=None):
         try:
+            header = globals.ui.tabsales.horizontalHeader()
+            header.setSectionResizeMode(5, QtWidgets.QHeaderView.ResizeMode.Fixed)
+            globals.ui.tabsales.setColumnWidth(5, 32)
             # Si no se pasa fila, añadimos la primera fila
             if row is None:
                 row = 0
@@ -238,6 +241,14 @@ class Invoice:
             # Columna 4 (total)
             globals.ui.tabsales.setItem(row, 4, QtWidgets.QTableWidgetItem(""))
 
+            #colima 5 crea el icono de basura
+            btn_del_file = QtWidgets.QPushButton()
+            btn_del_file.setIcon(QIcon("./img/basura.png"))
+            btn_del_file.setIconSize(QtCore.QSize(32, 32))
+            btn_del_file.setFixedSize(32,32)
+            btn_del_file.setStyleSheet("border: none; background-color: transparent")
+            btn_del_file.setProperty("idpro",globals.ui.tabsales.item(row, 0).text())
+            btn_del_file.clicked.connect(Invoice.del_File)
         except Exception as error:
             print("error active sales", error)
 
@@ -299,6 +310,7 @@ class Invoice:
                         globals.ui.tabsales.item(row, 2).text().strip(),
                         globals.ui.tabsales.item(row, 3).text().strip(),
                         globals.ui.tabsales.item(row, 4).text().strip()]
+                globals.linesales.append(line)
                 cantidad = float(value)
                 precio_item = globals.ui.tabsales.item(row, 2)
                 precio = float(precio_item.text())
@@ -312,14 +324,6 @@ class Invoice:
                 globals.ui.lblIVA.setText(str(totaliva))
                 globals.ui.lblTotal.setText(str(total) +  " €")
 
-
-
-
-                globals.linesales.append(line)
-
-
-
-
         except Exception as error:
             print("Error en cellChangedSales:", error)
             globals.ui.tabsales.blockSignals(False)
@@ -327,16 +331,23 @@ class Invoice:
     @staticmethod
     def saveSales(self = None):
         try:
-
+            #empieza a recorrer la tabla e ir guardando en la bbdd de ventas
+            table = globals.ui.tabsales
+            rows = table.rowCount()
+            cols = table.columnCount()
             fac = globals.ui.lblnumfac.text()
             if conexion.Conexion.existFacSales(fac):
                 reports.Reports.ticket(self)
 
             else:
-
-                for i, data in enumerate(globals.linesales):
-                    correct = conexion.Conexion.saveSales(data)
-                    if i == len(globals.linesales) - 1 and correct:
+                for row in range(rows):
+                    line = {}
+                    for col in range(cols - 1):
+                        item = table.item(row, col)
+                        if item and item.text() != "":
+                            line[col] = item.text()
+                        correct = conexion.Conexion.saveSales(line)
+                    if correct:
                         mbox = QtWidgets.QMessageBox()
                         mbox.setIcon(QtWidgets.QMessageBox.Icon.Information)
                         mbox.setWindowTitle("Info")
@@ -351,6 +362,9 @@ class Invoice:
 
     @staticmethod
     def loadTablesales(records):
+        header = globals.ui.tabsales.horizontalHeader()
+        header.setSectionResizeMode(5, QtWidgets.QHeaderView.ResizeMode.Fixed)
+        globals.ui.tabsales.setColumnWidth(5, 32)
 
         try:
             subtotal  = 0.00
@@ -399,3 +413,27 @@ class Invoice:
                         mbox.hide()
         except Exception as error:
             print("Error in del_invoice:", error)
+
+
+
+    @staticmethod
+    def del_sale():
+        try:
+            boton = QtWidgets.QApplication.instance().sender()
+            numfac = boton.property("numfac")
+        except Exception as error:
+            print("error in del_sale ", error)
+
+
+    @staticmethod
+    def del_File():
+        try:
+
+            boton1 = QtWidgets.QApplication.instance().sender()
+            idpro = boton1.property("idpro")
+
+
+            table = globals.ui.tabsales
+       #     for row in range(table.rowCount()):
+        except Exception as error:
+            print("error in del_File ", error)

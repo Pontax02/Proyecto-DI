@@ -69,7 +69,7 @@
           </property>
           <property name="icon">
            <iconset>
-            <normaloff>../img/clue.png</normaloff>../img/clue.png</iconset>
+            <normaloff>../../../.designer/img/clue.png</normaloff>../../../.designer/img/clue.png</iconset>
           </property>
           <property name="iconSize">
            <size>
@@ -347,7 +347,7 @@ background-color: rgb(255, 255, 255);</string>
           </property>
           <property name="icon">
            <iconset>
-            <normaloff>../img/calendar.png</normaloff>../img/calendar.png</iconset>
+            <normaloff>../../../.designer/img/calendar.png</normaloff>../../../.designer/img/calendar.png</iconset>
           </property>
           <property name="iconSize">
            <size>
@@ -467,7 +467,7 @@ background-color: rgb(255, 255, 255);</string>
           </property>
           <property name="icon">
            <iconset>
-            <normaloff>../img/Refresh_icon.svg.png</normaloff>../img/Refresh_icon.svg.png</iconset>
+            <normaloff>../../../.designer/img/Refresh_icon.svg.png</normaloff>../../../.designer/img/Refresh_icon.svg.png</iconset>
           </property>
           <property name="iconSize">
            <size>
@@ -956,7 +956,7 @@ background-color: rgb(255, 255, 255);</string>
             </property>
             <property name="icon">
              <iconset>
-              <normaloff>../img/Refresh_icon.svg.png</normaloff>../img/Refresh_icon.svg.png</iconset>
+              <normaloff>../../../.designer/img/Refresh_icon.svg.png</normaloff>../../../.designer/img/Refresh_icon.svg.png</iconset>
             </property>
             <property name="flat">
              <bool>true</bool>
@@ -989,6 +989,9 @@ background-color: rgb(255, 255, 255);</string>
         </widget>
        </widget>
        <widget class="QTableWidget" name="tabsales">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
         <property name="geometry">
          <rect>
           <x>270</x>
@@ -1032,6 +1035,11 @@ background-color: rgb(255, 255, 255);</string>
         <column>
          <property name="text">
           <string>total</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Del</string>
          </property>
         </column>
        </widget>
@@ -1218,7 +1226,7 @@ background-color: rgb(255, 255, 255);</string>
            </property>
            <property name="icon">
             <iconset>
-             <normaloff>../img/lista-de-verificacion.png</normaloff>../img/lista-de-verificacion.png</iconset>
+             <normaloff>../../../.designer/img/lista-de-verificacion.png</normaloff>../../../.designer/img/lista-de-verificacion.png</iconset>
            </property>
            <property name="flat">
             <bool>true</bool>
@@ -1452,7 +1460,7 @@ background-color: rgb(255, 255, 255);</string>
           </property>
           <property name="icon">
            <iconset>
-            <normaloff>../img/omega.png</normaloff>../img/omega.png</iconset>
+            <normaloff>../../../.designer/img/omega.png</normaloff>../../../.designer/img/omega.png</iconset>
           </property>
           <property name="iconSize">
            <size>
@@ -1722,7 +1730,7 @@ background-color: rgb(255, 255, 255);</string>
           </property>
           <property name="icon">
            <iconset>
-            <normaloff>../img/Refresh_icon.svg.png</normaloff>../img/Refresh_icon.svg.png</iconset>
+            <normaloff>../../../.designer/img/Refresh_icon.svg.png</normaloff>../../../.designer/img/Refresh_icon.svg.png</iconset>
           </property>
           <property name="flat">
            <bool>true</bool>
@@ -1802,7 +1810,7 @@ background-color: rgb(255, 255, 255);</string>
   <action name="actionExit">
    <property name="icon">
     <iconset>
-     <normaloff>../img/logout.png</normaloff>../img/logout.png</iconset>
+     <normaloff>../../../.designer/img/logout.png</normaloff>../../../.designer/img/logout.png</iconset>
    </property>
    <property name="text">
     <string>Exit</string>
@@ -1827,7 +1835,7 @@ background-color: rgb(255, 255, 255);</string>
   <action name="actionBackup">
    <property name="icon">
     <iconset>
-     <normaloff>../img/backup-file.png</normaloff>../img/backup-file.png</iconset>
+     <normaloff>../../../.designer/img/backup-file.png</normaloff>../../../.designer/img/backup-file.png</iconset>
    </property>
    <property name="text">
     <string>Backup</string>
@@ -1839,7 +1847,7 @@ background-color: rgb(255, 255, 255);</string>
   <action name="actionRestore_Backup">
    <property name="icon">
     <iconset>
-     <normaloff>../img/cloud.png</normaloff>../img/cloud.png</iconset>
+     <normaloff>../../../.designer/img/cloud.png</normaloff>../../../.designer/img/cloud.png</iconset>
    </property>
    <property name="text">
     <string>Restore Backup</string>
