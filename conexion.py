@@ -421,25 +421,30 @@ class Conexion:
             return records
         except Exception as error:
             print("error existFac in conexion", error)
+    @staticmethod
+    def existFacSales(fact):
+        """
 
-    def existFacSales(fac):
-        """
-        Devuelve true si existe fac sino devuelve falso
-        :return booleano
-        :rtype: bool
-        """
+               Devuelve True si en la tabla ventas existe el idfac, si no devuelve False
+               :return: bool
+               :rtype: bool
+
+               """
         try:
+            if not fact or not str(fact).isdigit():
+                return False
+
             query = QtSql.QSqlQuery()
-            query.prepare("SELECT * FROM sales WHERE idfac = :fac")
-            query.bindValue(":fac", int(fac))
+            query.prepare("SELECT * FROM sales WHERE idfac = :idfac")
+            query.bindValue(":idfac", int(fact))
             if query.exec():
                 if query.next():
                     return True
                 else:
                     return False
 
-        except Exception as e:
-            print("error existFacSales in conexion", e)
+        except Exception as error:
+            print("error en existeFacturaSales", error)
 
     @staticmethod
     def datosFac(id_factura):

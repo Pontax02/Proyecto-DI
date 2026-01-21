@@ -190,143 +190,214 @@ class Invoice:
                 globals.ui.tabsales.blockSignals(False)
 
 
-                Invoice.activeSales(self)
+                Invoice.activeSales()
 
 
         except Exception as error:
             print("error en selecting invoice ", error)
 
-
-
-
-
     @staticmethod
-    def activeSales(self, row=None):
+    def activeSales(row=None):
+        """
+        Activa una fila editable en la tabla de ventas para
+        introducir una nueva línea de venta.
+
+        :param row: Índice de la fila a activar
+        """
         try:
-            header = globals.ui.tabsales.horizontalHeader()
-            header.setSectionResizeMode(5, QtWidgets.QHeaderView.ResizeMode.Fixed)
-            globals.ui.tabsales.setColumnWidth(5, 32)
-            # Si no se pasa fila, añadimos la primera fila
+            fact = globals.ui.lblnumfac.text()
+
+            if Conexion.existFacSales(fact):
+                return
+
+            table = globals.ui.tabsales
             if row is None:
-                row = 0
-                globals.ui.tabsales.setRowCount(1)
-            else:
-                # Si es fila nueva, aumentamos el rowCount
-                if row >= globals.ui.tabsales.rowCount():
-                    globals.ui.tabsales.setRowCount(row + 1)
-            globals.ui.tabsales.setStyleSheet("""
-                                   /* Fila seleccionada */
-                                   QTableWidget::item:selected {
-                                       background-color: rgb(255, 255, 202);  /* Color pálido amarillo */
-                                       color: black;                          /* Color del texto al seleccionar */
-                                   }
-                                   """)
+                row = table.rowCount()
 
-            # Columna 0 (código)
-            globals.ui.tabsales.setItem(row, 0, QtWidgets.QTableWidgetItem(""))
-            globals.ui.tabsales.item(row, 0).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+            if row >= globals.ui.tabsales.rowCount():
+                globals.ui.tabsales.setRowCount(row + 1)
 
-            #Columa 1
+            center_align = QtCore.Qt.AlignmentFlag.AlignCenter
 
+            # Código de producto
+            item_code = QtWidgets.QTableWidgetItem("")
+            item_code.setTextAlignment(center_align)
+            globals.ui.tabsales.setItem(row, 0, item_code)
+
+            # Concepto
             globals.ui.tabsales.setItem(row, 1, QtWidgets.QTableWidgetItem(""))
 
+            # Precio
+            item_price = QtWidgets.QTableWidgetItem("")
+            item_price.setTextAlignment(center_align)
+            globals.ui.tabsales.setItem(row, 2, item_price)
 
-            # Columna 2 (price)
-            globals.ui.tabsales.setItem(row, 2, QtWidgets.QTableWidgetItem(""))
+            # Cantidad
+            item_qty = QtWidgets.QTableWidgetItem("")
+            item_qty.setTextAlignment(center_align)
+            globals.ui.tabsales.setItem(row, 3, item_qty)
 
-            # Columna 3 (cantidad)
-            globals.ui.tabsales.setItem(row, 3, QtWidgets.QTableWidgetItem(""))
-            globals.ui.tabsales.item(row, 3).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+            # Total
+            item_total = QtWidgets.QTableWidgetItem("")
+            item_total.setTextAlignment(
+                QtCore.Qt.AlignmentFlag.AlignRight |
+                QtCore.Qt.AlignmentFlag.AlignVCenter
+            )
+            globals.ui.tabsales.setItem(row, 4, item_total)
 
-            # Columna 4 (total)
-            globals.ui.tabsales.setItem(row, 4, QtWidgets.QTableWidgetItem(""))
+            # Eliminar
+            btn_del = QtWidgets.QPushButton()
+            btn_del.setIcon(QIcon("./img/basura.png"))
+            btn_del.setIconSize(QtCore.QSize(26, 26))
+            btn_del.setFixedSize(32, 32)
+            btn_del.setStyleSheet("border: none; background-color: transparent")
+            btn_del.clicked.connect(Invoice.deleteSales)
+            globals.ui.tabsales.setCellWidget(row, 5, btn_del)
 
-            #colima 5 crea el icono de basura
-            btn_del_file = QtWidgets.QPushButton()
-            btn_del_file.setIcon(QIcon("./img/basura.png"))
-            btn_del_file.setIconSize(QtCore.QSize(32, 32))
-            btn_del_file.setFixedSize(32,32)
-            btn_del_file.setStyleSheet("border: none; background-color: transparent")
-            btn_del_file.setProperty("idpro",globals.ui.tabsales.item(row, 0).text())
-            btn_del_file.clicked.connect(Invoice.del_File)
         except Exception as error:
-            print("error active sales", error)
+            print("error en activeSales", error)
 
-    def cellChangedSales(self, item):
+    @staticmethod
+    def cellChangedSales(item):
+        """
+        Gestiona los cambios realizados en las celdas de la tabla de ventas.
+
+        - Detecta cambios en el código de producto y cantidad
+        - Calcula automáticamente el total por línea
+        - Actualiza subtotal, IVA y total de la factura
+        - Añade una nueva fila cuando la actual está completa
+        - Guarda la línea de venta en ``globals.linesales``
+
+        :param item: Celda modificada en la tabla de ventas
+        :type item: QTableWidgetItem
+        """
         try:
-            iva = 0.21
+            if item is None:
+                return
+
             row = item.row()
             col = item.column()
+
+            # Solo reaccionar a cambios en código o cantidad
             if col not in (0, 3):
                 return
 
-            value = item.text().strip()
-            data = conexion.Conexion.selectProduct(value)
-            if value == "":
-                return
-
+            # Evitar bucles infinitos al modificar celdas desde código
             globals.ui.tabsales.blockSignals(True)
 
-            # Columna 0 entonces buscar producto y rellenar nombre y precio
+            value = item.text().strip()
+
+            # Cambio en código de producto
             if col == 0:
-
-
-                if len(data) == 0:
-                    mbox = QtWidgets.QMessageBox()
-                    mbox.setIcon(QtWidgets.QMessageBox.Icon.Critical)
-                    mbox.setWindowTitle("Error")
-                    mbox.setText("Product does not exist")
-                    mbox.setStandardButtons(QtWidgets.QMessageBox.StandardButton.Ok)
-                    if mbox.exec() == QtWidgets.QMessageBox.StandardButton.Ok:
-                        mbox.hide()
+                if value == "":
+                    globals.ui.tabsales.setItem(row, 1, QtWidgets.QTableWidgetItem(""))
+                    globals.ui.tabsales.setItem(row, 2, QtWidgets.QTableWidgetItem(""))
                 else:
-                    globals.ui.tabsales.setItem(row, 1, QtWidgets.QTableWidgetItem(str(data[0])))
-                    globals.ui.tabsales.setItem(row, 2, QtWidgets.QTableWidgetItem(str(data[1])))
-                    globals.ui.tabsales.item(row, 2).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+                    data = Conexion.selectProduct(value)
+                    if data:
+                        globals.ui.tabsales.setItem(
+                            row, 1, QtWidgets.QTableWidgetItem(str(data[0]))
+                        )
+                        globals.ui.tabsales.setItem(
+                            row, 2, QtWidgets.QTableWidgetItem(str(data[1]))
+                        )
+                        globals.ui.tabsales.item(
+                            row, 2
+                        ).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+                    else:
+                        mbox = QtWidgets.QMessageBox()
+                        mbox.setIcon(QtWidgets.QMessageBox.Icon.Warning)
+                        mbox.setWindowTitle("Warning")
+                        mbox.setText("Product not exists")
+                        mbox.setStandardButtons(
+                            QtWidgets.QMessageBox.StandardButton.Ok
+                        )
+                        if mbox.exec() == QtWidgets.QMessageBox.StandardButton.Ok:
+                            mbox.hide()
+                        globals.ui.tabsales.setItem(
+                            row, 0, QtWidgets.QTableWidgetItem("")
+                        )
 
-            # Columna 3 → calcular total
-            elif col == 3:
-                cantidad = float(value)
-                precio_item = globals.ui.tabsales.item(row, 2)
-                if precio_item:
-                    precio = float(precio_item.text())
-                    tot = round(precio * cantidad, 2)
-                    globals.ui.tabsales.setItem(row, 4, QtWidgets.QTableWidgetItem(str(tot)))
-                    globals.ui.tabsales.item(row, 4).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignRight
-                                                                        | QtCore.Qt.AlignmentFlag.AlignVCenter)
+            # Cálculo del total por línea
+            if col in (0, 3):
+                item_qty = globals.ui.tabsales.item(row, 3)
+                item_price = globals.ui.tabsales.item(row, 2)
 
-            globals.ui.tabsales.blockSignals(False)
+                if item_qty and item_price:
+                    try:
+                        cantidad = float(item_qty.text())
+                        precio = float(item_price.text())
+                        tot = round(precio * cantidad, 2)
 
-            # Comprobar si la fila actual está completa y añadir nueva fila
-            if all([
-                globals.ui.tabsales.item(row, 0) and globals.ui.tabsales.item(row, 0).text().strip(),
-                globals.ui.tabsales.item(row, 1) and globals.ui.tabsales.item(row, 1).text().strip(),
-                globals.ui.tabsales.item(row, 2) and globals.ui.tabsales.item(row, 2).text().strip(),
-                globals.ui.tabsales.item(row, 3) and globals.ui.tabsales.item(row, 3).text().strip(),
-                globals.ui.tabsales.item(row, 4) and globals.ui.tabsales.item(row, 4).text().strip()
-            ]):
-                line = [globals.ui.lblnumfac.text(),globals.ui.tabsales.item(row, 0).text().strip(),
-                        globals.ui.tabsales.item(row, 1).text().strip(),
-                        globals.ui.tabsales.item(row, 2).text().strip(),
-                        globals.ui.tabsales.item(row, 3).text().strip(),
-                        globals.ui.tabsales.item(row, 4).text().strip()]
-                globals.linesales.append(line)
-                cantidad = float(value)
-                precio_item = globals.ui.tabsales.item(row, 2)
-                precio = float(precio_item.text())
-                tot = round(precio * cantidad, 2)
-                next_row = globals.ui.tabsales.rowCount()
-                Invoice.activeSales(self, row=next_row)
-                globals.subtotal = round(globals.subtotal + tot,2)
-                totaliva = round(globals.subtotal * iva, 2)
-                total = round(globals.subtotal + totaliva, 2)
-                globals.ui.lblSubtotal.setText(str(globals.subtotal))
-                globals.ui.lblIVA.setText(str(totaliva))
-                globals.ui.lblTotal.setText(str(total) +  " €")
+                        globals.ui.tabsales.setItem(
+                            row, 4, QtWidgets.QTableWidgetItem(str(tot))
+                        )
+                        globals.ui.tabsales.item(
+                            row, 4
+                        ).setTextAlignment(
+                            QtCore.Qt.AlignmentFlag.AlignRight |
+                            QtCore.Qt.AlignmentFlag.AlignVCenter
+                        )
+                    except ValueError:
+                        globals.ui.tabsales.setItem(
+                            row, 4, QtWidgets.QTableWidgetItem("0.00")
+                        )
+
+            # Cálculo del subtotal general
+            grand_subtotal = 0.0
+            for r in range(globals.ui.tabsales.rowCount()):
+                item_total = globals.ui.tabsales.item(r, 4)
+                if item_total and item_total.text():
+                    try:
+                        grand_subtotal += float(item_total.text())
+                    except ValueError:
+                        pass
+
+            globals.subtotal = grand_subtotal
+
+            # Cálculo de IVA y total final
+            iva = 0.21
+            totaliva = round(globals.subtotal * iva, 2)
+            total = round(globals.subtotal + totaliva, 2)
+
+            globals.ui.lblSubtotal.setText(f"{globals.subtotal:.2f} €")
+            globals.ui.lblIVA.setText(f"{totaliva:.2f} €")
+            globals.ui.lblTotal.setText(f"{total:.2f} €")
+
+            # Comprobar si la fila está completa
+            row_items = [globals.ui.tabsales.item(row, i) for i in range(5)]
+            is_row_complete = all(it and it.text().strip() for it in row_items)
+
+            fact = globals.ui.lblnumfac.text().strip()
+
+            if not fact.isdigit():
+                return
+
+            if is_row_complete:
+                if not Conexion.existFacSales(fact):
+                    if row == globals.ui.tabsales.rowCount() - 1:
+                        next_row = globals.ui.tabsales.rowCount()
+                        QtCore.QTimer.singleShot(
+                            0, lambda: Invoice.activeSales(next_row)
+                        )
+
+                    # Guardar línea de venta
+                    sale = [
+                        int(globals.ui.lblnumfac.text()),
+                        int(row_items[0].text()),
+                        row_items[1].text(),
+                        float(row_items[2].text()),
+                        int(row_items[3].text()),
+                        float(row_items[4].text()),
+                    ]
+                    globals.linesales.append(sale)
 
         except Exception as error:
-            print("Error en cellChangedSales:", error)
+            print("Error in cellChangedSales:", error)
+
+        finally:
             globals.ui.tabsales.blockSignals(False)
+
 
     @staticmethod
     def saveSales(self = None):
@@ -359,32 +430,47 @@ class Invoice:
         except Exception as error:
             print("Error en cellChangedSales:", error)
 
-
     @staticmethod
-    def loadTablesales(records):
-        header = globals.ui.tabsales.horizontalHeader()
-        header.setSectionResizeMode(5, QtWidgets.QHeaderView.ResizeMode.Fixed)
-        globals.ui.tabsales.setColumnWidth(5, 32)
+    def loadTableSales(idfac):
+        """
+        Carga las líneas de venta de una factura existente
+        y las muestra en la tabla de ventas.
 
+        :param idfac: Identificador de la factura
+        :type idfac: str
+        """
         try:
-            subtotal  = 0.00
-            index = 0
-            for record in records:
-                globals.ui.tabsales.setRowCount(index + 1)
-                globals.ui.tabsales.setItem(index, 0, QtWidgets.QTableWidgetItem(str(record[2])))
-                globals.ui.tabsales.setItem(index, 1, QtWidgets.QTableWidgetItem(str(record[3])))
-                globals.ui.tabsales.setItem(index, 2, QtWidgets.QTableWidgetItem(str(record[4])))
-                globals.ui.tabsales.setItem(index, 3, QtWidgets.QTableWidgetItem(str(record[5])))
-                globals.ui.tabsales.setItem(index, 4, QtWidgets.QTableWidgetItem(str(record[6])))
-                subtotal = round(subtotal + float(record[6]), 2)
-                index += 1
-            globals.ui.lblSubtotal.setText(str(subtotal) + " €")
-            iva = round(float(subtotal * 0.21),2)
-            globals.ui.lblIVA.setText(str(iva) + " €")
-            total = round(float(subtotal + iva), 2)
-            globals.ui.lblTotal.setText(str(total) + " €")
+            data = Conexion.dataOneSale(idfac)
+            table = globals.ui.tblSales
+            table.setRowCount(0)
+
+            if not data:
+                Invoice.activeSales()
+            else:
+                table.setRowCount(len(data))
+
+                for row_index, sale_row in enumerate(data):
+                    for col_index, cell_value in enumerate(sale_row):
+                        table_item = QtWidgets.QTableWidgetItem(
+                            str(cell_value)
+                        )
+                        table.setItem(
+                            row_index, col_index, table_item
+                        )
+
+                        btn_del = QtWidgets.QPushButton()
+                        btn_del.setIcon(QIcon("./img/basura.png"))
+                        btn_del.setIconSize(QtCore.QSize(26, 26))
+                        btn_del.setFixedSize(32, 32)
+                        btn_del.setStyleSheet("border: none; background-color: transparent")
+                        btn_del.clicked.connect(Invoice.deleteSales)
+
+                        table.setCellWidget(row_index, 5, btn_del)
+
+                Invoice.bloquearTablaSales()
+
         except Exception as error:
-            print("error in loadTablesales ", error)
+            print("Error en cargarVentas:", error)
 
 
 
@@ -417,23 +503,55 @@ class Invoice:
 
 
     @staticmethod
-    def del_sale():
+    def deleteSales():
         try:
-            boton = QtWidgets.QApplication.instance().sender()
-            numfac = boton.property("numfac")
-        except Exception as error:
-            print("error in del_sale ", error)
+            btn = globals.ui.tabsales.sender()
 
-
-    @staticmethod
-    def del_File():
-        try:
-
-            boton1 = QtWidgets.QApplication.instance().sender()
-            idpro = boton1.property("idpro")
-
+            if not btn:
+                return
 
             table = globals.ui.tabsales
-       #for row in range(table.rowCount()):
+
+            # localizar la fila del botón pulsado
+            for row in range(table.rowCount()):
+                if table.cellWidget(row, 5) == btn:
+                    break
+            else:
+                return
+
+            # comprobar si la factura ya tiene ventas guardadas
+            fact = globals.ui.lblnumfac.text()
+
+            if Conexion.existFacSales(fact):
+                mbox = QtWidgets.QMessageBox()
+                mbox.setIcon(QtWidgets.QMessageBox.Icon.Warning)
+                mbox.setWindowTitle("No permitido")
+                mbox.setText("Esta factura ya está guardada y no se pueden borrar líneas.")
+                mbox.setStandardButtons(QtWidgets.QMessageBox.StandardButton.Ok)
+                mbox.exec()
+                return
+
+            # eliminar fila
+            table.removeRow(row)
+
+            # eliminar de linesales si existe
+            if row < len(globals.linesales):
+                globals.linesales.pop(row)
+
+            # recalcular totales
+            subtotal = 0.0
+            for r in range(table.rowCount()):
+                item_total = table.item(r, 4)
+                if item_total and item_total.text():
+                    subtotal += float(item_total.text())
+
+            globals.subtotal = subtotal
+            iva = round(subtotal * 0.21, 2)
+            total = round(subtotal + iva, 2)
+
+            globals.ui.lblSubtotal.setText(f"{subtotal:.2f} €")
+            globals.ui.lblIVA.setText(f"{iva:.2f} €")
+            globals.ui.lblTotal.setText(f"{total:.2f} €")
+
         except Exception as error:
-            print("error in del_File ", error)
+            print("Error en deleteSales:", error)
