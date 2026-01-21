@@ -13,8 +13,20 @@ class Products:
                 globals.ui.tblProducts.setItem(index, 0, QtWidgets.QTableWidgetItem(str(record[0])))
                 globals.ui.tblProducts.setItem(index, 1, QtWidgets.QTableWidgetItem(str(record[1])))
                 globals.ui.tblProducts.setItem(index, 2, QtWidgets.QTableWidgetItem(str(record[2])))
-                globals.ui.tblProducts.setItem(index, 3, QtWidgets.QTableWidgetItem(str(record[3])))
-                globals.ui.tblProducts.setItem(index, 4, QtWidgets.QTableWidgetItem(str(record[4])))
+                item = int(globals.ui.tblProducts.item(index ,2).text())
+                if item < 5 :
+                    globals.ui.tblProducts.item(index, 0).setBackground(QtGui.QColor("red"))
+                    globals.ui.tblProducts.item(index, 1).setBackground(QtGui.QColor("red"))
+                    globals.ui.tblProducts.item(index, 2).setBackground(QtGui.QColor("red"))
+
+                    globals.ui.tblProducts.setItem(index, 3, QtWidgets.QTableWidgetItem(str(record[3])))
+                    globals.ui.tblProducts.setItem(index, 4, QtWidgets.QTableWidgetItem(str(record[4])))
+                    globals.ui.tblProducts.item(index, 3).setBackground(QtGui.QColor("red"))
+                    globals.ui.tblProducts.item(index, 4).setBackground(QtGui.QColor("red"))
+
+                else:
+                    globals.ui.tblProducts.setItem(index, 3, QtWidgets.QTableWidgetItem(str(record[3])))
+                    globals.ui.tblProducts.setItem(index, 4, QtWidgets.QTableWidgetItem(str(record[4])))
 
 
 
@@ -160,3 +172,5 @@ class Products:
             Products.loadTablepro(self=None)
         except Exception as error:
             print("error modify pro ", error)
+
+

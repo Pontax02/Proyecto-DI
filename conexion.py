@@ -202,7 +202,11 @@ class Conexion:
     @staticmethod
     def addCli(newcli):
         """
-
+        Modulo para añadir un cliente a la base de datos
+        :param newcli: informacion del cliente
+        :type newcli: lista
+        :return: bool
+        :rtype:
         :rtype: bool | None
         """
         try:
@@ -457,4 +461,7 @@ class Conexion:
 
         except Exception as error:
             print("Error getSale: ", error)
+
+
+
 
