@@ -727,7 +727,7 @@ class Ui_MainWindow(object):
         self.toolBar.addAction(self.actionExit)
 
         self.retranslateUi(MainWindow)
-        self.PanMain.setCurrentIndex(1)
+        self.PanMain.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
         MainWindow.setTabOrder(self.txtAltacli, self.txtApelcli)
         MainWindow.setTabOrder(self.txtApelcli, self.txtNomecli)
