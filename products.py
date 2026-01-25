@@ -5,35 +5,37 @@ from PyQt6 import QtWidgets, QtCore, QtGui
 
 class Products:
     @staticmethod
-    def loadTablepro(self = None):
+    def loadTableProducts():
         try:
-            listTabProducts = Conexion.listTabProducts(self)
+            listTabProducts = Conexion.listProducts()
             index = 0
             for record in listTabProducts:
                 globals.ui.tblProducts.setRowCount(index + 1)
                 globals.ui.tblProducts.setItem(index, 0, QtWidgets.QTableWidgetItem(str(record[0])))
                 globals.ui.tblProducts.setItem(index, 1, QtWidgets.QTableWidgetItem(str(record[1])))
-                globals.ui.tblProducts.setItem(index, 2, QtWidgets.QTableWidgetItem(str(record[2])))
-                item = int(globals.ui.tblProducts.item(index ,2).text())
-                if item < 5 :
-                    globals.ui.tblProducts.item(index, 0).setBackground(QtGui.QColor("red"))
-                    globals.ui.tblProducts.item(index, 1).setBackground(QtGui.QColor("red"))
-                    globals.ui.tblProducts.item(index, 2).setBackground(QtGui.QColor("red"))
+                globals.ui.tblProducts.setItem(index, 2, QtWidgets.QTableWidgetItem(str("  " + str(record[2]) + "  ")))
+                globals.ui.tblProducts.setItem(index, 3, QtWidgets.QTableWidgetItem(str(record[3])))
+                globals.ui.tblProducts.setItem(index, 4, QtWidgets.QTableWidgetItem(str(record[4]) + " €"))
 
-                    globals.ui.tblProducts.setItem(index, 3, QtWidgets.QTableWidgetItem(str(record[3])))
-                    globals.ui.tblProducts.setItem(index, 4, QtWidgets.QTableWidgetItem(str(record[4])))
-                    globals.ui.tblProducts.item(index, 3).setBackground(QtGui.QColor("red"))
-                    globals.ui.tblProducts.item(index, 4).setBackground(QtGui.QColor("red"))
+                stock = float(record[2])
+                if stock < 5:
+                    pale_red = QtGui.QColor(255, 200, 200)
 
-                else:
-                    globals.ui.tblProducts.setItem(index, 3, QtWidgets.QTableWidgetItem(str(record[3])))
-                    globals.ui.tblProducts.setItem(index, 4, QtWidgets.QTableWidgetItem(str(record[4])))
+                    for i in range(5):
+                        item = globals.ui.tblProducts.item(index, i)
+                        if item:
+                            item.setBackground(pale_red)
 
-
+                globals.ui.tblProducts.item(index, 0).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter.AlignCenter)
+                globals.ui.tblProducts.item(index, 1).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignLeft.AlignVCenter)
+                globals.ui.tblProducts.item(index, 2).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter.AlignCenter)
+                globals.ui.tblProducts.item(index, 3).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignRight.AlignRight)
+                globals.ui.tblProducts.item(index, 4).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignRight.AlignRight)
 
                 index += 1
+
         except Exception as error:
-            print("error in loadTableProducts ", error)
+            print("error en loadTableProducts ", error)
 
     def comaPunto(valor):
         valor = valor.replace(',','.')
@@ -63,7 +65,7 @@ class Products:
                 if mbox.exec():
                     mbox.hide()
 
-            Products.loadTablepro(self)
+            Products.loadTableProducts(self)
         except Exception as error:
             print("Error  saving product ", error)
 
@@ -130,7 +132,7 @@ class Products:
 
                 else:
                     print("Something went wrong")
-                Products.loadTablepro(self)
+                Products.loadTableProducts(self)
 
             else:
                 pass
@@ -170,7 +172,7 @@ class Products:
                 mbox.setStandardButtons(QtWidgets.QMessageBox.StandardButton.Ok)
                 if mbox.exec() == QtWidgets.QMessageBox.StandardButton.Ok:
                     mbox.hide()
-            Products.loadTablepro(self=None)
+            Products.loadTableProducts(self=None)
         except Exception as error:
             print("error modify pro ", error)
 

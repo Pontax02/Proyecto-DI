@@ -555,3 +555,23 @@ class Conexion:
         except Exception as error:
             print("Error en descontarStock:", error)
             return False
+        
+    @staticmethod
+    def listProducts():
+        """
+
+        Obtiene la lista completa de productos.
+
+        :return: Lista de filas de productos.
+        :rtype: list[list]
+
+        """
+
+        list = []
+        query = QtSql.QSqlQuery()
+        query.prepare("SELECT * FROM products")
+        if query.exec():
+            while query.next():
+                row = [query.value(i) for i in range(query.record().count())]
+                list.append(row)
+        return list

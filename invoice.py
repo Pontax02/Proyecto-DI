@@ -5,7 +5,7 @@ from traceback import print_tb
 from PyQt6.QtGui import QIcon
 
 
-import reports
+from reports import Reports
 from PyQt6 import QtWidgets, QtCore
 from time import sleep
 import conexion
@@ -181,7 +181,6 @@ class Invoice:
                 globals.ui.lblnumfac,
                 globals.ui.txtDniFac,
                 globals.ui.lblFechafac
-                
             ]
 
             for i in range(len(boxes)):
@@ -411,7 +410,7 @@ class Invoice:
             fact = globals.ui.lblnumfac.text()
 
             if Conexion.existeFacturaSales(fact):
-                reports.ticket(self)
+                Reports.ticket(self)
             else:
                 correct = False
                 for data in globals.linesales:
@@ -436,7 +435,7 @@ class Invoice:
                         globals.ui.tabsales.setRowCount(0)
                         mbox.hide()
 
-                        Products.loadTablepro()
+                        Products.loadTableProducts()
 
         except Exception as error:
             print("Error in saveSales:", error)

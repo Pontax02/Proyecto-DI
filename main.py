@@ -39,7 +39,7 @@ class Main(QtWidgets.QMainWindow):
         Conexion.db_conexion(self)
         Customers.loadTablecli(varcli)
         Events.resizeTabCustomer(self)
-        Products.loadTablepro(self)
+        Products.loadTableProducts()
         Events.resizeTabProducts(self)
         Events.resizeTabSales(self)
 
@@ -59,6 +59,7 @@ class Main(QtWidgets.QMainWindow):
         globals.ui.actionRestore_Backup.triggered.connect(Events.restoreBackup)
         globals.ui.actionCustomers.triggered.connect(Events.exportXlsCustomers)
         globals.ui.actionCustomer_Report.triggered.connect(self.report.reportCustomers)
+        globals.ui.actionProducts_Report.triggered.connect(self.report.reportProducts)
 
         #functions in line-edit
         globals.ui.txtDnicli.editingFinished.connect(Customers.checkDni)
@@ -85,9 +86,9 @@ class Main(QtWidgets.QMainWindow):
         globals.ui.btnSavepro.clicked.connect(Products.savePro)
         globals.ui.btnModpro.clicked.connect(Products.modifyPro)
         globals.ui.btndelpro.clicked.connect(Products.delPro)
-        globals.ui.btnCleanfac.clicked.connect(self.invoice.cleanFac)
-        globals.ui.btnSavefac.clicked.connect(self.invoice.saveInvoice)
-        globals.ui.btnsalesave.clicked.connect(self.invoice.saveSales)
+        globals.ui.btnCleanfac.clicked.connect(Invoice.cleanFac)
+        globals.ui.btnSavefac.clicked.connect(Invoice.saveInvoice)
+        globals.ui.btnsalesave.clicked.connect(Invoice.saveSales)
 
 
         #Eventos teclados
