@@ -98,6 +98,7 @@ class Conexion:
                     list.append(row)
         return list
 
+    @staticmethod
     def listTabProducts(self):
         """
         Modulo para obtener todos los productos de la base de datos
@@ -389,23 +390,35 @@ class Conexion:
         except Exception as error:
             print("error selectProduct in conexion", error)
 
+    @staticmethod
     def saveSales(data):
+        """
+
+        Inserta una línea de venta asociada a una factura.
+
+        :param list data: Datos de la venta (idfac, idpro, product, unitprice, amount, total)
+        :return: ``True`` si se insertó correctamente.
+        :rtype: bool
+
+        """
+
         try:
             query = QtSql.QSqlQuery()
-            query.prepare("insert into sales(idfac,idpro,product, unitprice, amount, total) VALUES(:idfac, :idpro,:product, :unitprice, :amount, :total)")
-
-            query.bindValue(":idfac", int(data[0]))
-            query.bindValue(":idpro",int(data[1]))
-            query.bindValue(":product",str(data[2]))
-            query.bindValue(":unitprice",float(data[3]))
-            query.bindValue(":amount",int(data[4]))
-            query.bindValue(":total",float(data[5]))
+            query.prepare("INSERT INTO sales (idfac, idpro, product, unitprice, amount, total) "
+                        " VALUES (:idfac, :idpro, :product, :unitprice, :amount, :total)")
+            query.bindValue(":idfac", data[0])
+            query.bindValue(":idpro", data[1])
+            query.bindValue(":product", data[2])
+            query.bindValue(":unitprice", data[3])
+            query.bindValue(":amount", data[4])
+            query.bindValue(":total", data[5])
             if query.exec():
                 return True
             else:
                 return False
+
         except Exception as error:
-            print("error saveSales in conexion", error)
+            print("error saveSales conexion", error)
 
 
     def existFac(item):
@@ -422,7 +435,7 @@ class Conexion:
         except Exception as error:
             print("error existFac in conexion", error)
     @staticmethod
-    def existFacSales(fact):
+    def existeFacturaSales(fact):
         """
 
                Devuelve True si en la tabla ventas existe el idfac, si no devuelve False
@@ -467,6 +480,78 @@ class Conexion:
         except Exception as error:
             print("Error getSale: ", error)
 
+    @staticmethod
+    def dataOneSale(idfac):
+        """
 
+        Obtiene las líneas de venta de una factura.
 
+        :param int idfac: ID de la factura.
+        :return: Lista con líneas de venta.
+        :rtype: list[list]
 
+        """
+
+        try:
+            rows = []
+            idfac = str(idfac).strip()
+            query = QtSql.QSqlQuery()
+            query.prepare("SELECT * FROM sales WHERE idfac = :idfac")
+            query.bindValue(":idfac", idfac)
+
+            if query.exec():
+                while query.next():
+                    row = [query.value(2), query.value(4), query.value(5), query.value(3), query.value(6)]
+                    rows.append(row)
+            print(f"Ventas obtenidas para la factura {idfac}: {rows}")        
+            return rows
+
+        except Exception as error:
+            print("error dataOneInvoice", error)
+    
+
+    @staticmethod
+    def dataOneInvoice(idfact):
+        """
+
+        Obtiene los datos de una factura por ID.
+
+        :param int idfact: ID de la factura.
+        :return: Lista con datos de la factura.
+        :rtype: list
+
+        """
+
+        try:
+            list = []
+            idfact = str(idfact).strip()
+            query = QtSql.QSqlQuery()
+            query.prepare("SELECT * FROM invoices WHERE idfact = :idfact")
+            query.bindValue(":idfact", idfact)
+            if query.exec():
+                while query.next():
+                    for i in range(query.record().count()):
+                        list.append(query.value(i))
+            return list
+
+        except Exception as error:
+            print("error dataOneInvoice", error)
+
+    @staticmethod
+    def descontarStock(code, cantidad):
+        """
+        Descuenta la cantidad vendida del stock de un producto dado su código.
+        """
+        try:
+            query = QtSql.QSqlQuery()
+            query.prepare("UPDATE products SET Stock = Stock - :stock WHERE Code = :code")
+            query.bindValue(":stock", int(cantidad))
+            query.bindValue(":code", int(code))
+
+            if query.exec():
+                return True
+            else:
+                return False
+        except Exception as error:
+            print("Error en descontarStock:", error)
+            return False

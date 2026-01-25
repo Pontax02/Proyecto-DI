@@ -4,7 +4,8 @@ from PyQt6 import QtWidgets, QtCore, QtGui
 
 
 class Products:
-    def loadTablepro(self):
+    @staticmethod
+    def loadTablepro(self = None):
         try:
             listTabProducts = Conexion.listTabProducts(self)
             index = 0

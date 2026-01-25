@@ -1,5 +1,5 @@
-from asyncio import Event
-from enum import global_str
+
+
 
 import customers
 import events
@@ -104,7 +104,7 @@ class Main(QtWidgets.QMainWindow):
 
         globals.ui.tblProducts.clicked.connect(Products.selectPro)
 
-        globals.ui.tablefacv.clicked.connect(Invoice.selectinvoice)
+        globals.ui.tablefacv.clicked.connect(Invoice.selectInvoice)
 
         globals.ui.tabsales.itemChanged.connect(self.invoice.cellChangedSales)
 

@@ -4,6 +4,7 @@ from traceback import print_tb
 
 from PyQt6.QtGui import QIcon
 
+
 import reports
 from PyQt6 import QtWidgets, QtCore
 from time import sleep
@@ -71,39 +72,41 @@ class Invoice:
             print("error in cleanfac", error)
 
     @staticmethod
-    def saveInvoice(self = None):
+    def saveInvoice():
         """
-        Modulo para guardar al cliente en la tabla de facturas
-        :param self:None
-        :type self:None
+        Guarda una nueva factura en la base de datos utilizando
+        el DNI del cliente y la fecha actual.
+
+        Si la factura se crea correctamente, se habilita la tabla
+        de ventas para introducir líneas.
         """
         try:
             dni = globals.ui.txtDniFac.text()
-
             data = datetime.datetime.now().strftime("%d/%m/%Y")
+
             if dni != "" and data != "":
-                if conexion.Conexion.insertInvoice(dni, data):
+                if Conexion.insertInvoice(dni, data):
                     Invoice.loadTablefac()
+
                     mbox = QtWidgets.QMessageBox()
                     mbox.setIcon(QtWidgets.QMessageBox.Icon.Information)
                     mbox.setWindowTitle("Invoice")
-                    mbox.setText("Invoice saved")
-                    mbox.exec()
-                    sleep(2)
-                    mbox.hide()
+                    mbox.setText("Invoice created successfully")
+                    if mbox.exec():
+                        mbox.hide()
 
-
+                    Invoice.activeSales()
             else:
                 mbox = QtWidgets.QMessageBox()
                 mbox.setIcon(QtWidgets.QMessageBox.Icon.Warning)
-                mbox.setWindowTitle("Invoice")
-                mbox.setText("Missing data")
+                mbox.setWindowTitle("Warning")
+                mbox.setText("Missing Fields or Data")
                 mbox.setStandardButtons(QtWidgets.QMessageBox.StandardButton.Ok)
                 if mbox.exec() == QtWidgets.QMessageBox.StandardButton.Ok:
                     mbox.hide()
 
-        except:
-            print("error in saving invoice")
+        except Exception as error:
+            print("error en saveInvoice", error)
 
     @staticmethod
     def loadTablefac(self=None):
@@ -160,41 +163,34 @@ class Invoice:
             print("error in loadFacFirs", error)
 
 
-    def selectinvoice(self):
+    @staticmethod
+    def selectInvoice():
+        """
+        Carga la factura seleccionada en la tabla de facturas
+        y muestra sus líneas de venta asociadas.
+        """
         try:
             row = globals.ui.tablefacv.selectedItems()
             data = [dato.text() for dato in row]
-            globals.ui.lblnumfac.setText(str(data[0]))
-            globals.ui.txtDniFac.setText(str(data[1]))
-            globals.ui.lblFechafac.setText(str(data[2]))
-            Invoice.searchCli(self)
-            #Invoice.activeSales(self)
-            #Si la factura existe carga los productos en la tabla ventas
-            records = []
-            records = conexion.Conexion.existFac(data[0])
-            if len(records) > 0:
-                globals.ui.tabsales.blockSignals(True)
 
+            recordinvoice = Conexion.dataOneInvoice(str(data[0]))
 
-                Invoice.loadTablesales(records)
-                globals.ui.tabsales.setEditTriggers(QtWidgets.QAbstractItemView.EditTrigger.NoEditTriggers)
+            Invoice.cargarVentas(str(data[0]))
 
-                #Desactivar la tabla ventas
+            boxes = [
+                globals.ui.lblnumfac,
+                globals.ui.txtDniFac,
+                globals.ui.lblFechafac
+                
+            ]
 
-            else:
-                globals.subtotal = 0.0
-                globals.ui.lblSubtotal.setText("")
-                globals.ui.lblIVA.setText("")
-                globals.ui.lblTotal.setText("")
-                globals.ui.tabsales.setEditTriggers(QtWidgets.QAbstractItemView.EditTrigger.AllEditTriggers)
-                globals.ui.tabsales.blockSignals(False)
-
-
-                Invoice.activeSales()
-
+            for i in range(len(boxes)):
+                boxes[i].setText(str(recordinvoice[i]))
 
         except Exception as error:
-            print("error en selecting invoice ", error)
+            print("error en selectInvoice", error)
+            
+
 
     @staticmethod
     def activeSales(row=None):
@@ -207,7 +203,7 @@ class Invoice:
         try:
             fact = globals.ui.lblnumfac.text()
 
-            if Conexion.existFacSales(fact):
+            if Conexion.existeFacturaSales(fact):
                 return
 
             table = globals.ui.tabsales
@@ -374,7 +370,7 @@ class Invoice:
                 return
 
             if is_row_complete:
-                if not Conexion.existFacSales(fact):
+                if not Conexion.existeFacturaSales(fact):
                     if row == globals.ui.tabsales.rowCount() - 1:
                         next_row = globals.ui.tabsales.rowCount()
                         QtCore.QTimer.singleShot(
@@ -400,37 +396,51 @@ class Invoice:
 
 
     @staticmethod
-    def saveSales(self = None):
+    def saveSales(self=None):
+        """
+        Guarda las líneas de venta asociadas a la factura actual.
+
+        - Si la factura ya tiene ventas, genera directamente el ticket
+        - Si no, guarda cada línea en la base de datos
+        - Bloquea la tabla tras guardar correctamente
+
+        :param self: Parámetro opcional para compatibilidad con señales
+        """
+        from products import Products
         try:
-            #empieza a recorrer la tabla e ir guardando en la bbdd de ventas
-            table = globals.ui.tabsales
-            rows = table.rowCount()
-            cols = table.columnCount()
-            fac = globals.ui.lblnumfac.text()
-            if conexion.Conexion.existFacSales(fac):
-                reports.Reports.ticket(self)
+            fact = globals.ui.lblnumfac.text()
 
+            if Conexion.existeFacturaSales(fact):
+                reports.ticket(self)
             else:
-                for row in range(rows):
-                    line = {}
-                    for col in range(cols - 1):
-                        item = table.item(row, col)
-                        if item and item.text() != "":
-                            line[col] = item.text()
-                        correct = conexion.Conexion.saveSales(line)
+                correct = False
+                for data in globals.linesales:
+                    correct = Conexion.saveSales(data)
                     if correct:
-                        mbox = QtWidgets.QMessageBox()
-                        mbox.setIcon(QtWidgets.QMessageBox.Icon.Information)
-                        mbox.setWindowTitle("Info")
-                        mbox.setText("Sales saved printing invoice")
-                        mbox.setStandardButtons(QtWidgets.QMessageBox.StandardButton.Ok)
-                        if mbox.exec() == QtWidgets.QMessageBox.StandardButton.Ok:
-                            #aqui llamo al modulo reports y funcion ticket
-                            globals.linesales.clear()
-        except Exception as error:
-            print("Error en cellChangedSales:", error)
+                        Conexion.descontarStock(data[1], data[4]) # Code , Sales
 
-    @staticmethod
+                if globals.linesales[-1] and correct:
+                    mbox = QtWidgets.QMessageBox()
+                    mbox.setIcon(QtWidgets.QMessageBox.Icon.Information)
+                    mbox.setWindowTitle("Sales Saved")
+                    mbox.setText(
+                        "Sales saved. Printing Invoice..."
+                    )
+                    mbox.setStandardButtons(
+                        QtWidgets.QMessageBox.StandardButton.Ok
+                    )
+
+                    if mbox.exec() == QtWidgets.QMessageBox.StandardButton.Ok:
+                        Invoice.bloquearTablaSales()
+                        globals.linesales.clear()
+                        globals.ui.tabsales.setRowCount(0)
+                        mbox.hide()
+
+                        Products.loadTablepro()
+
+        except Exception as error:
+            print("Error in saveSales:", error)
+    
     def loadTableSales(idfac):
         """
         Carga las líneas de venta de una factura existente
@@ -441,7 +451,7 @@ class Invoice:
         """
         try:
             data = Conexion.dataOneSale(idfac)
-            table = globals.ui.tblSales
+            table = globals.ui.tabsales
             table.setRowCount(0)
 
             if not data:
@@ -479,7 +489,7 @@ class Invoice:
         try:
             boton = QtWidgets.QApplication.instance().sender()
             numfac = boton.property("numfac")
-            if conexion.Conexion.existFacSales(numfac):
+            if conexion.Conexion.existeFacturaSales(numfac):
                 mbox = QtWidgets.QMessageBox()
                 mbox.setIcon(QtWidgets.QMessageBox.Icon.Warning)
                 mbox.setWindowTitle("Warning")
@@ -522,7 +532,7 @@ class Invoice:
             # comprobar si la factura ya tiene ventas guardadas
             fact = globals.ui.lblnumfac.text()
 
-            if Conexion.existFacSales(fact):
+            if Conexion.existeFacturaSales(fact):
                 mbox = QtWidgets.QMessageBox()
                 mbox.setIcon(QtWidgets.QMessageBox.Icon.Warning)
                 mbox.setWindowTitle("No permitido")
@@ -555,3 +565,68 @@ class Invoice:
 
         except Exception as error:
             print("Error en deleteSales:", error)
+
+
+
+    @staticmethod
+    def cargarVentas(idfac):
+        """
+        Carga las líneas de venta de una factura existente
+        y las muestra en la tabla de ventas.
+
+        :param idfac: Identificador de la factura
+        :type idfac: str
+        """
+        try:
+            data = Conexion.dataOneSale(idfac)
+            table = globals.ui.tabsales
+            table.setRowCount(0)
+
+            if not data:
+                Invoice.activeSales()
+            else:
+                table.setRowCount(len(data))
+
+                for row_index, sale_row in enumerate(data):
+                    for col_index, cell_value in enumerate(sale_row):
+                        table_item = QtWidgets.QTableWidgetItem(
+                            str(cell_value)
+                        )
+                        table.setItem(
+                            row_index, col_index, table_item
+                        )
+
+                        btn_del = QtWidgets.QPushButton()
+                        btn_del.setIcon(QIcon("./img/basura.png"))
+                        btn_del.setIconSize(QtCore.QSize(26, 26))
+                        btn_del.setFixedSize(32, 32)
+                        btn_del.setStyleSheet("border: none; background-color: transparent")
+                        btn_del.clicked.connect(Invoice.deleteSales)
+
+                        table.setCellWidget(row_index, 5, btn_del)
+
+                Invoice.bloquearTablaSales()
+
+        except Exception as error:
+            print("Error en cargarVentas:", error)
+
+
+    @staticmethod
+    def bloquearTablaSales():
+        """
+        Bloquea la edición de todas las celdas de la tabla de ventas,
+        impidiendo modificaciones una vez guardada la factura.
+        """
+        try:
+            table = globals.ui.tabsales
+            for row in range(table.rowCount()):
+                for col in range(table.columnCount()):
+                    item = table.item(row, col)
+                    if item:
+                        item.setFlags(
+                            item.flags() &
+                            ~QtCore.Qt.ItemFlag.ItemIsEditable
+                        )
+
+        except Exception as error:
+            print("Error en bloquearTablaSales:", error)
