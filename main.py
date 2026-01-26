@@ -43,8 +43,8 @@ class Main(QtWidgets.QMainWindow):
         Events.resizeTabProducts(self)
         Events.resizeTabSales(self)
 
-        Invoice.loadTablefac(self = None)
-        Invoice.loadFactFirs(self = None)
+        Invoice.loadTableInvoice(self = None)
+        Invoice.loadInvoiceirst()
 
 
 
@@ -86,14 +86,14 @@ class Main(QtWidgets.QMainWindow):
         globals.ui.btnSavepro.clicked.connect(Products.savePro)
         globals.ui.btnModpro.clicked.connect(Products.modifyPro)
         globals.ui.btndelpro.clicked.connect(Products.delPro)
-        globals.ui.btnCleanfac.clicked.connect(Invoice.cleanFac)
+        globals.ui.btnCleanfac.clicked.connect(Invoice.reloadInvoice)
         globals.ui.btnSavefac.clicked.connect(Invoice.saveInvoice)
         globals.ui.btnsalesave.clicked.connect(Invoice.saveSales)
 
 
         #Eventos teclados
         self.cleanFac = QtGui.QShortcut(QtGui.QKeySequence("F11"),self)
-        self.cleanFac.activated.connect(invoice.Invoice.cleanFac)
+        self.cleanFac.activated.connect(invoice.Invoice.reloadInvoice)
 
 
         #Functions Combobox

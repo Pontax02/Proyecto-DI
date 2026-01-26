@@ -403,6 +403,7 @@ class Conexion:
         """
 
         try:
+            print("Debug: Intentando guardar línea de venta con datos:", data)
             query = QtSql.QSqlQuery()
             query.prepare("INSERT INTO sales (idfac, idpro, product, unitprice, amount, total) "
                         " VALUES (:idfac, :idpro, :product, :unitprice, :amount, :total)")
@@ -413,12 +414,14 @@ class Conexion:
             query.bindValue(":amount", data[4])
             query.bindValue(":total", data[5])
             if query.exec():
+                print("Debug: Línea de venta guardada correctamente.")
                 return True
             else:
+                print("Error: Falló la inserción en la tabla sales.")
                 return False
 
         except Exception as error:
-            print("error saveSales conexion", error)
+            print("Error en saveSales conexion:", error)
 
 
     def existFac(item):
@@ -444,7 +447,9 @@ class Conexion:
 
                """
         try:
+            print("Debug: Verificando existencia de factura en ventas, idfac:", fact)
             if not fact or not str(fact).isdigit():
+                print("Debug: idfac no válido")
                 return False
 
             query = QtSql.QSqlQuery()
@@ -452,17 +457,20 @@ class Conexion:
             query.bindValue(":idfac", int(fact))
             if query.exec():
                 if query.next():
+                    print("Debug: Factura encontrada en ventas")
                     return True
                 else:
+                    print("Debug: Factura no encontrada en ventas")
                     return False
 
         except Exception as error:
-            print("error en existeFacturaSales", error)
+            print("Error en existeFacturaSales:", error)
 
     @staticmethod
     def datosFac(id_factura):
 
         try:
+            print("Debug: Ejecutando consulta para obtener datos de la factura con idfac:", id_factura)
             all_data_sales = []
             query = QtSql.QSqlQuery()
             query.prepare("SELECT * FROM sales where idfac = :idfac;")
@@ -470,28 +478,28 @@ class Conexion:
             query.bindValue(":idfac", int(id_factura))
 
             if query.exec():
+                print("Debug: Consulta ejecutada correctamente.")
                 while query.next():
                     row = [query.value(i) for i in range(query.record().count())]
                     all_data_sales.append(row)
-
+                print("Debug: Datos obtenidos:", all_data_sales)
+            else:
+                print("Error: La consulta para obtener datos de la factura falló.")
 
             return all_data_sales
 
         except Exception as error:
-            print("Error getSale: ", error)
+            print("Error en datosFac:", error)
 
     @staticmethod
     def dataOneSale(idfac):
         """
-
         Obtiene las líneas de venta de una factura.
 
         :param int idfac: ID de la factura.
         :return: Lista con líneas de venta.
         :rtype: list[list]
-
         """
-
         try:
             rows = []
             idfac = str(idfac).strip()
@@ -501,57 +509,110 @@ class Conexion:
 
             if query.exec():
                 while query.next():
-                    row = [query.value(2), query.value(4), query.value(5), query.value(3), query.value(6)]
-                    rows.append(row)
-            print(f"Ventas obtenidas para la factura {idfac}: {rows}")        
+                    codigo = query.value(2)
+                    precio = query.value(4)
+                    cantidad = query.value(5)
+                    concepto = query.value(3)
+
+                    # Calcular el total dinámicamente
+                    total = round(float(precio) * float(cantidad), 2) if precio and cantidad else 0.0
+
+                    rows.append([codigo, precio, cantidad, concepto, total])
+
+            print(f"Debug: Ventas obtenidas para la factura {idfac}: {rows}")
             return rows
 
         except Exception as error:
-            print("error dataOneInvoice", error)
-    
+            print(f"Error en dataOneSale: {error}")
 
     @staticmethod
     def dataOneInvoice(idfact):
         """
-
         Obtiene los datos de una factura por ID.
 
         :param int idfact: ID de la factura.
-        :return: Lista con datos de la factura.
-        :rtype: list
-
+        :return: Lista con datos de la factura o None si no se encuentra.
+        :rtype: list | None
         """
-
         try:
-            list = []
             idfact = str(idfact).strip()
+            print(f"Debug: Querying invoice with ID: {idfact} (Type: {type(idfact)})")
+
             query = QtSql.QSqlQuery()
-            query.prepare("SELECT * FROM invoices WHERE idfact = :idfact")
-            query.bindValue(":idfact", idfact)
-            if query.exec():
-                while query.next():
-                    for i in range(query.record().count()):
-                        list.append(query.value(i))
+            query.prepare("SELECT * FROM invoices WHERE idfac = :idfac")
+            query.bindValue(":idfac", idfact)
+
+            if not query.exec():
+                print(f"Error executing query for invoice ID {idfact}: {query.lastError().text()}")
+                return None
+
+            list = []
+            while query.next():
+                for i in range(query.record().count()):
+                    value = query.value(i)
+
+                    # Convert date format if the column is the date
+                    if i == 2:  # Assuming the date is in the 3rd column (index 2)
+                        try:
+                            from datetime import datetime
+                            value = datetime.strptime(value, "%d/%m/%Y").strftime("%Y-%m-%d")
+                        except ValueError as e:
+                            print(f"Error converting date format: {e}")
+
+                    list.append(value)
+
+            if not list:
+                print(f"No data found for invoice ID {idfact}.")
+                return None
+
+            print(f"Data retrieved for invoice ID {idfact}: {list}")
             return list
 
         except Exception as error:
-            print("error dataOneInvoice", error)
+            print("Error in dataOneInvoice:", error)
+            return None
 
     @staticmethod
     def descontarStock(code, cantidad):
         """
-        Descuenta la cantidad vendida del stock de un producto dado su código.
+        Descuenta el stock de un producto si hay suficiente cantidad disponible.
+
+        :param code: Código del producto.
+        :param cantidad: Cantidad a descontar.
+        :return: True si el stock se descontó correctamente, False en caso contrario.
         """
         try:
             query = QtSql.QSqlQuery()
-            query.prepare("UPDATE products SET Stock = Stock - :stock WHERE Code = :code")
-            query.bindValue(":stock", int(cantidad))
-            query.bindValue(":code", int(code))
+
+            # Verificar el stock actual del producto
+            query.prepare("SELECT stock FROM products WHERE code = :code")
+            query.bindValue(":code", code)
+
+            if not query.exec() or not query.next():
+                print(f"Error: No se pudo obtener el stock del producto con código {code}.")
+                return False
+
+            stock_actual = query.value(0)
+            print(f"Debug: Stock actual del producto {code}: {stock_actual}")
+
+            # Validar si hay suficiente stock
+            if stock_actual < cantidad:
+                print(f"Error: Stock insuficiente para el producto {code}. Disponible: {stock_actual}, solicitado: {cantidad}.")
+                return False
+
+            # Descontar el stock
+            nuevo_stock = stock_actual - cantidad
+            query.prepare("UPDATE products SET stock = :nuevo_stock WHERE code = :code")
+            query.bindValue(":nuevo_stock", nuevo_stock)
+            query.bindValue(":code", code)
 
             if query.exec():
+                print(f"Debug: Stock actualizado para el producto {code}. Nuevo stock: {nuevo_stock}")
                 return True
             else:
+                print(f"Error: No se pudo actualizar el stock para el producto {code}.")
                 return False
+
         except Exception as error:
             print("Error en descontarStock:", error)
             return False

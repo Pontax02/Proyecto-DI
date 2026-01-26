@@ -40,7 +40,7 @@ class Products:
     def comaPunto(valor):
         valor = valor.replace(',','.')
         globals.ui.txtPrice.setText(str(valor))
-    def savePro(self):
+    def savePro(self = None):
         try:
 
             newpro = [globals.ui.txtName.text(),globals.ui.txtStock.text(),globals.ui.comboBox.currentText(),globals.ui.txtPrice.text()]
@@ -65,7 +65,7 @@ class Products:
                 if mbox.exec():
                     mbox.hide()
 
-            Products.loadTableProducts(self)
+            Products.loadTableProducts(self=None)
         except Exception as error:
             print("Error  saving product ", error)
 
@@ -110,7 +110,7 @@ class Products:
         except Exception as error:
             print("error en selecting product ", error)
 
-    def delPro(self):
+    def delPro(self = None):
         try:
             mbox = QtWidgets.QMessageBox()
             mbox.setWindowTitle("WARNING")
@@ -132,7 +132,7 @@ class Products:
 
                 else:
                     print("Something went wrong")
-                Products.loadTableProducts(self)
+                Products.loadTableProducts(self=None)
 
             else:
                 pass

@@ -199,18 +199,32 @@ class Reports:
     @staticmethod
     def ticket(self = None):
         try:
+            print("Debug: Iniciando generación del PDF.")
             rootPath = ".\\reports"
             if not os.path.exists(rootPath):
+                print("Debug: La carpeta 'reports' no existe. Creándola ahora.")
                 os.makedirs(rootPath)
+            else:
+                print("Debug: La carpeta 'reports' ya existe.")
+
             data = datetime.today().strftime("%Y_%m_%d_%H_%M_%S")
             ticket_name = data + "_ticket.pdf"
             pdf_path = os.path.abspath(os.path.join(rootPath, ticket_name))
+            print("Debug: Ruta completa del archivo PDF:", pdf_path)
 
             globals.report = canvas.Canvas(pdf_path)
-            dni = globals.ui.lblDniFactura.text()
+            print("Debug: Canvas creado para el PDF.")
+
+            dni = globals.ui.txtDniFac.text().strip()
+            print("Debug: Valor de txtDniFac:", dni)
             titulo = "FACTURA SIMPLIFICADA" if dni == "00000000T" else "FACTURA"
 
             records = Conexion.dataOneCustomer(dni)
+            if not records:
+                print("Error: No se encontraron datos del cliente para DNI:", dni)
+                return
+
+            print("Debug: Datos del cliente obtenidos:", records)
 
             y = 785
             globals.report.setFont("Helvetica-Bold", 10)
@@ -221,6 +235,7 @@ class Reports:
             globals.report.drawString(220, y - 60, "LOCALIDAD: " + str(records[8]) + "  PROVINCIA: " + str(records[7]))
 
             numfact = globals.ui.lblnumfac.text()
+            print("Debug: Valor de lblnumfac:", numfact)
             globals.report.setFont("Helvetica-Bold", 10)
             if titulo == "FACTURA":
                 globals.report.drawString(320, 675, "Nº " + str(numfact))
@@ -228,7 +243,12 @@ class Reports:
                 globals.report.drawString(360, 675, "Nº " + str(numfact))
 
             dataFact = Conexion.datosFac(numfact)
-            print(dataFact)
+            if not dataFact:
+                print("Error: No se encontraron datos de la factura para número:", numfact)
+                return
+
+            print("Debug: Datos de la factura obtenidos:", dataFact)
+
             items = ["Code", "Product", "Unit Price", "Amount", "Total"]
             globals.report.drawString(60, 650, str(items[0]))
             globals.report.drawString(150, 650, str(items[1]))
@@ -240,6 +260,10 @@ class Reports:
             x = 60
             y = 625
             for data in dataFact:
+                if len(data) < 7:
+                    print("Error: Datos incompletos en la línea de venta:", data)
+                    continue
+
                 globals.report.setFont("Helvetica", 8)
                 globals.report.drawString(x, y, str(data[2]))
                 globals.report.drawString(x + 90, y, str(data[4]))
@@ -251,11 +275,13 @@ class Reports:
             Reports.topReport(titulo)
             Reports.footer(titulo)
             globals.report.save()
+            print("Debug: PDF guardado correctamente en:", pdf_path)
 
             try:
                 os.startfile(pdf_path)
+                print("Debug: PDF abierto correctamente.")
             except Exception as e:
-                print("No se pudo abrir el PDF:", e)
+                print("Error: No se pudo abrir el PDF:", e)
 
         except Exception as error:
-            print("error ticket", error)
+            print("Error en la generación del PDF:", error)
