@@ -528,49 +528,29 @@ class Conexion:
     @staticmethod
     def dataOneInvoice(idfact):
         """
+
         Obtiene los datos de una factura por ID.
 
         :param int idfact: ID de la factura.
-        :return: Lista con datos de la factura o None si no se encuentra.
-        :rtype: list | None
-        """
-        try:
-            idfact = str(idfact).strip()
-            print(f"Debug: Querying invoice with ID: {idfact} (Type: {type(idfact)})")
+        :return: Lista con datos de la factura.
+        :rtype: list
 
+        """
+
+        try:
+            list = []
+            idfact = str(idfact).strip()
             query = QtSql.QSqlQuery()
             query.prepare("SELECT * FROM invoices WHERE idfac = :idfac")
             query.bindValue(":idfac", idfact)
-
-            if not query.exec():
-                print(f"Error executing query for invoice ID {idfact}: {query.lastError().text()}")
-                return None
-
-            list = []
-            while query.next():
-                for i in range(query.record().count()):
-                    value = query.value(i)
-
-                    # Convert date format if the column is the date
-                    if i == 2:  # Assuming the date is in the 3rd column (index 2)
-                        try:
-                            from datetime import datetime
-                            value = datetime.strptime(value, "%d/%m/%Y").strftime("%Y-%m-%d")
-                        except ValueError as e:
-                            print(f"Error converting date format: {e}")
-
-                    list.append(value)
-
-            if not list:
-                print(f"No data found for invoice ID {idfact}.")
-                return None
-
-            print(f"Data retrieved for invoice ID {idfact}: {list}")
+            if query.exec():
+                while query.next():
+                    for i in range(query.record().count()):
+                        list.append(query.value(i))
             return list
 
         except Exception as error:
-            print("Error in dataOneInvoice:", error)
-            return None
+            print("error dataOneInvoice", error)
 
     @staticmethod
     def descontarStock(code, cantidad):

@@ -33,7 +33,7 @@ class Invoice:
                 record = Conexion.dataOneCustomer(dni)
 
                 # Carga de datos del cliente en la UI
-                globals.ui.lblNameFac.setText(record[2] + " " + record[3])
+                globals.ui.lblNamefac.setText(record[2] + " " + record[3])
                 globals.ui.lblTipofac.setText(record[9])
                 globals.ui.lblnumfac_3.setText(
                     record[6] + "   " + record[8] + "   " + record[7]
