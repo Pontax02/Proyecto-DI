@@ -20,11 +20,14 @@ class Customers:
         :type self: None
         """
         try:
-
             globals.ui.txtDnicli.editingFinished.disconnect(Customers.checkDni)
             dni = globals.ui.txtDnicli.text()
             dni = str(dni).upper()
-            globals.ui.txtDnicli.setText(dni)
+
+            # Solo modificar si el valor cambió
+            if globals.ui.txtDnicli.text() != dni:
+                globals.ui.txtDnicli.setText(dni)
+
             tabla = "TRWAGMYFPDXBNJZSQVHLCKE"
             dig_ext = "XYZ"
             reemp_dig_ext = {'X': '0', 'Y': '1', 'Z': '2'}
@@ -44,9 +47,8 @@ class Customers:
                 globals.ui.txtDnicli.setStyleSheet('background-color:#FFC0CB;')
                 globals.ui.txtDnicli.setText(None)
                 globals.ui.txtDnicli.setFocus()
-        except Exception as error:
-            print("error checking dni", error)
         finally:
+            # Reconectar la señal
             globals.ui.txtDnicli.editingFinished.connect(Customers.checkDni)
 
     def capitalizar(texto,widget):

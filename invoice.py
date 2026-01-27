@@ -25,7 +25,7 @@ class Invoice:
             dni = globals.ui.txtDniFac.text().upper().strip()
 
             # Si el DNI está vacío se asigna uno por defecto
-            if dni == "" or Conexion.searchCli(dni):
+            if dni == "" or Conexion.searchClient(dni):
                 if dni == "":
                     dni = "00000000T"
                     globals.ui.txtDniFac.setText(dni)
@@ -58,6 +58,7 @@ class Invoice:
         except Exception as error:
             print("error en searchInvoice", error)
 
+
     @staticmethod
     def reloadInvoice():
         """
@@ -71,7 +72,7 @@ class Invoice:
                 globals.ui.lblStatusfac,
                 globals.ui.lblTipofac,
                 globals.ui.lblnumfac_4,
-                globals.ui.lblFecha,
+                globals.ui.lblFechafac,
                 globals.ui.lblnumfac,
                 globals.ui.txtDniFac,
             ]
@@ -133,38 +134,21 @@ class Invoice:
         """
         try:
             records = Conexion.allInvoices(self)
-            index = 0
+            globals.ui.tablefacv.setRowCount(0)  # Limpiar la tabla antes de cargar nuevos datos
 
-            header = globals.ui.tablefacv.horizontalHeader()
-            header.setSectionResizeMode(3, QtWidgets.QHeaderView.ResizeMode.Fixed)
-            globals.ui.tablefacv.setColumnWidth(3, 36)
-            globals.ui.tablefacv.setColumnWidth(0, 55)
+            for index, record in enumerate(records):
+                globals.ui.tablefacv.insertRow(index)
+                for col, data in enumerate(record):
+                    item = QtWidgets.QTableWidgetItem(data)
+                    globals.ui.tablefacv.setItem(index, col, item)
 
-            for record in records:
-                globals.ui.tablefacv.setColumnWidth(3, 34)
-                globals.ui.tablefacv.setRowCount(index + 1)
-                globals.ui.tablefacv.setItem(index, 0, QtWidgets.QTableWidgetItem(record[0]))
-                globals.ui.tablefacv.setItem(index, 1, QtWidgets.QTableWidgetItem(record[1]))
-                globals.ui.tablefacv.setItem(index, 2, QtWidgets.QTableWidgetItem(record[2]))
-                # aquí se crea un botón en cada fila
-                btn_del = QtWidgets.QPushButton()
-                btn_del.setIcon(QIcon("./img/basura.png"))
-                btn_del.setIconSize(QtCore.QSize(26, 26))
-                btn_del.setFixedSize(32, 32)
-                btn_del.setStyleSheet("border: none; background-color: transparent")
-                btn_del.clicked.connect(Invoice.deleteInvoice)
-                globals.ui.tablefacv.setCellWidget(index, 3, btn_del)
-                globals.ui.tablefacv.item(index, 0).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
-                globals.ui.tablefacv.item(index, 1).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
-                globals.ui.tablefacv.item(index, 2).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
-
-                index = index + 1
-            datos = records[0]
-            globals.ui.lblnumfac.setText(str(datos[0]))
-            globals.ui.txtDniFac.setText(str(datos[1]))
-            globals.ui.lblFechafac.setText(str(datos[2]))
+            if records:
+                datos = records[0]
+                globals.ui.lblnumfac.setText(str(datos[0]))
+                globals.ui.txtDniFac.setText(str(datos[1]))
+                globals.ui.lblFechafac.setText(str(datos[2]))
         except Exception as error:
-            print("error load tablafac", error)
+            print("Error en loadTableInvoice:", error)
 
     @staticmethod
     def loadInvoiceirst():
@@ -191,24 +175,49 @@ class Invoice:
         y muestra sus líneas de venta asociadas.
         """
         try:
-            row = globals.ui.tablefacv.selectedItems()
-            data = [dato.text() for dato in row]
+            row = globals.ui.tablefacv.currentRow()
+            if row == -1:
+                return
 
-            recordinvoice = Conexion.dataOneInvoice(str(data[0]))
+            # Obtener el ID de la factura seleccionada
+            id_factura = globals.ui.tablefacv.item(row, 0).text()
 
-            Invoice.cargarVentas(str(data[0]))
+            # Obtener los datos de la factura seleccionada
+            recordinvoice = Conexion.dataOneInvoice(id_factura)
+            if not recordinvoice:
+                QtWidgets.QMessageBox.warning(
+                    None,
+                    "Error",
+                    f"No se encontraron datos para la factura con ID {id_factura}.",
+                )
+                return
 
-            boxes = [
-                globals.ui.lblnumfac,
-                globals.ui.txtDniFac,
-                globals.ui.lblFechafac,
-            ]
+            # Cargar los datos de la factura en los campos correspondientes
+            globals.ui.lblnumfac.setText(str(recordinvoice[0]))
+            globals.ui.txtDniFac.setText(str(recordinvoice[1]))
+            globals.ui.lblFechafac.setText(str(recordinvoice[2]))
 
-            for i in range(len(boxes)):
-                boxes[i].setText(str(recordinvoice[i]))
+            # Obtener los datos del cliente asociado al DNI
+            recordcustomer = Conexion.dataOneCustomer(recordinvoice[1])
+            if recordcustomer:
+                globals.ui.lblNamefac.setText(recordcustomer[2] + " " + recordcustomer[3])
+                globals.ui.lblTipofac.setText(recordcustomer[9])
+                globals.ui.lblnumfac_3.setText(
+                    recordcustomer[6] + "   " + recordcustomer[8] + "   " + recordcustomer[7]
+                )
+                globals.ui.lblnumfac_4.setText(str(recordcustomer[5]))
+
+                # Estado del cliente
+                if recordcustomer[10] == "True":
+                    globals.ui.lblStatusfac.setText("Activo")
+                else:
+                    globals.ui.lblStatusfac.setText("Inactivo")
+
+            # Cargar las líneas de venta asociadas a la factura
+            Invoice.cargarVentas(id_factura)
 
         except Exception as error:
-            print("error en selectInvoice", error)
+            print("Error en selectInvoice:", error)
 
     @staticmethod
     def activeSales(row=None):

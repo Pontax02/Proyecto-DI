@@ -120,37 +120,36 @@ class Conexion:
     @staticmethod
     def dataOneCustomer(dato):
         """
-        Modulo para obtener todos los datos de un cliente seleccionado
-        :param dato: Dni o mobile
-        :type dato: String
-        :return: Devuelve los datos del cliente proporcionado
-        :rtype: List
+
+        Obtiene los datos de un cliente buscándolo por móvil o DNI/NIE.
+
+        :param str dato: Móvil o DNI/NIE.
+        :return: Lista con los datos del cliente.
+        :rtype: list
+
         """
+
         try:
             list = []
             dato = str(dato).strip()
-            #busca por el mobile
             query = QtSql.QSqlQuery()
             query.prepare("SELECT * FROM customers where mobile = :dato")
             query.bindValue(":dato", str(dato))
             if query.exec():
                 while query.next():
-                    for i in range(query.record().count()):
+                    for i in range (query.record().count()):
                         list.append(query.value(i))
-            #si no hay por el movil busca por el dni
             if len(list) == 0:
                 query = QtSql.QSqlQuery()
                 query.prepare("SELECT * FROM customers where dni_nie = :dato")
                 query.bindValue(":dato", str(dato))
                 if query.exec():
                     while query.next():
-                        for i in range(query.record().count()):
+                        for i in range (query.record().count()):
                             list.append(query.value(i))
-
             return list
-
-        except Exception as e:
-            print("error in load dataOneCustomer", e)
+        except Exception as error:
+            print("error dataOneCustomer", error)
 
     @staticmethod
     def dataOneProduct(dato):
@@ -314,13 +313,24 @@ class Conexion:
     # Empiezo la facturacion
 
 
-    def searchCli(dni):
+    
+    @staticmethod
+    def searchClient(dni):
+        """
+
+        Verifica si existe un cliente por DNI.
+
+        :param str dni: DNI/NIE.
+        :return: ``True`` si existe.
+        :rtype: bool
+
+        """
+
         try:
             dni = str(dni).upper()
-
             query = QtSql.QSqlQuery()
             query.prepare("SELECT * FROM customers WHERE dni_nie = :dni")
-            query.bindValue(":dni", str(dni).strip())
+            query.bindValue(":dni", str(dni))
             if query.exec():
                 if query.next():
                     return True
@@ -328,7 +338,7 @@ class Conexion:
                     return False
 
         except Exception as error:
-            print("error searchCli in conexion", error)
+            print("error searchClient", error)
 
     @staticmethod
     def insertInvoice(dni,data):

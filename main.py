@@ -1,6 +1,3 @@
-
-
-
 import customers
 import events
 import globals
@@ -68,7 +65,7 @@ class Main(QtWidgets.QMainWindow):
         globals.ui.txtEmailcli.editingFinished.connect(lambda:Customers.checkMail(globals.ui.txtEmailcli.text()))
         globals.ui.txtMobilecli.editingFinished.connect(lambda:Customers.checkMobil(globals.ui.txtMobilecli.text()))
         globals.ui.txtPrice.editingFinished.connect(lambda:Products.comaPunto(globals.ui.txtPrice.text()))
-        globals.ui.txtDniFac.editingFinished.connect(lambda:invoice.Invoice.searchCli())
+        globals.ui.txtDniFac.editingFinished.connect(Invoice.searchInvoice)
 
 
         #functions of chkhistoricocli
