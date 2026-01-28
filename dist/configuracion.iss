@@ -36,7 +36,7 @@ ChangesAssociations=yes
 DisableProgramGroupPage=yes
 ; Uncomment the following line to run in non administrative install mode (install for current user only).
 ;PrivilegesRequired=lowest
-OutputDir=C:\Users\a24pablopm\PycharmProjects\pontanillamoreira\dist
+OutputDir=C:\Users\a24pablopm\PycharmProjects\Proyecto-DI\dist
 OutputBaseFilename=SuperTeis
 SolidCompression=yes
 WizardStyle=modern dynamic
@@ -49,10 +49,10 @@ Name: "spanish"; MessagesFile: "compiler:Languages\Spanish.isl"
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
-Source: "C:\Users\a24pablopm\PycharmProjects\pontanillamoreira\dist\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\a24pablopm\PycharmProjects\pontanillamoreira\data\*"; DestDir: "{app}/data"; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: "C:\Users\a24pablopm\PycharmProjects\pontanillamoreira\img\*"; DestDir: "{app}/img"; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: "C:\Users\a24pablopm\PycharmProjects\pontanillamoreira\styles.qss"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\a24pablopm\PycharmProjects\Proyecto-DI\dist\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\a24pablopm\PycharmProjects\Proyecto-DI\data\*"; DestDir: "{app}/data"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "C:\Users\a24pablopm\PycharmProjects\Proyecto-DI\img\*"; DestDir: "{app}/img"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "C:\Users\a24pablopm\PycharmProjects\Proyecto-DI\styles.qss"; DestDir: "{app}"; Flags: ignoreversion
 
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
