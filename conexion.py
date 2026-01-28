@@ -450,31 +450,24 @@ class Conexion:
     @staticmethod
     def existeFacturaSales(fact):
         """
-
-               Devuelve True si en la tabla ventas existe el idfac, si no devuelve False
-               :return: bool
-               :rtype: bool
-
-               """
+        Devuelve True si en la tabla ventas existe el idfac, si no devuelve False
+        :return: bool
+        :rtype: bool
+        """
         try:
-            print("Debug: Verificando existencia de factura en ventas, idfac:", fact)
             if not fact or not str(fact).isdigit():
-                print("Debug: idfac no válido")
                 return False
 
             query = QtSql.QSqlQuery()
-            query.prepare("SELECT * FROM sales WHERE idfac = :idfac")
+            query.prepare("SELECT 1 FROM sales WHERE idfac = :idfac LIMIT 1")
             query.bindValue(":idfac", int(fact))
-            if query.exec():
-                if query.next():
-                    print("Debug: Factura encontrada en ventas")
-                    return True
-                else:
-                    print("Debug: Factura no encontrada en ventas")
-                    return False
+            if query.exec() and query.next():
+                return True
+            return False
 
         except Exception as error:
             print("Error en existeFacturaSales:", error)
+            return False
 
     @staticmethod
     def datosFac(id_factura):
@@ -514,26 +507,25 @@ class Conexion:
             rows = []
             idfac = str(idfac).strip()
             query = QtSql.QSqlQuery()
-            query.prepare("SELECT * FROM sales WHERE idfac = :idfac")
+            query.prepare("SELECT idpro, product, unitprice, amount, total FROM sales WHERE idfac = :idfac")
             query.bindValue(":idfac", idfac)
 
             if query.exec():
                 while query.next():
-                    codigo = query.value(2)
-                    precio = query.value(4)
-                    cantidad = query.value(5)
-                    concepto = query.value(3)
+                    codigo = query.value(0)  # idproduct
+                    concepto = query.value(1)  # product
+                    precio = query.value(2)  # unit price
+                    cantidad = query.value(3)  # amount
+                    total = query.value(4)  # total
 
-                    # Calcular el total dinámicamente
-                    total = round(float(precio) * float(cantidad), 2) if precio and cantidad else 0.0
-
-                    rows.append([codigo, precio, cantidad, concepto, total])
-
-            print(f"Debug: Ventas obtenidas para la factura {idfac}: {rows}")
-            return rows
+                    rows.append([codigo, concepto, precio, cantidad, total])
 
         except Exception as error:
             print(f"Error en dataOneSale: {error}")
+            return []
+
+        print(f"Debug: dataOneSale({idfac}) returned: {rows}")  # Debug statement
+        return rows
 
     @staticmethod
     def dataOneInvoice(idfact):
@@ -557,6 +549,7 @@ class Conexion:
                 while query.next():
                     for i in range(query.record().count()):
                         list.append(query.value(i))
+            print(f"Debug: dataOneInvoice({idfact}) returned: {list}")  # Debug statement
             return list
 
         except Exception as error:

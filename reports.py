@@ -198,6 +198,9 @@ class Reports:
 
     @staticmethod
     def ticket(self = None):
+        """
+        Generates a simplified invoice (ticket) PDF.
+        """
         try:
             print("Debug: Iniciando generación del PDF.")
             rootPath = ".\\reports"
@@ -265,12 +268,23 @@ class Reports:
                     continue
 
                 globals.report.setFont("Helvetica", 8)
-                globals.report.drawString(x, y, str(data[2]))
-                globals.report.drawString(x + 90, y, str(data[4]))
-                globals.report.drawString(x + 250, y, str(data[5]))
-                globals.report.drawString(x + 360, y, str(data[3]))
-                globals.report.drawString(x + 420, y, str(data[6]))
+                globals.report.drawString(x, y, str(data[2]))  # Code
+                globals.report.drawString(x + 90, y, str(data[4]))  # Product
+                globals.report.drawString(x + 250, y, str(data[5]))  # Unit Price
+                globals.report.drawString(x + 360, y, str(data[3]))  # Amount
+                globals.report.drawString(x + 420, y, str(data[6]))  # Total
                 y = y - 25
+
+            # Add totals to the bottom of the PDF
+            globals.report.setFont("Helvetica-Bold", 10)
+            globals.report.drawString(350, y - 20, "Subtotal:")
+            globals.report.drawRightString(500, y - 20, f"{globals.subtotal:.2f} €")
+            globals.report.drawString(350, y - 40, "IVA (21%):")
+            iva = round(globals.subtotal * 0.21, 2)
+            globals.report.drawRightString(500, y - 40, f"{iva:.2f} €")
+            globals.report.drawString(350, y - 60, "Total:")
+            total = round(globals.subtotal + iva, 2)
+            globals.report.drawRightString(500, y - 60, f"{total:.2f} €")
 
             Reports.topReport(titulo)
             Reports.footer(titulo)

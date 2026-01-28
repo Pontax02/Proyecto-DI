@@ -177,10 +177,12 @@ class Invoice:
         try:
             row = globals.ui.tablefacv.currentRow()
             if row == -1:
+                print("Debug: No row selected in tablefacv")  # Debug statement
                 return
 
             # Obtener el ID de la factura seleccionada
             id_factura = globals.ui.tablefacv.item(row, 0).text()
+            print(f"Debug: Selected invoice ID: {id_factura}")  # Debug statement
 
             # Obtener los datos de la factura seleccionada
             recordinvoice = Conexion.dataOneInvoice(id_factura)
@@ -213,7 +215,7 @@ class Invoice:
                 else:
                     globals.ui.lblStatusfac.setText("Inactivo")
 
-            # Cargar las líneas de venta asociadas a la factura
+            # Load sales data
             Invoice.cargarVentas(id_factura)
 
         except Exception as error:
@@ -479,32 +481,32 @@ class Invoice:
         try:
             data = Conexion.dataOneSale(idfac)
             table = globals.ui.tabsales
-            table.setRowCount(0)
+
+            # Ensure the table is cleared before loading new data
+            table.setRowCount(0)  # Clear all rows
 
             if not data:
+                print(f"Debug: No sales data found for invoice {idfac}")  # Debug statement
                 Invoice.activeSales()
             else:
                 table.setRowCount(len(data))
 
                 for row_index, sale_row in enumerate(data):
                     for col_index, cell_value in enumerate(sale_row):
-                        table_item = QtWidgets.QTableWidgetItem(
-                            str(cell_value)
-                        )
-                        table.setItem(
-                            row_index, col_index, table_item
-                        )
+                        table_item = QtWidgets.QTableWidgetItem(str(cell_value))
+                        table.setItem(row_index, col_index, table_item)
 
-                        btn_del = QtWidgets.QPushButton()
-                        btn_del.setIcon(QIcon("./img/basura.png"))
-                        btn_del.setIconSize(QtCore.QSize(26, 26))
-                        btn_del.setFixedSize(32, 32)
-                        btn_del.setStyleSheet("border: none; background-color: transparent")
-                        btn_del.clicked.connect(Invoice.deleteSales)
+                    # Add delete button in the last column
+                    btn_del = QtWidgets.QPushButton()
+                    btn_del.setIcon(QIcon("./img/basura.png"))
+                    btn_del.setIconSize(QtCore.QSize(26, 26))
+                    btn_del.setFixedSize(32, 32)
+                    btn_del.setStyleSheet("border: none; background-color: transparent")
+                    btn_del.clicked.connect(Invoice.deleteSales)
 
-                        table.setCellWidget(row_index, 5, btn_del)
+                    table.setCellWidget(row_index, 5, btn_del)
 
-                Invoice.bloquearTablaSales()
+            Invoice.bloquearTablaSales()
 
         except Exception as error:
             print("Error en cargarVentas:", error)
