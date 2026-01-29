@@ -134,21 +134,38 @@ class Invoice:
         """
         try:
             records = Conexion.allInvoices(self)
-            globals.ui.tablefacv.setRowCount(0)  # Limpiar la tabla antes de cargar nuevos datos
+            index = 0
 
-            for index, record in enumerate(records):
-                globals.ui.tablefacv.insertRow(index)
-                for col, data in enumerate(record):
-                    item = QtWidgets.QTableWidgetItem(data)
-                    globals.ui.tablefacv.setItem(index, col, item)
+            header = globals.ui.tablefacv.horizontalHeader()
+            header.setSectionResizeMode(3, QtWidgets.QHeaderView.ResizeMode.Fixed)
+            globals.ui.tablefacv.setColumnWidth(3, 36)
+            globals.ui.tablefacv.setColumnWidth(0, 55)
 
-            if records:
-                datos = records[0]
-                globals.ui.lblnumfac.setText(str(datos[0]))
-                globals.ui.txtDniFac.setText(str(datos[1]))
-                globals.ui.lblFechafac.setText(str(datos[2]))
+            for record in records:
+                globals.ui.tablefacv.setColumnWidth(3, 34)
+                globals.ui.tablefacv.setRowCount(index + 1)
+                globals.ui.tablefacv.setItem(index, 0, QtWidgets.QTableWidgetItem(record[0]))
+                globals.ui.tablefacv.setItem(index, 1, QtWidgets.QTableWidgetItem(record[1]))
+                globals.ui.tablefacv.setItem(index, 2, QtWidgets.QTableWidgetItem(record[2]))
+                # aquí se crea un botón en cada fila
+                btn_del = QtWidgets.QPushButton()
+                btn_del.setIcon(QIcon("./img/basura.png"))
+                btn_del.setIconSize(QtCore.QSize(26, 26))
+                btn_del.setFixedSize(32, 32)
+                btn_del.setStyleSheet("border: none; background-color: transparent")
+                btn_del.clicked.connect(Invoice.deleteInvoice)
+                globals.ui.tablefacv.setCellWidget(index, 3, btn_del)
+                globals.ui.tablefacv.item(index, 0).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+                globals.ui.tablefacv.item(index, 1).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+                globals.ui.tablefacv.item(index, 2).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+
+                index = index + 1
+            datos = records[0]
+            globals.ui.lblnumfac.setText(str(datos[0]))
+            globals.ui.txtDniFac.setText(str(datos[1]))
+            globals.ui.lblFechafac.setText(str(datos[2]))
         except Exception as error:
-            print("Error en loadTableInvoice:", error)
+            print("error load tablafac", error)
 
     @staticmethod
     def loadInvoiceirst():

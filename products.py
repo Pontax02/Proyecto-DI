@@ -5,7 +5,7 @@ from PyQt6 import QtWidgets, QtCore, QtGui
 
 class Products:
     @staticmethod
-    def loadTableProducts():
+    def loadTableProducts(self = None):
         try:
             listTabProducts = Conexion.listProducts()
             index = 0
