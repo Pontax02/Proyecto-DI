@@ -413,7 +413,7 @@ class Conexion:
         """
 
         try:
-            print("Debug: Intentando guardar línea de venta con datos:", data)
+           # print("Debug: Intentando guardar línea de venta con datos:", data)
             query = QtSql.QSqlQuery()
             query.prepare("INSERT INTO sales (idfac, idpro, product, unitprice, amount, total) "
                         " VALUES (:idfac, :idpro, :product, :unitprice, :amount, :total)")
@@ -424,7 +424,7 @@ class Conexion:
             query.bindValue(":amount", data[4])
             query.bindValue(":total", data[5])
             if query.exec():
-                print("Debug: Línea de venta guardada correctamente.")
+              #  print("Debug: Línea de venta guardada correctamente.")
                 return True
             else:
                 print("Error: Falló la inserción en la tabla sales.")
@@ -473,7 +473,7 @@ class Conexion:
     def datosFac(id_factura):
 
         try:
-            print("Debug: Ejecutando consulta para obtener datos de la factura con idfac:", id_factura)
+           # print("Debug: Ejecutando consulta para obtener datos de la factura con idfac:", id_factura)
             all_data_sales = []
             query = QtSql.QSqlQuery()
             query.prepare("SELECT * FROM sales where idfac = :idfac;")
@@ -481,11 +481,11 @@ class Conexion:
             query.bindValue(":idfac", int(id_factura))
 
             if query.exec():
-                print("Debug: Consulta ejecutada correctamente.")
+               # print("Debug: Consulta ejecutada correctamente.")
                 while query.next():
                     row = [query.value(i) for i in range(query.record().count())]
                     all_data_sales.append(row)
-                print("Debug: Datos obtenidos:", all_data_sales)
+               # print("Debug: Datos obtenidos:", all_data_sales)
             else:
                 print("Error: La consulta para obtener datos de la factura falló.")
 
@@ -524,7 +524,7 @@ class Conexion:
             print(f"Error en dataOneSale: {error}")
             return []
 
-        print(f"Debug: dataOneSale({idfac}) returned: {rows}")  # Debug statement
+       # print(f"Debug: dataOneSale({idfac}) returned: {rows}")  # Debug statement
         return rows
 
     @staticmethod
@@ -549,7 +549,7 @@ class Conexion:
                 while query.next():
                     for i in range(query.record().count()):
                         list.append(query.value(i))
-            print(f"Debug: dataOneInvoice({idfact}) returned: {list}")  # Debug statement
+           # print(f"Debug: dataOneInvoice({idfact}) returned: {list}")  # Debug statement
             return list
 
         except Exception as error:
@@ -576,7 +576,7 @@ class Conexion:
                 return False
 
             stock_actual = query.value(0)
-            print(f"Debug: Stock actual del producto {code}: {stock_actual}")
+           # print(f"Debug: Stock actual del producto {code}: {stock_actual}")
 
             # Validar si hay suficiente stock
             if stock_actual < cantidad:
@@ -590,7 +590,7 @@ class Conexion:
             query.bindValue(":code", code)
 
             if query.exec():
-                print(f"Debug: Stock actualizado para el producto {code}. Nuevo stock: {nuevo_stock}")
+               # print(f"Debug: Stock actualizado para el producto {code}. Nuevo stock: {nuevo_stock}")
                 return True
             else:
                 print(f"Error: No se pudo actualizar el stock para el producto {code}.")

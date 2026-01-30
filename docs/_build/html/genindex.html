@@ -70,6 +70,7 @@
 
 <div class="genindex-jumpbox">
  <a href="#A"><strong>A</strong></a>
+ | <a href="#B"><strong>B</strong></a>
  | <a href="#C"><strong>C</strong></a>
  | <a href="#D"><strong>D</strong></a>
  | <a href="#E"><strong>E</strong></a>
@@ -105,6 +106,14 @@
   </ul></td>
 </tr></table>
 
+<h2 id="B">B</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="src/invoice.html#invoice.Invoice.bloquearTablaSales">bloquearTablaSales() (método estático de invoice.Invoice)</a>
+</li>
+  </ul></td>
+</tr></table>
+
 <h2 id="C">C</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
@@ -112,7 +121,9 @@
 </li>
       <li><a href="src/customers.html#customers.Customers.capitalizar">capitalizar() (método de customers.Customers)</a>
 </li>
-      <li><a href="src/invoice.html#invoice.Invoice.cellChangedSales">cellChangedSales() (método de invoice.Invoice)</a>
+      <li><a href="src/invoice.html#invoice.Invoice.cargarVentas">cargarVentas() (método estático de invoice.Invoice)</a>
+</li>
+      <li><a href="src/invoice.html#invoice.Invoice.cellChangedSales">cellChangedSales() (método estático de invoice.Invoice)</a>
 </li>
       <li><a href="src/customers.html#customers.Customers.checkDni">checkDni() (método estático de customers.Customers)</a>
 </li>
@@ -121,8 +132,6 @@
       <li><a href="src/customers.html#customers.Customers.checkMobil">checkMobil() (método estático de customers.Customers)</a>
 </li>
       <li><a href="src/customers.html#customers.Customers.cleanCli">cleanCli() (método estático de customers.Customers)</a>
-</li>
-      <li><a href="src/invoice.html#invoice.Invoice.cleanFac">cleanFac() (método estático de invoice.Invoice)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
@@ -158,7 +167,11 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="src/conexion.html#conexion.Conexion.dataOneCustomer">dataOneCustomer() (método estático de conexion.Conexion)</a>
 </li>
+      <li><a href="src/conexion.html#conexion.Conexion.dataOneInvoice">dataOneInvoice() (método estático de conexion.Conexion)</a>
+</li>
       <li><a href="src/conexion.html#conexion.Conexion.dataOneProduct">dataOneProduct() (método estático de conexion.Conexion)</a>
+</li>
+      <li><a href="src/conexion.html#conexion.Conexion.dataOneSale">dataOneSale() (método estático de conexion.Conexion)</a>
 </li>
       <li><a href="src/conexion.html#conexion.Conexion.datosFac">datosFac() (método estático de conexion.Conexion)</a>
 </li>
@@ -168,11 +181,21 @@
 </li>
       <li><a href="src/conexion.html#conexion.Conexion.deleteCli">deleteCli() (método estático de conexion.Conexion)</a>
 </li>
+      <li><a href="src/conexion.html#conexion.Conexion.deleteInvoice">deleteInvoice() (método estático de conexion.Conexion)</a>
+
+      <ul>
+        <li><a href="src/invoice.html#invoice.Invoice.deleteInvoice">(método estático de invoice.Invoice)</a>
+</li>
+      </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="src/conexion.html#conexion.Conexion.deletePro">deletePro() (método de conexion.Conexion)</a>
 </li>
+      <li><a href="src/invoice.html#invoice.Invoice.deleteSales">deleteSales() (método estático de invoice.Invoice)</a>
+</li>
       <li><a href="src/products.html#products.Products.delPro">delPro() (método de products.Products)</a>
+</li>
+      <li><a href="src/conexion.html#conexion.Conexion.descontarStock">descontarStock() (método estático de conexion.Conexion)</a>
 </li>
       <li>
     dlgAbout
@@ -207,9 +230,9 @@
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="src/conexion.html#conexion.Conexion.existFac">existFac() (método de conexion.Conexion)</a>
+      <li><a href="src/conexion.html#conexion.Conexion.existeFacturaSales">existeFacturaSales() (método estático de conexion.Conexion)</a>
 </li>
-      <li><a href="src/conexion.html#conexion.Conexion.existFacSales">existFacSales() (método de conexion.Conexion)</a>
+      <li><a href="src/conexion.html#conexion.Conexion.existFac">existFac() (método de conexion.Conexion)</a>
 </li>
       <li><a href="src/events.html#events.Events.exportXlsCustomers">exportXlsCustomers() (método de events.Events)</a>
 </li>
@@ -273,20 +296,22 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="src/conexion.html#conexion.Conexion.listMuniProv">listMuniProv() (método de conexion.Conexion)</a>
 </li>
+      <li><a href="src/conexion.html#conexion.Conexion.listProducts">listProducts() (método estático de conexion.Conexion)</a>
+</li>
       <li><a href="src/conexion.html#conexion.Conexion.listProv">listProv() (método de conexion.Conexion)</a>
 </li>
       <li><a href="src/conexion.html#conexion.Conexion.listTabCustomers">listTabCustomers() (método estático de conexion.Conexion)</a>
 </li>
-      <li><a href="src/conexion.html#conexion.Conexion.listTabProducts">listTabProducts() (método de conexion.Conexion)</a>
+      <li><a href="src/conexion.html#conexion.Conexion.listTabProducts">listTabProducts() (método estático de conexion.Conexion)</a>
 </li>
       <li><a href="src/styles.html#styles.load_stylesheet">load_stylesheet() (en el módulo styles)</a>
 </li>
       <li><a href="src/events.html#events.Events.loadData">loadData() (método de events.Events)</a>
 </li>
-      <li><a href="src/invoice.html#invoice.Invoice.loadFactFirs">loadFactFirs() (método de invoice.Invoice)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="src/invoice.html#invoice.Invoice.loadInvoiceirst">loadInvoiceirst() (método estático de invoice.Invoice)</a>
+</li>
       <li><a href="src/events.html#events.Events.loadMunicli">loadMunicli() (método de events.Events)</a>
 </li>
       <li><a href="src/events.html#events.Events.loadProv">loadProv() (método de events.Events)</a>
@@ -295,11 +320,9 @@
 </li>
       <li><a href="src/customers.html#customers.Customers.loadTablecli">loadTablecli() (método estático de customers.Customers)</a>
 </li>
-      <li><a href="src/invoice.html#invoice.Invoice.loadTablefac">loadTablefac() (método estático de invoice.Invoice)</a>
+      <li><a href="src/invoice.html#invoice.Invoice.loadTableInvoice">loadTableInvoice() (método estático de invoice.Invoice)</a>
 </li>
-      <li><a href="src/products.html#products.Products.loadTablepro">loadTablepro() (método de products.Products)</a>
-</li>
-      <li><a href="src/invoice.html#invoice.Invoice.loadTablesales">loadTablesales() (método estático de invoice.Invoice)</a>
+      <li><a href="src/products.html#products.Products.loadTableProducts">loadTableProducts() (método estático de products.Products)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -392,7 +415,11 @@
 <h2 id="R">R</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="src/invoice.html#invoice.Invoice.reloadInvoice">reloadInvoice() (método estático de invoice.Invoice)</a>
+</li>
       <li><a href="src/reports.html#reports.Reports.reportCustomers">reportCustomers() (método de reports.Reports)</a>
+</li>
+      <li><a href="src/reports.html#reports.Reports.reportProducts">reportProducts() (método de reports.Reports)</a>
 </li>
       <li>
     reports
@@ -403,10 +430,10 @@
       </ul></li>
       <li><a href="src/reports.html#reports.Reports">Reports (clase en reports)</a>
 </li>
-      <li><a href="src/events.html#events.Events.resizeTabCustomer">resizeTabCustomer() (método de events.Events)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="src/events.html#events.Events.resizeTabCustomer">resizeTabCustomer() (método de events.Events)</a>
+</li>
       <li><a href="src/events.html#events.Events.resizeTabProducts">resizeTabProducts() (método de events.Events)</a>
 </li>
       <li><a href="src/events.html#events.Events.resizeTabSales">resizeTabSales() (método de events.Events)</a>
@@ -435,25 +462,23 @@
 </li>
       <li><a href="src/products.html#products.Products.savePro">savePro() (método de products.Products)</a>
 </li>
-      <li><a href="src/conexion.html#conexion.Conexion.saveSales">saveSales() (método de conexion.Conexion)</a>
+      <li><a href="src/conexion.html#conexion.Conexion.saveSales">saveSales() (método estático de conexion.Conexion)</a>
 
       <ul>
         <li><a href="src/invoice.html#invoice.Invoice.saveSales">(método estático de invoice.Invoice)</a>
 </li>
       </ul></li>
-      <li><a href="src/conexion.html#conexion.Conexion.searchCli">searchCli() (método de conexion.Conexion)</a>
-
-      <ul>
-        <li><a href="src/customers.html#customers.Customers.searchCli">(método estático de customers.Customers)</a>
+      <li><a href="src/customers.html#customers.Customers.searchCli">searchCli() (método estático de customers.Customers)</a>
 </li>
-        <li><a href="src/invoice.html#invoice.Invoice.searchCli">(método estático de invoice.Invoice)</a>
+      <li><a href="src/conexion.html#conexion.Conexion.searchClient">searchClient() (método estático de conexion.Conexion)</a>
 </li>
-      </ul></li>
+      <li><a href="src/invoice.html#invoice.Invoice.searchInvoice">searchInvoice() (método estático de invoice.Invoice)</a>
+</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="src/customers.html#customers.Customers.selectCustomer">selectCustomer() (método estático de customers.Customers)</a>
 </li>
-      <li><a href="src/invoice.html#invoice.Invoice.selectinvoice">selectinvoice() (método de invoice.Invoice)</a>
+      <li><a href="src/invoice.html#invoice.Invoice.selectInvoice">selectInvoice() (método estático de invoice.Invoice)</a>
 </li>
       <li><a href="src/products.html#products.Products.selectPro">selectPro() (método de products.Products)</a>
 </li>
@@ -484,7 +509,7 @@
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="src/reports.html#reports.Reports.topreport">topreport() (método estático de reports.Reports)</a>
+      <li><a href="src/reports.html#reports.Reports.topReport">topReport() (método estático de reports.Reports)</a>
 </li>
   </ul></td>
 </tr></table>

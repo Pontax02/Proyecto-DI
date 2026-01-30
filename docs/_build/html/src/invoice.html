@@ -46,15 +46,18 @@
 <li><a class="reference internal" href="#">invoice module</a><ul>
 <li><a class="reference internal" href="#invoice.Invoice"><code class="docutils literal notranslate"><span class="pre">Invoice</span></code></a><ul>
 <li><a class="reference internal" href="#invoice.Invoice.activeSales"><code class="docutils literal notranslate"><span class="pre">Invoice.activeSales()</span></code></a></li>
+<li><a class="reference internal" href="#invoice.Invoice.bloquearTablaSales"><code class="docutils literal notranslate"><span class="pre">Invoice.bloquearTablaSales()</span></code></a></li>
+<li><a class="reference internal" href="#invoice.Invoice.cargarVentas"><code class="docutils literal notranslate"><span class="pre">Invoice.cargarVentas()</span></code></a></li>
 <li><a class="reference internal" href="#invoice.Invoice.cellChangedSales"><code class="docutils literal notranslate"><span class="pre">Invoice.cellChangedSales()</span></code></a></li>
-<li><a class="reference internal" href="#invoice.Invoice.cleanFac"><code class="docutils literal notranslate"><span class="pre">Invoice.cleanFac()</span></code></a></li>
-<li><a class="reference internal" href="#invoice.Invoice.loadFactFirs"><code class="docutils literal notranslate"><span class="pre">Invoice.loadFactFirs()</span></code></a></li>
-<li><a class="reference internal" href="#invoice.Invoice.loadTablefac"><code class="docutils literal notranslate"><span class="pre">Invoice.loadTablefac()</span></code></a></li>
-<li><a class="reference internal" href="#invoice.Invoice.loadTablesales"><code class="docutils literal notranslate"><span class="pre">Invoice.loadTablesales()</span></code></a></li>
+<li><a class="reference internal" href="#invoice.Invoice.deleteInvoice"><code class="docutils literal notranslate"><span class="pre">Invoice.deleteInvoice()</span></code></a></li>
+<li><a class="reference internal" href="#invoice.Invoice.deleteSales"><code class="docutils literal notranslate"><span class="pre">Invoice.deleteSales()</span></code></a></li>
+<li><a class="reference internal" href="#invoice.Invoice.loadInvoiceirst"><code class="docutils literal notranslate"><span class="pre">Invoice.loadInvoiceirst()</span></code></a></li>
+<li><a class="reference internal" href="#invoice.Invoice.loadTableInvoice"><code class="docutils literal notranslate"><span class="pre">Invoice.loadTableInvoice()</span></code></a></li>
+<li><a class="reference internal" href="#invoice.Invoice.reloadInvoice"><code class="docutils literal notranslate"><span class="pre">Invoice.reloadInvoice()</span></code></a></li>
 <li><a class="reference internal" href="#invoice.Invoice.saveInvoice"><code class="docutils literal notranslate"><span class="pre">Invoice.saveInvoice()</span></code></a></li>
 <li><a class="reference internal" href="#invoice.Invoice.saveSales"><code class="docutils literal notranslate"><span class="pre">Invoice.saveSales()</span></code></a></li>
-<li><a class="reference internal" href="#invoice.Invoice.searchCli"><code class="docutils literal notranslate"><span class="pre">Invoice.searchCli()</span></code></a></li>
-<li><a class="reference internal" href="#invoice.Invoice.selectinvoice"><code class="docutils literal notranslate"><span class="pre">Invoice.selectinvoice()</span></code></a></li>
+<li><a class="reference internal" href="#invoice.Invoice.searchInvoice"><code class="docutils literal notranslate"><span class="pre">Invoice.searchInvoice()</span></code></a></li>
+<li><a class="reference internal" href="#invoice.Invoice.selectInvoice"><code class="docutils literal notranslate"><span class="pre">Invoice.selectInvoice()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -93,56 +96,128 @@
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <dl class="py method">
 <dt class="sig sig-object py" id="invoice.Invoice.activeSales">
-<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">activeSales</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">row</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/invoice.html#Invoice.activeSales"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#invoice.Invoice.activeSales" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">activeSales</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">row</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/invoice.html#Invoice.activeSales"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#invoice.Invoice.activeSales" title="Link to this definition"></a></dt>
+<dd><p>Activa una fila editable en la tabla de ventas para
+introducir una nueva línea de venta.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parámetros<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>row</strong> – Índice de la fila a activar</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="invoice.Invoice.bloquearTablaSales">
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">bloquearTablaSales</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/invoice.html#Invoice.bloquearTablaSales"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#invoice.Invoice.bloquearTablaSales" title="Link to this definition"></a></dt>
+<dd><p>Bloquea la edición de todas las celdas de la tabla de ventas,
+impidiendo modificaciones una vez guardada la factura.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="invoice.Invoice.cargarVentas">
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">cargarVentas</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">idfac</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/invoice.html#Invoice.cargarVentas"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#invoice.Invoice.cargarVentas" title="Link to this definition"></a></dt>
+<dd><p>Carga las líneas de venta de una factura existente
+y las muestra en la tabla de ventas.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parámetros<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>idfac</strong> (<em>str</em>) – Identificador de la factura</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="invoice.Invoice.cellChangedSales">
-<span class="sig-name descname"><span class="pre">cellChangedSales</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">item</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/invoice.html#Invoice.cellChangedSales"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#invoice.Invoice.cellChangedSales" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">cellChangedSales</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">item</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/invoice.html#Invoice.cellChangedSales"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#invoice.Invoice.cellChangedSales" title="Link to this definition"></a></dt>
+<dd><p>Gestiona los cambios realizados en las celdas de la tabla de ventas.</p>
+<ul class="simple">
+<li><p>Detecta cambios en el código de producto y cantidad</p></li>
+<li><p>Calcula automáticamente el total por línea</p></li>
+<li><p>Actualiza subtotal, IVA y total de la factura</p></li>
+<li><p>Añade una nueva fila cuando la actual está completa</p></li>
+<li><p>Guarda la línea de venta en <code class="docutils literal notranslate"><span class="pre">globals.linesales</span></code></p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Parámetros<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>item</strong> (<em>QTableWidgetItem</em>) – Celda modificada en la tabla de ventas</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="invoice.Invoice.deleteInvoice">
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">deleteInvoice</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/invoice.html#Invoice.deleteInvoice"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#invoice.Invoice.deleteInvoice" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="invoice.Invoice.cleanFac">
-<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">cleanFac</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/invoice.html#Invoice.cleanFac"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#invoice.Invoice.cleanFac" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="invoice.Invoice.deleteSales">
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">deleteSales</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/invoice.html#Invoice.deleteSales"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#invoice.Invoice.deleteSales" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="invoice.Invoice.loadFactFirs">
-<span class="sig-name descname"><span class="pre">loadFactFirs</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/invoice.html#Invoice.loadFactFirs"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#invoice.Invoice.loadFactFirs" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dt class="sig sig-object py" id="invoice.Invoice.loadInvoiceirst">
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">loadInvoiceirst</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/invoice.html#Invoice.loadInvoiceirst"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#invoice.Invoice.loadInvoiceirst" title="Link to this definition"></a></dt>
+<dd><p>Inicializa la carga de la primera factura por defecto
+con un DNI genérico.</p>
+</dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="invoice.Invoice.loadTablefac">
-<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">loadTablefac</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/invoice.html#Invoice.loadTablefac"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#invoice.Invoice.loadTablefac" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dt class="sig sig-object py" id="invoice.Invoice.loadTableInvoice">
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">loadTableInvoice</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/invoice.html#Invoice.loadTableInvoice"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#invoice.Invoice.loadTableInvoice" title="Link to this definition"></a></dt>
+<dd><p>Carga todas las facturas existentes en la tabla de facturas
+de la interfaz gráfica.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parámetros<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>self</strong> – Parámetro opcional para compatibilidad con señales</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="invoice.Invoice.loadTablesales">
-<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">loadTablesales</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">records</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/invoice.html#Invoice.loadTablesales"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#invoice.Invoice.loadTablesales" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dt class="sig sig-object py" id="invoice.Invoice.reloadInvoice">
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">reloadInvoice</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/invoice.html#Invoice.reloadInvoice"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#invoice.Invoice.reloadInvoice" title="Link to this definition"></a></dt>
+<dd><p>Limpia todos los campos del formulario de facturación
+y reinicia la tabla de ventas.</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="invoice.Invoice.saveInvoice">
-<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">saveInvoice</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/invoice.html#Invoice.saveInvoice"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#invoice.Invoice.saveInvoice" title="Link to this definition"></a></dt>
-<dd><p>Modulo para guardar al cliente en la tabla de facturas
-:param self:None
-:type self:None</p>
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">saveInvoice</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/invoice.html#Invoice.saveInvoice"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#invoice.Invoice.saveInvoice" title="Link to this definition"></a></dt>
+<dd><p>Guarda una nueva factura en la base de datos utilizando
+el DNI del cliente y la fecha actual.</p>
+<p>Si la factura se crea correctamente, se habilita la tabla
+de ventas para introducir líneas.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="invoice.Invoice.saveSales">
 <span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">saveSales</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/invoice.html#Invoice.saveSales"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#invoice.Invoice.saveSales" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Guarda las líneas de venta asociadas a la factura actual.</p>
+<ul class="simple">
+<li><p>Si la factura ya tiene ventas, genera directamente el ticket</p></li>
+<li><p>Si no, guarda cada línea en la base de datos</p></li>
+<li><p>Bloquea la tabla tras guardar correctamente</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Parámetros<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>self</strong> – Parámetro opcional para compatibilidad con señales</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="invoice.Invoice.searchCli">
-<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">searchCli</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/invoice.html#Invoice.searchCli"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#invoice.Invoice.searchCli" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dt class="sig sig-object py" id="invoice.Invoice.searchInvoice">
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">searchInvoice</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/invoice.html#Invoice.searchInvoice"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#invoice.Invoice.searchInvoice" title="Link to this definition"></a></dt>
+<dd><p>Busca un cliente a partir del DNI introducido en la interfaz
+y carga sus datos en el formulario de factura.</p>
+<p>Si el cliente no existe, muestra un mensaje de advertencia.</p>
+</dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="invoice.Invoice.selectinvoice">
-<span class="sig-name descname"><span class="pre">selectinvoice</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/invoice.html#Invoice.selectinvoice"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#invoice.Invoice.selectinvoice" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dt class="sig sig-object py" id="invoice.Invoice.selectInvoice">
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">selectInvoice</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/invoice.html#Invoice.selectInvoice"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#invoice.Invoice.selectInvoice" title="Link to this definition"></a></dt>
+<dd><p>Carga la factura seleccionada en la tabla de facturas
+y muestra sus líneas de venta asociadas.</p>
+</dd></dl>
 
 </dd></dl>
 

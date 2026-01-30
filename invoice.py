@@ -194,12 +194,12 @@ class Invoice:
         try:
             row = globals.ui.tablefacv.currentRow()
             if row == -1:
-                print("Debug: No row selected in tablefacv")  # Debug statement
+                #print("Debug: No row selected in tablefacv")  # Debug statement
                 return
 
             # Obtener el ID de la factura seleccionada
             id_factura = globals.ui.tablefacv.item(row, 0).text()
-            print(f"Debug: Selected invoice ID: {id_factura}")  # Debug statement
+            #print(f"Debug: Selected invoice ID: {id_factura}")  # Debug statement
 
             # Obtener los datos de la factura seleccionada
             recordinvoice = Conexion.dataOneInvoice(id_factura)
@@ -503,7 +503,7 @@ class Invoice:
             table.setRowCount(0)  # Clear all rows
 
             if not data:
-                print(f"Debug: No sales data found for invoice {idfac}")  # Debug statement
+               # print(f"Debug: No sales data found for invoice {idfac}")  # Debug statement
                 Invoice.activeSales()
             else:
                 table.setRowCount(len(data))

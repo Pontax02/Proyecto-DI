@@ -9,7 +9,7 @@ import sphinx
 
 import os
 import sys
-sys.path.insert(0, os.path.abspath('C:\\Users\\a24pablopm\\PycharmProjects\\pontanillamoreira'))
+sys.path.insert(0, os.path.abspath('C:\\Users\\a24pablopm\\PycharmProjects\\Proyecto-DI'))
 
 
 project = 'Proyecto DAM'
