@@ -236,6 +236,53 @@ class Invoice:
             Invoice.cargarVentas(id_factura)
 
         except Exception as error:
+            (print("Error en selectInvoice:", error)    )
+
+    @staticmethod
+    def selectDniInvoice():
+        """
+        Carga la factura basándonos en el dni insertado en el panel de clientes, en el campo de dni
+        """
+        try:
+
+            # Obtener el ID de la factura seleccionada
+            dni = globals.ui.txtDnicli.text()
+            #print(f"Debug: Selected invoice ID: {id_factura}")  # Debug statement
+
+            # Obtener los datos de la factura seleccionada
+            recordinvoice = Conexion.dataOnlyOneInvoice(dni)
+            if not recordinvoice:
+                QtWidgets.QMessageBox.warning(
+                    None,
+                    "Error",
+                    f"No se encontraron datos para la factura con ID {dni}.",
+                )
+                return
+
+            # Cargar los datos de la factura en los campos correspondientes
+            globals.ui.lblnumfac.setText(str(recordinvoice[0]))
+            globals.ui.txtDniFac.setText(str(recordinvoice[1]))
+            globals.ui.lblFechafac.setText(str(recordinvoice[2]))
+
+            # Obtener los datos del cliente asociado al DNI
+            recordcustomer = Conexion.dataOneCustomer(recordinvoice[1])
+            if recordcustomer:
+                globals.ui.lblNamefac.setText(recordcustomer[2] + " " + recordcustomer[3])
+                globals.ui.lblTipofac.setText(recordcustomer[9])
+                globals.ui.lblnumfac_3.setText(
+                    recordcustomer[6] + "   " + recordcustomer[8] + "   " + recordcustomer[7]
+                )
+                globals.ui.lblnumfac_4.setText(str(recordcustomer[5]))
+
+                # Estado del cliente
+                if recordcustomer[10] == "True":
+                    globals.ui.lblStatusfac.setText("Activo")
+                else:
+                    globals.ui.lblStatusfac.setText("Inactivo")
+
+
+
+        except Exception as error:
             print("Error en selectInvoice:", error)
 
     @staticmethod
@@ -474,6 +521,7 @@ class Invoice:
                     mbox.setStandardButtons(
                         QtWidgets.QMessageBox.StandardButton.Ok
                     )
+                    Reports.ticket(self)
 
                     if mbox.exec() == QtWidgets.QMessageBox.StandardButton.Ok:
                         Invoice.bloquearTablaSales()

@@ -553,6 +553,32 @@ class Conexion:
             return list
 
         except Exception as error:
+            print("error dataOneInvoice", error)    @staticmethod
+    def dataOnlyOneInvoice(dni):
+        """
+
+        Obtiene los datos de una factura por DNI.
+
+        :param int DNI: DNI del cliente
+        :return: Lista con datos de la factura.
+        :rtype: list
+
+        """
+
+        try:
+            list = []
+            idfact = str(dni).strip()
+            query = QtSql.QSqlQuery()
+            query.prepare("SELECT * FROM invoices WHERE dninie = :dninie")
+            query.bindValue(":dninie", idfact)
+            if query.exec():
+                while query.next():
+                    for i in range(query.record().count()):
+                        list.append(query.value(i))
+           # print(f"Debug: dataOneInvoice({idfact}) returned: {list}")  # Debug statement
+            return list
+
+        except Exception as error:
             print("error dataOneInvoice", error)
 
     @staticmethod

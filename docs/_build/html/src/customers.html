@@ -47,6 +47,7 @@
 <li><a class="reference internal" href="#customers.Customers"><code class="docutils literal notranslate"><span class="pre">Customers</span></code></a><ul>
 <li><a class="reference internal" href="#customers.Customers.Historicocli"><code class="docutils literal notranslate"><span class="pre">Customers.Historicocli()</span></code></a></li>
 <li><a class="reference internal" href="#customers.Customers.capitalizar"><code class="docutils literal notranslate"><span class="pre">Customers.capitalizar()</span></code></a></li>
+<li><a class="reference internal" href="#customers.Customers.cargaTablaClientes"><code class="docutils literal notranslate"><span class="pre">Customers.cargaTablaClientes()</span></code></a></li>
 <li><a class="reference internal" href="#customers.Customers.checkDni"><code class="docutils literal notranslate"><span class="pre">Customers.checkDni()</span></code></a></li>
 <li><a class="reference internal" href="#customers.Customers.checkMail"><code class="docutils literal notranslate"><span class="pre">Customers.checkMail()</span></code></a></li>
 <li><a class="reference internal" href="#customers.Customers.checkMobil"><code class="docutils literal notranslate"><span class="pre">Customers.checkMobil()</span></code></a></li>
@@ -110,10 +111,15 @@
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="customers.Customers.cargaTablaClientes">
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">cargaTablaClientes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/customers.html#Customers.cargaTablaClientes"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#customers.Customers.cargaTablaClientes" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="customers.Customers.checkDni">
 <span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">checkDni</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/customers.html#Customers.checkDni"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#customers.Customers.checkDni" title="Link to this definition"></a></dt>
 <dd><p>Módulo para calcular la letra correcta del dni que se pasa por el formulario
-Evita el problema de ejecutar varios finished
+Evita el problema de ejecutar globalsios finished
 :param self: None
 :type self: None</p>
 </dd></dl>
@@ -152,10 +158,10 @@ Evita el problema de ejecutar varios finished
 
 <dl class="py method">
 <dt class="sig sig-object py" id="customers.Customers.loadTablecli">
-<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">loadTablecli</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">varcli</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/customers.html#Customers.loadTablecli"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#customers.Customers.loadTablecli" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">loadTablecli</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">globalscli</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/customers.html#Customers.loadTablecli"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#customers.Customers.loadTablecli" title="Link to this definition"></a></dt>
 <dd><p>modulo para cargar los clientes activos
-:param varcli: indica si quiero todos los usuarios o solo los activos
-:type varcli: boolean</p>
+:param globalscli: indica si quiero todos los usuarios o solo los activos
+:type globalscli: boolean</p>
 </dd></dl>
 
 <dl class="py method">

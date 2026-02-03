@@ -35,7 +35,7 @@
        <enum>QTabWidget::Rounded</enum>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <property name="tabBarAutoHide">
        <bool>false</bool>
@@ -45,6 +45,18 @@
         <string>Customers</string>
        </attribute>
        <layout class="QGridLayout" name="gridLayout">
+        <item row="0" column="0">
+         <widget class="QLabel" name="lblDnicli">
+          <property name="font">
+           <font>
+            <family>Arial</family>
+           </font>
+          </property>
+          <property name="text">
+           <string>DNI/CIF:</string>
+          </property>
+         </widget>
+        </item>
         <item row="0" column="2">
          <widget class="QPushButton" name="btnSearchcli">
           <property name="minimumSize">
@@ -69,7 +81,7 @@
           </property>
           <property name="icon">
            <iconset>
-            <normaloff>../img/clue.png</normaloff>../img/clue.png</iconset>
+            <normaloff>../../../.designer/img/clue.png</normaloff>../../../.designer/img/clue.png</iconset>
           </property>
           <property name="iconSize">
            <size>
@@ -103,30 +115,6 @@
           </property>
           <property name="text">
            <string/>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="0">
-         <widget class="QLabel" name="lblDnicli">
-          <property name="font">
-           <font>
-            <family>Arial</family>
-           </font>
-          </property>
-          <property name="text">
-           <string>DNI/CIF:</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="11">
-         <widget class="QLabel" name="lblAltacli">
-          <property name="font">
-           <font>
-            <family>Arial</family>
-           </font>
-          </property>
-          <property name="text">
-           <string>Start Date:</string>
           </property>
          </widget>
         </item>
@@ -199,6 +187,18 @@
           </property>
          </widget>
         </item>
+        <item row="0" column="11">
+         <widget class="QLabel" name="lblAltacli">
+          <property name="font">
+           <font>
+            <family>Arial</family>
+           </font>
+          </property>
+          <property name="text">
+           <string>Start Date:</string>
+          </property>
+         </widget>
+        </item>
         <item row="3" column="12" colspan="4">
          <widget class="QComboBox" name="cmbMunicli">
           <property name="minimumSize">
@@ -218,6 +218,24 @@
             <family>Arial</family>
            </font>
           </property>
+         </widget>
+        </item>
+        <item row="5" column="1">
+         <widget class="QRadioButton" name="rbtFacemail">
+          <property name="font">
+           <font>
+            <family>Arial</family>
+           </font>
+          </property>
+          <property name="text">
+           <string>e-invoice</string>
+          </property>
+          <property name="checked">
+           <bool>false</bool>
+          </property>
+          <attribute name="buttonGroup">
+           <string notr="true">buttonGroup</string>
+          </attribute>
          </widget>
         </item>
         <item row="3" column="11" alignment="Qt::AlignRight">
@@ -253,45 +271,15 @@
           </property>
          </widget>
         </item>
-        <item row="5" column="1">
-         <widget class="QRadioButton" name="rbtFacemail">
+        <item row="3" column="0" alignment="Qt::AlignLeft">
+         <widget class="QLabel" name="lblDircli">
           <property name="font">
            <font>
             <family>Arial</family>
            </font>
           </property>
           <property name="text">
-           <string>e-invoice</string>
-          </property>
-          <property name="checked">
-           <bool>false</bool>
-          </property>
-          <attribute name="buttonGroup">
-           <string notr="true">buttonGroup</string>
-          </attribute>
-         </widget>
-        </item>
-        <item row="5" column="12">
-         <widget class="QCheckBox" name="chkHistoricocli">
-          <property name="font">
-           <font>
-            <family>Arial</family>
-           </font>
-          </property>
-          <property name="text">
-           <string>Hystorical</string>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="0">
-         <widget class="QLabel" name="lblApelcli">
-          <property name="font">
-           <font>
-            <family>Arial</family>
-           </font>
-          </property>
-          <property name="text">
-           <string>Surname:</string>
+           <string>Adress:</string>
           </property>
          </widget>
         </item>
@@ -307,16 +295,46 @@
           </property>
          </widget>
         </item>
-        <item row="3" column="0" alignment="Qt::AlignLeft">
-         <widget class="QLabel" name="lblDircli">
+        <item row="1" column="0">
+         <widget class="QLabel" name="lblApelcli">
           <property name="font">
            <font>
             <family>Arial</family>
            </font>
           </property>
           <property name="text">
-           <string>Adress:</string>
+           <string>Surname:</string>
           </property>
+         </widget>
+        </item>
+        <item row="5" column="12">
+         <widget class="QCheckBox" name="chkHistoricocli">
+          <property name="font">
+           <font>
+            <family>Arial</family>
+           </font>
+          </property>
+          <property name="text">
+           <string>Hystorical</string>
+          </property>
+         </widget>
+        </item>
+        <item row="5" column="2">
+         <widget class="QRadioButton" name="rbtFacpapel">
+          <property name="font">
+           <font>
+            <family>Arial</family>
+           </font>
+          </property>
+          <property name="text">
+           <string>Paper billing</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
+          </property>
+          <attribute name="buttonGroup">
+           <string notr="true">buttonGroup</string>
+          </attribute>
          </widget>
         </item>
         <item row="0" column="13">
@@ -347,7 +365,7 @@ background-color: rgb(255, 255, 255);</string>
           </property>
           <property name="icon">
            <iconset>
-            <normaloff>../img/calendar.png</normaloff>../img/calendar.png</iconset>
+            <normaloff>../../../.designer/img/calendar.png</normaloff>../../../.designer/img/calendar.png</iconset>
           </property>
           <property name="iconSize">
            <size>
@@ -360,22 +378,53 @@ background-color: rgb(255, 255, 255);</string>
           </property>
          </widget>
         </item>
-        <item row="5" column="2">
-         <widget class="QRadioButton" name="rbtFacpapel">
+        <item row="0" column="14">
+         <widget class="QPushButton" name="btnCleancli">
+          <property name="minimumSize">
+           <size>
+            <width>32</width>
+            <height>32</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>30</width>
+            <height>30</height>
+           </size>
+          </property>
           <property name="font">
            <font>
             <family>Arial</family>
            </font>
           </property>
           <property name="text">
-           <string>Paper billing</string>
+           <string/>
           </property>
-          <property name="checked">
+          <property name="icon">
+           <iconset>
+            <normaloff>../../../.designer/img/Refresh_icon.svg.png</normaloff>../../../.designer/img/Refresh_icon.svg.png</iconset>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>26</width>
+            <height>26</height>
+           </size>
+          </property>
+          <property name="flat">
            <bool>true</bool>
           </property>
-          <attribute name="buttonGroup">
-           <string notr="true">buttonGroup</string>
-          </attribute>
+         </widget>
+        </item>
+        <item row="5" column="0">
+         <widget class="QLabel" name="lblTipofaccli">
+          <property name="font">
+           <font>
+            <family>Arial</family>
+           </font>
+          </property>
+          <property name="text">
+           <string>Invoice Type:</string>
+          </property>
          </widget>
         </item>
         <item row="10" column="0" colspan="16">
@@ -443,82 +492,6 @@ background-color: rgb(255, 255, 255);</string>
           </column>
          </widget>
         </item>
-        <item row="0" column="14">
-         <widget class="QPushButton" name="btnCleancli">
-          <property name="minimumSize">
-           <size>
-            <width>32</width>
-            <height>32</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>30</width>
-            <height>30</height>
-           </size>
-          </property>
-          <property name="font">
-           <font>
-            <family>Arial</family>
-           </font>
-          </property>
-          <property name="text">
-           <string/>
-          </property>
-          <property name="icon">
-           <iconset>
-            <normaloff>../img/Refresh_icon.svg.png</normaloff>../img/Refresh_icon.svg.png</iconset>
-          </property>
-          <property name="iconSize">
-           <size>
-            <width>26</width>
-            <height>26</height>
-           </size>
-          </property>
-          <property name="flat">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-        <item row="5" column="0">
-         <widget class="QLabel" name="lblTipofaccli">
-          <property name="font">
-           <font>
-            <family>Arial</family>
-           </font>
-          </property>
-          <property name="text">
-           <string>Invoice Type:</string>
-          </property>
-         </widget>
-        </item>
-        <item row="6" column="9" alignment="Qt::AlignHCenter">
-         <widget class="QPushButton" name="btnDelcli">
-          <property name="minimumSize">
-           <size>
-            <width>100</width>
-            <height>25</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>100</width>
-            <height>25</height>
-           </size>
-          </property>
-          <property name="font">
-           <font>
-            <family>Arial</family>
-           </font>
-          </property>
-          <property name="text">
-           <string>Delete</string>
-          </property>
-          <property name="flat">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
         <item row="2" column="9" colspan="2" alignment="Qt::AlignLeft">
          <widget class="QLineEdit" name="txtMobilecli">
           <property name="minimumSize">
@@ -530,27 +503,6 @@ background-color: rgb(255, 255, 255);</string>
           <property name="maximumSize">
            <size>
             <width>150</width>
-            <height>25</height>
-           </size>
-          </property>
-          <property name="font">
-           <font>
-            <family>Arial</family>
-           </font>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="9" colspan="2" alignment="Qt::AlignLeft">
-         <widget class="QLineEdit" name="txtNomecli">
-          <property name="minimumSize">
-           <size>
-            <width>250</width>
-            <height>25</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>250</width>
             <height>25</height>
            </size>
           </property>
@@ -582,6 +534,54 @@ background-color: rgb(255, 255, 255);</string>
           </property>
          </widget>
         </item>
+        <item row="1" column="9" colspan="2" alignment="Qt::AlignLeft">
+         <widget class="QLineEdit" name="txtNomecli">
+          <property name="minimumSize">
+           <size>
+            <width>250</width>
+            <height>25</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>250</width>
+            <height>25</height>
+           </size>
+          </property>
+          <property name="font">
+           <font>
+            <family>Arial</family>
+           </font>
+          </property>
+         </widget>
+        </item>
+        <item row="6" column="9" alignment="Qt::AlignHCenter">
+         <widget class="QPushButton" name="btnDelcli">
+          <property name="minimumSize">
+           <size>
+            <width>100</width>
+            <height>25</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>100</width>
+            <height>25</height>
+           </size>
+          </property>
+          <property name="font">
+           <font>
+            <family>Arial</family>
+           </font>
+          </property>
+          <property name="text">
+           <string>Delete</string>
+          </property>
+          <property name="flat">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
         <item row="3" column="8" alignment="Qt::AlignRight">
          <widget class="QLabel" name="lblProbcli">
           <property name="minimumSize">
@@ -606,6 +606,36 @@ background-color: rgb(255, 255, 255);</string>
           </property>
           <property name="alignment">
            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="8" column="8">
+         <widget class="QLabel" name="lblListcli">
+          <property name="minimumSize">
+           <size>
+            <width>140</width>
+            <height>30</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>140</width>
+            <height>30</height>
+           </size>
+          </property>
+          <property name="font">
+           <font>
+            <family>Arial</family>
+            <pointsize>15</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="text">
+           <string>Customer List</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
           </property>
          </widget>
         </item>
@@ -642,33 +672,30 @@ background-color: rgb(255, 255, 255);</string>
           </property>
          </widget>
         </item>
-        <item row="8" column="8">
-         <widget class="QLabel" name="lblListcli">
+        <item row="6" column="8" alignment="Qt::AlignHCenter">
+         <widget class="QPushButton" name="btnModifcli">
           <property name="minimumSize">
            <size>
-            <width>140</width>
-            <height>30</height>
+            <width>100</width>
+            <height>25</height>
            </size>
           </property>
           <property name="maximumSize">
            <size>
-            <width>140</width>
-            <height>30</height>
+            <width>100</width>
+            <height>25</height>
            </size>
           </property>
           <property name="font">
            <font>
             <family>Arial</family>
-            <pointsize>15</pointsize>
-            <weight>75</weight>
-            <bold>true</bold>
            </font>
           </property>
           <property name="text">
-           <string>Customer List</string>
+           <string>Modifiy</string>
           </property>
-          <property name="alignment">
-           <set>Qt::AlignCenter</set>
+          <property name="flat">
+           <bool>true</bool>
           </property>
          </widget>
         </item>
@@ -720,33 +747,6 @@ background-color: rgb(255, 255, 255);</string>
           </property>
           <property name="checkable">
            <bool>false</bool>
-          </property>
-          <property name="flat">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-        <item row="6" column="8" alignment="Qt::AlignHCenter">
-         <widget class="QPushButton" name="btnModifcli">
-          <property name="minimumSize">
-           <size>
-            <width>100</width>
-            <height>25</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>100</width>
-            <height>25</height>
-           </size>
-          </property>
-          <property name="font">
-           <font>
-            <family>Arial</family>
-           </font>
-          </property>
-          <property name="text">
-           <string>Modifiy</string>
           </property>
           <property name="flat">
            <bool>true</bool>
@@ -956,7 +956,7 @@ background-color: rgb(255, 255, 255);</string>
             </property>
             <property name="icon">
              <iconset>
-              <normaloff>../img/Refresh_icon.svg.png</normaloff>../img/Refresh_icon.svg.png</iconset>
+              <normaloff>../../../.designer/img/Refresh_icon.svg.png</normaloff>../../../.designer/img/Refresh_icon.svg.png</iconset>
             </property>
             <property name="flat">
              <bool>true</bool>
@@ -999,6 +999,9 @@ background-color: rgb(255, 255, 255);</string>
           <width>831</width>
           <height>541</height>
          </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">selection-background-color: rgb(255, 255, 225);</string>
         </property>
         <property name="editTriggers">
          <set>QAbstractItemView::AllEditTriggers</set>
@@ -1226,7 +1229,7 @@ background-color: rgb(255, 255, 255);</string>
            </property>
            <property name="icon">
             <iconset>
-             <normaloff>../img/lista-de-verificacion.png</normaloff>../img/lista-de-verificacion.png</iconset>
+             <normaloff>../../../.designer/img/lista-de-verificacion.png</normaloff>../../../.designer/img/lista-de-verificacion.png</iconset>
            </property>
            <property name="flat">
             <bool>true</bool>
@@ -1460,7 +1463,7 @@ background-color: rgb(255, 255, 255);</string>
           </property>
           <property name="icon">
            <iconset>
-            <normaloff>../img/omega.png</normaloff>../img/omega.png</iconset>
+            <normaloff>../../../.designer/img/omega.png</normaloff>../../../.designer/img/omega.png</iconset>
           </property>
           <property name="iconSize">
            <size>
@@ -1730,7 +1733,7 @@ background-color: rgb(255, 255, 255);</string>
           </property>
           <property name="icon">
            <iconset>
-            <normaloff>../../../.designer/img/Refresh_icon.svg.png</normaloff>../../../.designer/img/Refresh_icon.svg.png</iconset>
+            <normaloff>../../../../.designer/img/Refresh_icon.svg.png</normaloff>../../../../.designer/img/Refresh_icon.svg.png</iconset>
           </property>
           <property name="flat">
            <bool>true</bool>
@@ -1810,7 +1813,7 @@ background-color: rgb(255, 255, 255);</string>
   <action name="actionExit">
    <property name="icon">
     <iconset>
-     <normaloff>../img/logout.png</normaloff>../img/logout.png</iconset>
+     <normaloff>../../../.designer/img/logout.png</normaloff>../../../.designer/img/logout.png</iconset>
    </property>
    <property name="text">
     <string>Exit</string>
@@ -1835,7 +1838,7 @@ background-color: rgb(255, 255, 255);</string>
   <action name="actionBackup">
    <property name="icon">
     <iconset>
-     <normaloff>../img/backup-file.png</normaloff>../img/backup-file.png</iconset>
+     <normaloff>../../../.designer/img/backup-file.png</normaloff>../../../.designer/img/backup-file.png</iconset>
    </property>
    <property name="text">
     <string>Backup</string>
@@ -1847,7 +1850,7 @@ background-color: rgb(255, 255, 255);</string>
   <action name="actionRestore_Backup">
    <property name="icon">
     <iconset>
-     <normaloff>../img/cloud.png</normaloff>../img/cloud.png</iconset>
+     <normaloff>../../../.designer/img/cloud.png</normaloff>../../../.designer/img/cloud.png</iconset>
    </property>
    <property name="text">
     <string>Restore Backup</string>

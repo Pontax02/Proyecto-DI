@@ -75,6 +75,7 @@
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">globals</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">events</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">invoice</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">conexion</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">PyQt6</span><span class="w"> </span><span class="kn">import</span> <span class="n">QtWidgets</span><span class="p">,</span> <span class="n">QtCore</span><span class="p">,</span> <span class="n">QtGui</span>
 
@@ -82,22 +83,61 @@
 <a class="viewcode-back" href="../src/customers.html#customers.Customers">[documentos]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">Customers</span><span class="p">:</span>
 
+<div class="viewcode-block" id="Customers.cargaTablaClientes">
+<a class="viewcode-back" href="../src/customers.html#customers.Customers.cargaTablaClientes">[documentos]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">cargaTablaClientes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">listadocli</span> <span class="o">=</span> <span class="n">conexion</span><span class="o">.</span><span class="n">Conexion</span><span class="o">.</span><span class="n">listadoClientes</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+            <span class="nb">globals</span><span class="o">.</span><span class="n">longcli</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">listadocli</span><span class="p">)</span>
+            <span class="c1"># listado = conexionserver.ConexionServer.listadoClientes(self)</span>
+            <span class="n">start_index</span> <span class="o">=</span> <span class="nb">globals</span><span class="o">.</span><span class="n">paginacli</span> <span class="o">*</span> <span class="nb">globals</span><span class="o">.</span><span class="n">clientesxpagina</span>
+            <span class="n">end_index</span> <span class="o">=</span> <span class="n">start_index</span> <span class="o">+</span> <span class="nb">globals</span><span class="o">.</span><span class="n">clientesxpagina</span>
+            <span class="n">listado_pagina</span> <span class="o">=</span> <span class="n">listadocli</span><span class="p">[</span><span class="n">start_index</span><span class="p">:</span><span class="n">end_index</span><span class="p">]</span>
+            <span class="n">index</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">for</span> <span class="n">registro</span> <span class="ow">in</span> <span class="n">listado_pagina</span><span class="p">:</span>
+                <span class="nb">globals</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">tablaClientes</span><span class="o">.</span><span class="n">setRowCount</span><span class="p">(</span><span class="n">index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+                <span class="nb">globals</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">tablaClientes</span><span class="o">.</span><span class="n">setItem</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QTableWidgetItem</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">registro</span><span class="p">[</span><span class="mi">0</span><span class="p">])))</span>
+                <span class="nb">globals</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">tablaClientes</span><span class="o">.</span><span class="n">setItem</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QTableWidgetItem</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">registro</span><span class="p">[</span><span class="mi">2</span><span class="p">])))</span>
+                <span class="nb">globals</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">tablaClientes</span><span class="o">.</span><span class="n">setItem</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QTableWidgetItem</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">registro</span><span class="p">[</span><span class="mi">3</span><span class="p">])))</span>
+                <span class="nb">globals</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">tablaClientes</span><span class="o">.</span><span class="n">setItem</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QTableWidgetItem</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="s2">&quot;  &quot;</span> <span class="o">+</span> <span class="n">registro</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;  &quot;</span><span class="p">)))</span>
+                <span class="nb">globals</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">tablaClientes</span><span class="o">.</span><span class="n">setItem</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QTableWidgetItem</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">registro</span><span class="p">[</span><span class="mi">7</span><span class="p">])))</span>
+                <span class="nb">globals</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">tablaClientes</span><span class="o">.</span><span class="n">setItem</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QTableWidgetItem</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">registro</span><span class="p">[</span><span class="mi">8</span><span class="p">])))</span>
+                <span class="nb">globals</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">tablaClientes</span><span class="o">.</span><span class="n">setItem</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QTableWidgetItem</span><span class="p">(</span><span class="n">registro</span><span class="p">[</span><span class="mi">9</span><span class="p">]))</span>
+                <span class="nb">globals</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">tablaClientes</span><span class="o">.</span><span class="n">item</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">setTextAlignment</span><span class="p">(</span><span class="n">QtCore</span><span class="o">.</span><span class="n">Qt</span><span class="o">.</span><span class="n">AlignmentFlag</span><span class="o">.</span><span class="n">AlignCenter</span><span class="o">.</span><span class="n">AlignVCenter</span><span class="p">)</span>
+                <span class="nb">globals</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">tablaClientes</span><span class="o">.</span><span class="n">item</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">setTextAlignment</span><span class="p">(</span><span class="n">QtCore</span><span class="o">.</span><span class="n">Qt</span><span class="o">.</span><span class="n">AlignmentFlag</span><span class="o">.</span><span class="n">AlignLeft</span><span class="o">.</span><span class="n">AlignVCenter</span><span class="p">)</span>
+                <span class="nb">globals</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">tablaClientes</span><span class="o">.</span><span class="n">item</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">setTextAlignment</span><span class="p">(</span><span class="n">QtCore</span><span class="o">.</span><span class="n">Qt</span><span class="o">.</span><span class="n">AlignmentFlag</span><span class="o">.</span><span class="n">AlignLeft</span><span class="o">.</span><span class="n">AlignVCenter</span><span class="p">)</span>
+                <span class="nb">globals</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">tablaClientes</span><span class="o">.</span><span class="n">item</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">setTextAlignment</span><span class="p">(</span><span class="n">QtCore</span><span class="o">.</span><span class="n">Qt</span><span class="o">.</span><span class="n">AlignmentFlag</span><span class="o">.</span><span class="n">AlignCenter</span><span class="o">.</span><span class="n">AlignVCenter</span><span class="p">)</span>
+                <span class="nb">globals</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">tablaClientes</span><span class="o">.</span><span class="n">item</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span><span class="o">.</span><span class="n">setTextAlignment</span><span class="p">(</span><span class="n">QtCore</span><span class="o">.</span><span class="n">Qt</span><span class="o">.</span><span class="n">AlignmentFlag</span><span class="o">.</span><span class="n">AlignLeft</span><span class="o">.</span><span class="n">AlignVCenter</span><span class="p">)</span>
+                <span class="nb">globals</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">tablaClientes</span><span class="o">.</span><span class="n">item</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span><span class="o">.</span><span class="n">setTextAlignment</span><span class="p">(</span><span class="n">QtCore</span><span class="o">.</span><span class="n">Qt</span><span class="o">.</span><span class="n">AlignmentFlag</span><span class="o">.</span><span class="n">AlignLeft</span><span class="o">.</span><span class="n">AlignVCenter</span><span class="p">)</span>
+                <span class="nb">globals</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">tablaClientes</span><span class="o">.</span><span class="n">item</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span><span class="o">.</span><span class="n">setTextAlignment</span><span class="p">(</span><span class="n">QtCore</span><span class="o">.</span><span class="n">Qt</span><span class="o">.</span><span class="n">AlignmentFlag</span><span class="o">.</span><span class="n">AlignCenter</span><span class="o">.</span><span class="n">AlignVCenter</span><span class="p">)</span>
+                <span class="n">index</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;error cargaTablaCientes&quot;</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span></div>
+
+
+
+
+
 <div class="viewcode-block" id="Customers.checkDni">
 <a class="viewcode-back" href="../src/customers.html#customers.Customers.checkDni">[documentos]</a>
     <span class="nd">@staticmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">checkDni</span><span class="p">(</span><span class="bp">self</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Módulo para calcular la letra correcta del dni que se pasa por el formulario</span>
-<span class="sd">        Evita el problema de ejecutar varios finished</span>
+<span class="sd">        Evita el problema de ejecutar globalsios finished</span>
 <span class="sd">        :param self: None</span>
 <span class="sd">        :type self: None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">try</span><span class="p">:</span>
-
             <span class="nb">globals</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">txtDnicli</span><span class="o">.</span><span class="n">editingFinished</span><span class="o">.</span><span class="n">disconnect</span><span class="p">(</span><span class="n">Customers</span><span class="o">.</span><span class="n">checkDni</span><span class="p">)</span>
             <span class="n">dni</span> <span class="o">=</span> <span class="nb">globals</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">txtDnicli</span><span class="o">.</span><span class="n">text</span><span class="p">()</span>
             <span class="n">dni</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">dni</span><span class="p">)</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
-            <span class="nb">globals</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">txtDnicli</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="n">dni</span><span class="p">)</span>
+
+            <span class="c1"># Solo modificar si el valor cambió</span>
+            <span class="k">if</span> <span class="nb">globals</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">txtDnicli</span><span class="o">.</span><span class="n">text</span><span class="p">()</span> <span class="o">!=</span> <span class="n">dni</span><span class="p">:</span>
+                <span class="nb">globals</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">txtDnicli</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="n">dni</span><span class="p">)</span>
+
             <span class="n">tabla</span> <span class="o">=</span> <span class="s2">&quot;TRWAGMYFPDXBNJZSQVHLCKE&quot;</span>
             <span class="n">dig_ext</span> <span class="o">=</span> <span class="s2">&quot;XYZ&quot;</span>
             <span class="n">reemp_dig_ext</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;X&#39;</span><span class="p">:</span> <span class="s1">&#39;0&#39;</span><span class="p">,</span> <span class="s1">&#39;Y&#39;</span><span class="p">:</span> <span class="s1">&#39;1&#39;</span><span class="p">,</span> <span class="s1">&#39;Z&#39;</span><span class="p">:</span> <span class="s1">&#39;2&#39;</span><span class="p">}</span>
@@ -117,9 +157,8 @@
                 <span class="nb">globals</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">txtDnicli</span><span class="o">.</span><span class="n">setStyleSheet</span><span class="p">(</span><span class="s1">&#39;background-color:#FFC0CB;&#39;</span><span class="p">)</span>
                 <span class="nb">globals</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">txtDnicli</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
                 <span class="nb">globals</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">txtDnicli</span><span class="o">.</span><span class="n">setFocus</span><span class="p">()</span>
-        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;error checking dni&quot;</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span>
         <span class="k">finally</span><span class="p">:</span>
+            <span class="c1"># Reconectar la señal</span>
             <span class="nb">globals</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">txtDnicli</span><span class="o">.</span><span class="n">editingFinished</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">Customers</span><span class="o">.</span><span class="n">checkDni</span><span class="p">)</span></div>
 
 
@@ -216,14 +255,14 @@
 <div class="viewcode-block" id="Customers.loadTablecli">
 <a class="viewcode-back" href="../src/customers.html#customers.Customers.loadTablecli">[documentos]</a>
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">loadTablecli</span><span class="p">(</span><span class="n">varcli</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">loadTablecli</span><span class="p">(</span><span class="n">globalscli</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        modulo para cargar los clientes activos</span>
-<span class="sd">        :param varcli: indica si quiero todos los usuarios o solo los activos</span>
-<span class="sd">        :type varcli: boolean</span>
+<span class="sd">        :param globalscli: indica si quiero todos los usuarios o solo los activos</span>
+<span class="sd">        :type globalscli: boolean</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="n">listTabCustomers</span> <span class="o">=</span> <span class="n">Conexion</span><span class="o">.</span><span class="n">listTabCustomers</span><span class="p">(</span><span class="n">varcli</span><span class="p">)</span>
+            <span class="n">listTabCustomers</span> <span class="o">=</span> <span class="n">Conexion</span><span class="o">.</span><span class="n">listTabCustomers</span><span class="p">(</span><span class="n">globalscli</span><span class="p">)</span>
             <span class="n">index</span> <span class="o">=</span> <span class="mi">0</span>
             <span class="k">for</span> <span class="n">record</span> <span class="ow">in</span> <span class="n">listTabCustomers</span><span class="p">:</span>
                 <span class="nb">globals</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">tableCustomerlist</span><span class="o">.</span><span class="n">setRowCount</span><span class="p">(</span><span class="n">index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
@@ -259,10 +298,10 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="k">if</span> <span class="nb">globals</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">chkHistoricocli</span><span class="o">.</span><span class="n">isChecked</span><span class="p">():</span>
-                <span class="n">varcli</span> <span class="o">=</span> <span class="kc">False</span>
+                <span class="n">globalscli</span> <span class="o">=</span> <span class="kc">False</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">varcli</span> <span class="o">=</span> <span class="kc">True</span>
-            <span class="n">Customers</span><span class="o">.</span><span class="n">loadTablecli</span><span class="p">(</span><span class="n">varcli</span><span class="p">)</span>
+                <span class="n">globalscli</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="n">Customers</span><span class="o">.</span><span class="n">loadTablecli</span><span class="p">(</span><span class="n">globalscli</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;error en historicocli &quot;</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span></div>
 
@@ -369,8 +408,8 @@
 
                 <span class="k">if</span> <span class="n">mbox</span><span class="o">.</span><span class="n">exec</span><span class="p">():</span>
                     <span class="n">mbox</span><span class="o">.</span><span class="n">hide</span><span class="p">()</span>
-            <span class="n">varcli</span> <span class="o">=</span> <span class="kc">True</span>
-            <span class="n">Customers</span><span class="o">.</span><span class="n">loadTablecli</span><span class="p">(</span><span class="n">varcli</span><span class="p">)</span>
+            <span class="n">globalscli</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="n">Customers</span><span class="o">.</span><span class="n">loadTablecli</span><span class="p">(</span><span class="n">globalscli</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error  saving customer &quot;</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span></div>
 
@@ -385,7 +424,7 @@
 <span class="sd">        :type self: None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="n">varcli</span> <span class="o">=</span> <span class="s2">&quot;True&quot;</span>
+            <span class="n">globalscli</span> <span class="o">=</span> <span class="s2">&quot;True&quot;</span>
             <span class="k">if</span> <span class="nb">globals</span><span class="o">.</span><span class="n">estado</span> <span class="o">==</span> <span class="nb">str</span><span class="p">(</span><span class="s2">&quot;False&quot;</span><span class="p">):</span>
                 <span class="n">mbox</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QMessageBox</span><span class="p">()</span>
                 <span class="n">mbox</span><span class="o">.</span><span class="n">setWindowTitle</span><span class="p">(</span><span class="s2">&quot;Information&quot;</span><span class="p">)</span>
@@ -435,7 +474,7 @@
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">mbox</span><span class="o">.</span><span class="n">hide</span><span class="p">()</span>
 
-            <span class="n">Customers</span><span class="o">.</span><span class="n">loadTablecli</span><span class="p">(</span><span class="n">varcli</span><span class="p">)</span>
+            <span class="n">Customers</span><span class="o">.</span><span class="n">loadTablecli</span><span class="p">(</span><span class="n">globalscli</span><span class="p">)</span>
             <span class="nb">globals</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">chkHistoricocli</span><span class="o">.</span><span class="n">setChecked</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;error en modifing customer &quot;</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span></div>
@@ -469,6 +508,7 @@
 
                 <span class="nb">globals</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">cmbProvcli</span><span class="o">.</span><span class="n">setCurrentText</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">record</span><span class="p">[</span><span class="mi">7</span><span class="p">]))</span>
                 <span class="nb">globals</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">cmbMunicli</span><span class="o">.</span><span class="n">setCurrentText</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">record</span><span class="p">[</span><span class="mi">8</span><span class="p">]))</span>
+                <span class="n">Invoice</span><span class="o">.</span><span class="n">selectDniInvoice</span><span class="p">()</span>
                 <span class="k">if</span> <span class="nb">str</span><span class="p">(</span><span class="n">record</span><span class="p">[</span><span class="mi">9</span><span class="p">])</span> <span class="o">==</span> <span class="s1">&#39;paper&#39;</span><span class="p">:</span>
                     <span class="nb">globals</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">rbtFacpapel</span><span class="o">.</span><span class="n">setChecked</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
                 <span class="k">else</span><span class="p">:</span>

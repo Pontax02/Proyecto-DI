@@ -6,16 +6,50 @@ from reportlab.graphics.widgets.signsandsymbols import NoEntry
 
 import globals
 from events import *
+from invoice import *
 from conexion import *
 from PyQt6 import QtWidgets, QtCore, QtGui
 
 class Customers:
 
     @staticmethod
+    def cargaTablaClientes(self):
+        try:
+            listadocli = conexion.Conexion.listadoClientes(self)
+            globals.longcli = len(listadocli)
+            # listado = conexionserver.ConexionServer.listadoClientes(self)
+            start_index = globals.paginacli * globals.clientesxpagina
+            end_index = start_index + globals.clientesxpagina
+            listado_pagina = listadocli[start_index:end_index]
+            index = 0
+            for registro in listado_pagina:
+                globals.ui.tablaClientes.setRowCount(index + 1)
+                globals.ui.tablaClientes.setItem(index, 0, QtWidgets.QTableWidgetItem(str(registro[0])))
+                globals.ui.tablaClientes.setItem(index, 1, QtWidgets.QTableWidgetItem(str(registro[2])))
+                globals.ui.tablaClientes.setItem(index, 2, QtWidgets.QTableWidgetItem(str(registro[3])))
+                globals.ui.tablaClientes.setItem(index, 3, QtWidgets.QTableWidgetItem(str("  " + registro[5] + "  ")))
+                globals.ui.tablaClientes.setItem(index, 4, QtWidgets.QTableWidgetItem(str(registro[7])))
+                globals.ui.tablaClientes.setItem(index, 5, QtWidgets.QTableWidgetItem(str(registro[8])))
+                globals.ui.tablaClientes.setItem(index, 6, QtWidgets.QTableWidgetItem(registro[9]))
+                globals.ui.tablaClientes.item(index, 0).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter.AlignVCenter)
+                globals.ui.tablaClientes.item(index, 1).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignLeft.AlignVCenter)
+                globals.ui.tablaClientes.item(index, 2).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignLeft.AlignVCenter)
+                globals.ui.tablaClientes.item(index, 3).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter.AlignVCenter)
+                globals.ui.tablaClientes.item(index, 4).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignLeft.AlignVCenter)
+                globals.ui.tablaClientes.item(index, 5).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignLeft.AlignVCenter)
+                globals.ui.tablaClientes.item(index, 6).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter.AlignVCenter)
+                index += 1
+        except Exception as e:
+            print("error cargaTablaCientes", e)
+
+
+
+
+    @staticmethod
     def checkDni(self=None):
         """
         Módulo para calcular la letra correcta del dni que se pasa por el formulario
-        Evita el problema de ejecutar varios finished
+        Evita el problema de ejecutar globalsios finished
         :param self: None
         :type self: None
         """
@@ -130,14 +164,14 @@ class Customers:
             print("error in clean ", error)
 
     @staticmethod
-    def loadTablecli(varcli):
+    def loadTablecli(globalscli):
         """
         modulo para cargar los clientes activos
-        :param varcli: indica si quiero todos los usuarios o solo los activos
-        :type varcli: boolean
+        :param globalscli: indica si quiero todos los usuarios o solo los activos
+        :type globalscli: boolean
         """
         try:
-            listTabCustomers = Conexion.listTabCustomers(varcli)
+            listTabCustomers = Conexion.listTabCustomers(globalscli)
             index = 0
             for record in listTabCustomers:
                 globals.ui.tableCustomerlist.setRowCount(index + 1)
@@ -170,10 +204,10 @@ class Customers:
         """
         try:
             if globals.ui.chkHistoricocli.isChecked():
-                varcli = False
+                globalscli = False
             else:
-                varcli = True
-            Customers.loadTablecli(varcli)
+                globalscli = True
+            Customers.loadTablecli(globalscli)
         except Exception as error:
             print("error en historicocli ", error)
     @staticmethod
@@ -271,8 +305,8 @@ class Customers:
 
                 if mbox.exec():
                     mbox.hide()
-            varcli = True
-            Customers.loadTablecli(varcli)
+            globalscli = True
+            Customers.loadTablecli(globalscli)
         except Exception as error:
             print("Error  saving customer ", error)
 
@@ -284,7 +318,7 @@ class Customers:
         :type self: None
         """
         try:
-            varcli = "True"
+            globalscli = "True"
             if globals.estado == str("False"):
                 mbox = QtWidgets.QMessageBox()
                 mbox.setWindowTitle("Information")
@@ -334,7 +368,7 @@ class Customers:
             else:
                 mbox.hide()
 
-            Customers.loadTablecli(varcli)
+            Customers.loadTablecli(globalscli)
             globals.ui.chkHistoricocli.setChecked(False)
         except Exception as error:
             print("error en modifing customer ", error)
@@ -365,6 +399,7 @@ class Customers:
 
                 globals.ui.cmbProvcli.setCurrentText(str(record[7]))
                 globals.ui.cmbMunicli.setCurrentText(str(record[8]))
+                Invoice.selectDniInvoice()
                 if str(record[9]) == 'paper':
                     globals.ui.rbtFacpapel.setChecked(True)
                 else:
