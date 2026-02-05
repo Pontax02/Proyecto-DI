@@ -106,6 +106,10 @@ class Main(QtWidgets.QMainWindow):
 
         globals.ui.tabsales.itemChanged.connect(self.invoice.cellChangedSales)
 
+      # globals.ui.pushButton_3.clicked.connect(events.Events.nextCli)
+       # globals.ui.pushButton_2.clicked.connect(events.Events.prevCli)
+
+
         #functions statusbar
         Events.loadStatusbar(self)
 

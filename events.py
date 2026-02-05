@@ -199,9 +199,9 @@ class Events:
             data = datetime.now().strftime("%Y_%m_%d_%H_%M_%S")
             filenam = str(data) + "_customers.csv"
             directory, file = globals.dlgopen.getSaveFileName(None, "Save Customers", filenam, ".csv")
-            var = False
+            globals = False
             if file:
-                records = conexion.Conexion.listTabCustomers(var)
+                records = conexion.Conexion.listTabCustomers(globals)
                 with open(filenam, "w", newline="", encoding="utf-8") as csvfile:
                     writer = csv.writer(csvfile)
                     writer.writerow(["DNI_NIE", "AddData","Surname","Name","eMail","Mobile","Address","Province","City","InvoiceType","Active"])
@@ -238,3 +238,75 @@ class Events:
 
         except Exception as e:
             print("error in loadStatusbar", e)
+
+    """
+    def nextCli(self):
+        '''
+
+        :return: None
+        :rtype: None
+        Permite navegar entre la tabla de datos Clientes de 5 en 5
+
+
+        '''
+        
+        try:
+            if globals.ui.panPrincipal.currentIndex() == 0:
+                if (globals.paginacli + 1) * globals.clientesxpagina < globals.longcli:
+                    globals.paginacli += 1
+                    customers.Customers.cargaTablaClientes(self)
+                    if (globals.paginacli + 1) * globals.clientesxpagina >= globals.longcli:
+                        globals.ui.btnNextCli.setStyleSheet("background-color: #A9C0D6;")
+                        globals.ui.btnPrevCli.setStyleSheet("background-color:  #4682B4;")
+                    else:
+                        globals.ui.btnNextCli.setStyleSheet("background-color: #4682B4;;")
+                        globals.ui.btnPrevCli.setStyleSheet("background-color: #4682B4;")
+            if globals.ui.panPrincipal.currentIndex() == 1:
+                if (globals.paginaprop + 1) * globals.propiedadesxpagina < globals.longprop:
+                    # globals.ui.btnNextCli.setEnable(True)
+                    globals.paginaprop += 1
+                    propiedades.Propiedades.cargaTablaPropiedades(self)
+                    if (globals.paginaprop + 1) * globals.propiedadesxpagina >= globals.longprop:
+                        globals.ui.btnNextCli.setStyleSheet("background-color: #A9C0D6;")
+                        globals.ui.btnPrevCli.setStyleSheet("background-color:  #4682B4;")
+                    else:
+                        globals.ui.btnNextCli.setStyleSheet("background-color: #4682B4;;")
+                        globals.ui.btnPrevCli.setStyleSheet("background-color: #4682B4;")
+        except Exception as e:
+            print("error next boton", e)
+            """
+"""
+    def prevCli(self):
+        '''
+
+        :return:None
+        :rtype: None
+        Permite retroceder de 5 en 5 el listado de clientes
+
+        '''
+        try:
+            if globals.ui.panPrincipal.currentIndex() == 0:
+                if globals.paginacli > 0:
+                    globals.paginacli -= 1
+                    clientes.Clientes.cargaTablaClientes(self)
+                    # globals.ui.btnPrevCli.setEnabled(True)
+                    if globals.paginacli <= 0:
+                        globals.ui.btnPrevCli.setStyleSheet("background-color: #A9C0D6;")
+                        globals.ui.btnNextCli.setStyleSheet("background-color: #4682B4;")
+                    else:
+                        globals.ui.btnNextCli.setStyleSheet("background-color:  #4682B4;")
+                        globals.ui.btnPrevCli.setStyleSheet("background-color:  #4682B4;")
+            if globals.ui.panPrincipal.currentIndex() == 1:
+                if globals.paginaprop > 0:
+                    # globals.ui.btnPrevCli.setDisable(False)
+                    globals.paginaprop -= 1
+                    propiedades.Propiedades.cargaTablaPropiedades(self)
+                    if globals.paginaprop <= 0:
+                        globals.ui.btnPrevCli.setStyleSheet("background-color: #A9C0D6;")
+                        globals.ui.btnNextCli.setStyleSheet("background-color: #4682B4;")
+                    else:
+                        globals.ui.btnNextCli.setStyleSheet("background-color:  #4682B4;")
+                        globals.ui.btnPrevCli.setStyleSheet("background-color:  #4682B4;")
+        except Exception as e:
+            print("error prev boton", e)
+"""

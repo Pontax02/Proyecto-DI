@@ -12,35 +12,7 @@ from PyQt6 import QtWidgets, QtCore, QtGui
 
 class Customers:
 
-    @staticmethod
-    def cargaTablaClientes(self):
-        try:
-            listadocli = conexion.Conexion.listadoClientes(self)
-            globals.longcli = len(listadocli)
-            # listado = conexionserver.ConexionServer.listadoClientes(self)
-            start_index = globals.paginacli * globals.clientesxpagina
-            end_index = start_index + globals.clientesxpagina
-            listado_pagina = listadocli[start_index:end_index]
-            index = 0
-            for registro in listado_pagina:
-                globals.ui.tablaClientes.setRowCount(index + 1)
-                globals.ui.tablaClientes.setItem(index, 0, QtWidgets.QTableWidgetItem(str(registro[0])))
-                globals.ui.tablaClientes.setItem(index, 1, QtWidgets.QTableWidgetItem(str(registro[2])))
-                globals.ui.tablaClientes.setItem(index, 2, QtWidgets.QTableWidgetItem(str(registro[3])))
-                globals.ui.tablaClientes.setItem(index, 3, QtWidgets.QTableWidgetItem(str("  " + registro[5] + "  ")))
-                globals.ui.tablaClientes.setItem(index, 4, QtWidgets.QTableWidgetItem(str(registro[7])))
-                globals.ui.tablaClientes.setItem(index, 5, QtWidgets.QTableWidgetItem(str(registro[8])))
-                globals.ui.tablaClientes.setItem(index, 6, QtWidgets.QTableWidgetItem(registro[9]))
-                globals.ui.tablaClientes.item(index, 0).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter.AlignVCenter)
-                globals.ui.tablaClientes.item(index, 1).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignLeft.AlignVCenter)
-                globals.ui.tablaClientes.item(index, 2).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignLeft.AlignVCenter)
-                globals.ui.tablaClientes.item(index, 3).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter.AlignVCenter)
-                globals.ui.tablaClientes.item(index, 4).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignLeft.AlignVCenter)
-                globals.ui.tablaClientes.item(index, 5).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignLeft.AlignVCenter)
-                globals.ui.tablaClientes.item(index, 6).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter.AlignVCenter)
-                index += 1
-        except Exception as e:
-            print("error cargaTablaCientes", e)
+
 
 
 
@@ -410,3 +382,33 @@ class Customers:
 
         except:
             print("error in searching customer ")
+
+    @staticmethod
+    def cargaTablaClientes(self):
+        try:
+            listadocli = conexion.Conexion.listTabCustomers(self)
+            globals.longcli = len(listadocli)
+            # listado = conexionserver.ConexionServer.listadoClientes(self)
+            start_index = globals.paginacli * globals.clientesxpagina
+            end_index = start_index + globals.clientesxpagina
+            listado_pagina = listadocli[start_index:end_index]
+            index = 0
+            for registro in listado_pagina:
+                globals.ui.tableCustomerlist.setRowCount(index + 1)
+                globals.ui.tableCustomerlist.setItem(index, 0, QtWidgets.QTableWidgetItem(str(registro[0])))
+                globals.ui.tableCustomerlist.setItem(index, 1, QtWidgets.QTableWidgetItem(str(registro[2])))
+                globals.ui.tableCustomerlist.setItem(index, 2, QtWidgets.QTableWidgetItem(str(registro[3])))
+                globals.ui.tableCustomerlist.setItem(index, 3, QtWidgets.QTableWidgetItem(str("  " + registro[5] + "  ")))
+                globals.ui.tableCustomerlist.setItem(index, 4, QtWidgets.QTableWidgetItem(str(registro[7])))
+                globals.ui.tableCustomerlist.setItem(index, 5, QtWidgets.QTableWidgetItem(str(registro[8])))
+                globals.ui.tableCustomerlist.setItem(index, 6, QtWidgets.QTableWidgetItem(registro[9]))
+                globals.ui.tableCustomerlist.item(index, 0).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter.AlignVCenter)
+                globals.ui.tableCustomerlist.item(index, 1).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignLeft.AlignVCenter)
+                globals.ui.tableCustomerlist.item(index, 2).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignLeft.AlignVCenter)
+                globals.ui.tableCustomerlist.item(index, 3).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter.AlignVCenter)
+                globals.ui.tableCustomerlist.item(index, 4).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignLeft.AlignVCenter)
+                globals.ui.tableCustomerlist.item(index, 5).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignLeft.AlignVCenter)
+                globals.ui.tableCustomerlist.item(index, 6).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter.AlignVCenter)
+                index += 1
+        except Exception as e:
+            print("error cargaTablaCientes", e)
