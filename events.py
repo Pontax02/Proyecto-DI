@@ -5,7 +5,7 @@ import sys
 import time
 from fileinput import filename
 from logging import exception
-import customers
+
 import events
 from window import *
 import zipfile
